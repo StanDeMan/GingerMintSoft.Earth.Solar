@@ -84,15 +84,15 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestElevation_ReturnsCorrectValue()
         {
             // Arrange
-            double latitude = 45.0;
-            double longitude = 90.0;
-            DateTime dateTime = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
+            double latitude = 48.093;
+            double longitude = 7.896;
+            DateTime dateTime = new DateTime(2024, 6, 22, 12, 0, 0); // 12 PM
 
             // Act
             double result = InvokeElevation(latitude, longitude, dateTime);
 
             // Assert
-            Assert.IsTrue(result <= 0);
+            Assert.IsTrue(result >= 64);
         }
 
         private double InvokeElevation(double latitude, double longitude, DateTime dateTime)
