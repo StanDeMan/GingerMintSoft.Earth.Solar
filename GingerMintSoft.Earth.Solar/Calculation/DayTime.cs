@@ -540,14 +540,14 @@
 	/// </summary>
     public class Day
     { 
-        public TimeSpan DayLength { get; set; }
-        public DateTime SunRise { get; set; }
-        public DateTime SunSet { get; set; }
+        public TimeSpan DayLength { get; init; }
+        public DateTime SunRise { get; init; }
+        public DateTime SunSet { get; init; }
     }
 
-    public class Coordinate
+    public class Coordinate(double latitude, double longitude)
     {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public double Latitude { get; init; } = latitude;
+        public double Longitude { get; init; } = longitude;
     }
 }
