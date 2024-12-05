@@ -1,4 +1,6 @@
-﻿namespace GingerMintSoft.Earth.Solar.Cmd
+﻿using GingerMintSoft.Earth.Solar.Calculation;
+
+namespace GingerMintSoft.Earth.Solar.Cmd
 {
     internal class Program
     {
@@ -10,7 +12,7 @@
                 7.9085366169705145      // Längengrad in Dezimalgrad
             );
 
-            var date = new DateTime(2024, 12, 21, 0, 0, 0, DateTimeKind.Utc);
+            var date = new DateTime(2024, 6, 21, 0, 0, 0, DateTimeKind.Utc);
 
             // Solarstrahlung berechnen
             Console.WriteLine($"Stündliche Solarstrahlung für {date.ToShortDateString()}");
@@ -24,11 +26,13 @@
             }
 
             Console.WriteLine("--------------");
+            var locationCoordinate = new Coordinate(location.Latitude, location.Longitude);
+            var actDay = new CalcDayTime().SunriseSunset(date, locationCoordinate);
 
             var solarDailyRadiationFromSunRiseTillSunSet = location.Calculate.RadiationSunriseToSunset(
                 solarDailyRadiation, 
-                new DateTime(2024, 12, 21, 8, 30, 0), 
-                new DateTime(2024, 12, 21, 16, 27, 0));
+                actDay.SunRise, 
+                actDay.SunSet);
 
             foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSet)
             {
