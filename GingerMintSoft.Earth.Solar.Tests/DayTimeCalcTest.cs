@@ -8,13 +8,9 @@ namespace GingerMintSoft.Earth.Solar.Tests
         [TestMethod]
         public void TestSunriseSunSetTimeForOneYear()
         {
-            var home = new Coordinate()
-            {
-                Latitude = 48.10507778308992,
-                Longitude = 7.90856839921184
-            };
+            var home = new Coordinate(48.10507778308992, 7.9085683992118);
 
-            // iterate thru whole year 
+            // iterate through whole year 
             var actDate = new DateTime(DateTime.Now.Year, 1, 1);
             var nextYear = DateTime.Now.Year + 1;   
 
