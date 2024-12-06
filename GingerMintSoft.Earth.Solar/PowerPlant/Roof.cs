@@ -1,18 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GingerMintSoft.Earth.Solar.PowerPlant
+﻿namespace GingerMintSoft.Earth.Solar.PowerPlant
 {
     public class Roof
     {
-        public double Tilt { get; set; }
-        public double Azimuth { get; set; }
+        public enum EnmAzimuth
+        {
+            North,
+            East,
+            South,
+            West
+        }
 
-        //private readonly double _roofTilt = 45; // Neigungswinkel des Dachs in Grad
-        //private readonly double _roofAzimuthEast = 90; // Ausrichtung des Dachs in Grad (90° = Ost)
-        //private readonly double _roofAzimuthWest = 270; // Ausrichtung des Dachs in Grad (270° = West)
+        /// <summary>
+        /// Neigungswinkel des Dachs in Grad
+        /// </summary>
+        public double Tilt { get; init; }
+
+        /// <summary>
+        /// Dachausrichtung in Grad (0° = Nord, 90° = Ost, 180° = Süd, 270° = West)
+        /// </summary>
+        public double Azimuth { get; init; }
+
+        public static double CardinalDirection(EnmAzimuth azimuth)
+        {
+            return azimuth switch
+            {
+                EnmAzimuth.North => 0.0,
+                EnmAzimuth.East => 90.0,
+                EnmAzimuth.South => 180.0,
+                EnmAzimuth.West => 270.0,
+                _ => 180.0
+            };
+        }
     }
 }
