@@ -10,20 +10,47 @@ public class Calculate
         FromSunRiseTillSunSet = 0b0010
     }
 
+    /// <summary>
+    /// Init Location on Greenwich Meridian
+    /// Altitude above sea level in meters
+    /// </summary>
     public Location? Location { get; set; }
+
+    /// <summary>
+    /// Berechnung der Solarstrahlung in W/m² für einen Tag
+    /// </summary>
+    /// <param name="date">Strahlung für einen Tag von Sonnenauf bis Untergang</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <returns>Strahlung für einen Tag von Sonnenauf bis Untergang</returns>
+    public Dictionary<DateTime, double> Radiation(DateTime date)
+    {
+        if (Location == null) throw new ArgumentNullException(nameof(Location));
+
+        var locationCoordinate = new Coordinate(Location.Latitude, Location.Longitude);
+        var actDay = new CalcDayTime().SunriseSunset(date, locationCoordinate);
+
+        var solarDailyRadiation = Location.Calculate.DailyRadiation(date);
+
+        return Location.Calculate.RadiationSunriseToSunset(
+            solarDailyRadiation, 
+            actDay.SunRise, 
+            actDay.SunSet);
+    }
 
     /// <summary>
     /// Berechnung der Solarstrahlung in W/m² für einen Tag jede Minute
     /// </summary>
     /// <returns>Strahlung für einen Tag</returns>
-    public Dictionary<DateTime, double> Radiation(DateTime date)
+    private Dictionary<DateTime, double> DailyRadiation(DateTime date)
     {
+        if (Location == null) throw new ArgumentNullException(nameof(Location));
+
         var solarRadiationDaily = new Dictionary<DateTime, double>();
 
         for (var minute = 0; minute < TimeSpan.FromDays(1).TotalMinutes; minute++)
         {
             var currentDateTime = date.AddMinutes(minute);
-            var radiation = CalculateRadiation(Location!.Latitude, Location.Longitude, Location.Altitude, currentDateTime);
+            var radiation = CalculateRadiation(Location.Latitude, Location.Longitude, Location.Altitude, currentDateTime);
             solarRadiationDaily.Add(currentDateTime.ToLocalTime(), radiation);
         }
 
@@ -37,7 +64,7 @@ public class Calculate
     /// <param name="sunRise"></param>
     /// <param name="sunSet"></param>
     /// <returns></returns>
-    public Dictionary<DateTime, double> RadiationSunriseToSunset(
+    private Dictionary<DateTime, double> RadiationSunriseToSunset(
         Dictionary<DateTime, double> solarRadiationDaily,
         DateTime sunRise,
         DateTime sunSet)
