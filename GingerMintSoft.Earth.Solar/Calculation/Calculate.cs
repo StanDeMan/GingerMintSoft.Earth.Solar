@@ -4,14 +4,6 @@ namespace GingerMintSoft.Earth.Solar.Calculation;
 
 public class Calculate
 {
-    [Flags]
-    public enum EnmRadiation
-    {
-        None = 0b0000,
-        ForDay = 0b0001,
-        FromSunRiseTillSunSet = 0b0010
-    }
-
     private const double SolarConstant = 1361; // Solarkonstante in W/m²
     private const double OpticalDepth = 0.2;    // Typischer Wert für saubere Luft
 
@@ -44,7 +36,7 @@ public class Calculate
             double airMass = AirMass(solarAltitude);
             double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
 
-            // TODO: Mehrere Dächer berücksichtigen
+            if(!Location.Roofs.Any()) throw new ArgumentNullException(nameof(Roof));
             var roof = Location.Roofs.First();
 
             // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
