@@ -12,7 +12,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
             double longitude = 90.0;
 
             // Act
-            var location = new Location(altitude, latitude, longitude);
+            var location = new PowerPlant.Location(altitude, latitude, longitude);
 
             // Assert
             Assert.AreEqual(altitude, location.Altitude);
@@ -26,7 +26,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestLocation_SetAltitude_UpdatesProperty()
         {
             // Arrange
-            var location = new Location(100, 45.0, 90.0);
+            var location = new PowerPlant.Location(100, 45.0, 90.0);
             int newAltitude = 200;
 
             // Act
@@ -40,7 +40,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestLocation_SetLatitude_UpdatesProperty()
         {
             // Arrange
-            var location = new Location(100, 45.0, 90.0);
+            var location = new PowerPlant.Location(100, 45.0, 90.0);
             double newLatitude = 50.0;
 
             // Act
@@ -54,7 +54,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestLocation_SetLongitude_UpdatesProperty()
         {
             // Arrange
-            var location = new Location(100, 45.0, 90.0);
+            var location = new PowerPlant.Location(100, 45.0, 90.0);
             double newLongitude = 95.0;
 
             // Act
