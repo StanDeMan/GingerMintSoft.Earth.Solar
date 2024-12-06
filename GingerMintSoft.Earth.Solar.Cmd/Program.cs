@@ -24,6 +24,15 @@
                 Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
             }
 
+            Console.WriteLine("---------------");
+
+            var solarDailyRadiationFromSunRiseTillSunSetTilted = location.Calculate.RadiationOnTiltedPanel(date);
+
+            foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSetTilted)
+            {
+                Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
+            }
+
             Console.ReadKey();
         }
     }
