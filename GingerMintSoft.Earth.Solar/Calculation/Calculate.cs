@@ -17,9 +17,10 @@ public class Calculate
     /// Berechnung der Solarstrahlung auf geneigte Flächen
     /// </summary>
     /// <param name="date"></param>
+    /// <param name="roofIndex"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date)
+    public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date, int roofIndex = 0)
     {
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
@@ -37,7 +38,7 @@ public class Calculate
             double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
 
             if(!Location.Roofs.Any()) throw new ArgumentNullException(nameof(Roof));
-            var roof = Location.Roofs.First();
+            var roof = Location.Roofs[roofIndex];
 
             // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
             double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, roof.Tilt, roof.Azimuth);
