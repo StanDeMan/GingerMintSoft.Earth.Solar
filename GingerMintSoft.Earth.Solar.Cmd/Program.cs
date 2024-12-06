@@ -1,11 +1,10 @@
-﻿using GingerMintSoft.Earth.Solar.Calculation;
-
-namespace GingerMintSoft.Earth.Solar.Cmd
+﻿namespace GingerMintSoft.Earth.Solar.Cmd
 {
-    internal class Program
+    public static class Program
     {
-        static void Main()
+        private static void Main()
         {
+            // Solar location
             var location = new Location(
                 232,                    // Höhe über NN in Metern
                 48.1051268096319,       // Breitengrad in Dezimalgrad
@@ -14,25 +13,11 @@ namespace GingerMintSoft.Earth.Solar.Cmd
 
             var date = new DateTime(2024, 6, 21, 0, 0, 0, DateTimeKind.Utc);
 
-            // Solarstrahlung berechnen
+            // Calculate solar radiation from sunrise to sunset
             Console.WriteLine($"Stündliche Solarstrahlung für {date.ToShortDateString()}");
             Console.WriteLine("Stunde:Minute\tStrahlung [W/m²]");
 
-            var solarDailyRadiation = location.Calculate.Radiation(date);
-
-            foreach (var solarMinutelyRadiation in solarDailyRadiation)
-            {
-                Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
-            }
-
-            Console.WriteLine("--------------");
-            var locationCoordinate = new Coordinate(location.Latitude, location.Longitude);
-            var actDay = new CalcDayTime().SunriseSunset(date, locationCoordinate);
-
-            var solarDailyRadiationFromSunRiseTillSunSet = location.Calculate.RadiationSunriseToSunset(
-                solarDailyRadiation, 
-                actDay.SunRise, 
-                actDay.SunSet);
+            var solarDailyRadiationFromSunRiseTillSunSet = location.Calculate.Radiation(date);
 
             foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSet)
             {
