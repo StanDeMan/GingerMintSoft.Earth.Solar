@@ -6,15 +6,22 @@ namespace GingerMintSoft.Earth.Solar.Cmd
     {
         private static void Main()
         {
-            // Solar location
-            var location = new PowerPlant.Location(
+            // Solar power plant location
+            var location = new Location(
                 232,                    // Höhe über NN in Metern
                 48.1051268096319,       // Breitengrad in Dezimalgrad
                 7.9085366169705145      // Längengrad in Dezimalgrad
             );
+
             location.Roofs.Add(new Roof()
             {
-                Azimuth = 90.0,
+                Azimuth = Roof.CardinalDirection(Roof.EnmAzimuth.East),
+                Tilt = 45.0
+            });
+
+            location.Roofs.Add(new Roof()
+            {
+                Azimuth = Roof.CardinalDirection(Roof.EnmAzimuth.West),
                 Tilt = 45.0
             });
 
