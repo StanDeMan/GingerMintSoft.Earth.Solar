@@ -1,15 +1,22 @@
-﻿namespace GingerMintSoft.Earth.Solar.Cmd
+﻿using GingerMintSoft.Earth.Solar.PowerPlant;
+
+namespace GingerMintSoft.Earth.Solar.Cmd
 {
     public static class Program
     {
         private static void Main()
         {
             // Solar location
-            var location = new Location(
+            var location = new PowerPlant.Location(
                 232,                    // Höhe über NN in Metern
                 48.1051268096319,       // Breitengrad in Dezimalgrad
                 7.9085366169705145      // Längengrad in Dezimalgrad
             );
+            location.Roofs.Add(new Roof()
+            {
+                Azimuth = 90.0,
+                Tilt = 45.0
+            });
 
             var date = new DateTime(2024, 6, 21, 0, 0, 0, DateTimeKind.Utc);
 
