@@ -1,4 +1,5 @@
 using GingerMintSoft.Earth.Solar.Calculation;
+using GingerMintSoft.Earth.Solar.PowerPlant;
 using System.Reflection;
 
 namespace GingerMintSoft.Earth.Solar.Tests
