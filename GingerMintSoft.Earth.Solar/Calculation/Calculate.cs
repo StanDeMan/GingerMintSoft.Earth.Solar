@@ -49,9 +49,7 @@ public class Calculate
 
             // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
             double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, roof.Tilt, roof.Azimuth);
-            //double radiationWest = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, _roofTilt, _roofAzimuthWest);
 
-            //Console.WriteLine($"{currentDateTime:HH:mm}\t{radiationEast:F2}\t{radiationWest:F2}");
             solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
         }
 
