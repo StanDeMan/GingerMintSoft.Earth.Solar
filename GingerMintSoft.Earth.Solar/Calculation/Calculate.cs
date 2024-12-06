@@ -19,6 +19,44 @@ public class Calculate
     /// </summary>
     public Location? Location { get; set; }
 
+    // Dachparameter -> TODO: Auslagern in Roof.cs
+    private readonly double _roofTilt = 45; // Neigungswinkel des Dachs in Grad
+    private readonly double _roofAzimuthEast = 90; // Ausrichtung des Dachs in Grad (90° = Ost)
+    //private readonly double _roofAzimuthWest = 270; // Ausrichtung des Dachs in Grad (270° = West)
+
+    public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date)
+    {
+        if (Location == null) throw new ArgumentNullException(nameof(Location));
+
+        var solarRadiationDailyTilted = new Dictionary<DateTime, double>();
+
+        for (var minute = 0; minute < TimeSpan.FromDays(1).TotalMinutes; minute++)
+        {
+            var currentDateTime = date.AddMinutes(minute);
+
+            // Schritt 1: Sonnenstand berechnen
+            (double solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
+
+            // Schritt 2: Atmosphärische Dämpfung berechnen
+            double airMass = AirMass(solarAltitude);
+            double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
+
+            // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
+            double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, _roofTilt, _roofAzimuthEast);
+            //double radiationWest = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, _roofTilt, _roofAzimuthWest);
+
+            //Console.WriteLine($"{currentDateTime:HH:mm}\t{radiationEast:F2}\t{radiationWest:F2}");
+            solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
+        }
+
+        var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
+
+        return Location.Calculate.RadiationSunriseToSunset(
+            solarRadiationDailyTilted, 
+            actDay.SunRise, 
+            actDay.SunSet);
+    }
+
     /// <summary>
     /// Berechnung der Solarstrahlung in W/m² für einen Tag
     /// </summary>
@@ -29,8 +67,7 @@ public class Calculate
     {
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
-        var locationCoordinate = new Coordinate(Location.Latitude, Location.Longitude);
-        var actDay = new CalcDayTime().SunriseSunset(date, locationCoordinate);
+        var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
         var solarDailyRadiation = Location.Calculate.DailyRadiation(date);
 
@@ -53,7 +90,7 @@ public class Calculate
         for (var minute = 0; minute < TimeSpan.FromDays(1).TotalMinutes; minute++)
         {
             var currentDateTime = date.AddMinutes(minute);
-            var radiation = CalculateRadiation(Location.Latitude, Location.Longitude, Location.Altitude, currentDateTime);
+            var radiation = Irradiation(Location.Latitude, Location.Longitude, Location.Altitude, currentDateTime);
             solarRadiationDaily.Add(currentDateTime.ToLocalTime(), radiation);
         }
 
@@ -103,7 +140,7 @@ public class Calculate
     /// <param name="altitude">Höhe des Messpunktes</param>
     /// <param name="dateTime">Zu dieser Zeit</param>
     /// <returns>Solarstrahlung in W/m²</returns>
-    public double CalculateRadiation(
+    public double Irradiation(
         double latitude,
         double longitude,
         double altitude,
@@ -153,4 +190,91 @@ public class Calculate
 
         return elevationRad * 180 / Math.PI;                    // Rückgabe der Sonnenhöhe in Grad
     }
+
+    /// <summary>
+    /// Berechnung der Solarposition
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="latitude"></param>
+    /// <param name="longitude"></param>
+    /// <returns></returns>
+    private (double solarAltitude, double solarAzimuth) SolarPosition(DateTime time, double latitude, double longitude)
+    {
+        if (Location == null) throw new ArgumentNullException(nameof(Location));
+
+        double timezoneOffset = Location.TimeZoneOffset.Hours;
+        double dayOfYear = time.DayOfYear;
+        double hourOfDay = time.Hour + time.Minute / 60.0 - timezoneOffset;
+
+        double declination = 23.45 * Math.Sin(2 * Math.PI / 365 * (dayOfYear - 81));
+        double solarTime = hourOfDay + (4 * (longitude - 15 * timezoneOffset)) / 60.0;
+        double hourAngle = 15 * (solarTime - 12);
+
+        double solarAltitude = Math.Asin(
+            Math.Sin(DegreeToRadian(latitude)) * Math.Sin(DegreeToRadian(declination)) +
+            Math.Cos(DegreeToRadian(latitude)) * Math.Cos(DegreeToRadian(declination)) * Math.Cos(DegreeToRadian(hourAngle))
+        );
+
+        double solarAzimuth = Math.Acos(
+            (Math.Sin(DegreeToRadian(declination)) - Math.Sin(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(latitude))) /
+            (Math.Cos(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(latitude)))
+        );
+
+        if (hourAngle > 0) solarAzimuth = 360 - RadianToDegree(solarAzimuth);
+
+        return (RadianToDegree(solarAltitude), RadianToDegree(solarAzimuth));
+    }
+
+    /// <summary>
+    /// Berechnung der Luftmasse
+    /// </summary>
+    /// <param name="solarAltitude"></param>
+    /// <returns></returns>
+    private double AirMass(double solarAltitude)
+    {
+        if (solarAltitude <= 0) return double.MaxValue; // Keine Einstrahlung bei negativer Sonnenhöhe
+        
+        return 1 / Math.Sin(DegreeToRadian(solarAltitude));
+    }
+
+    /// <summary>
+    /// Berechnet die atmosphärische Transmission basierend auf der Höhe
+    /// </summary>
+    /// <param name="airMass"></param>
+    /// <param name="altitude"></param>
+    /// <returns></returns>
+    private double AtmosphericTransmission(double airMass, double altitude)
+    {
+        double altitudeFactor = Math.Exp(-0.0001184 * altitude); // Höhenanpassung
+        
+        return Math.Pow(0.7, airMass * altitudeFactor); // Abschwächung durch die Atmosphäre
+    }
+
+    /// <summary>
+    /// Berechnet die solare Einstrahlung auf eine geneigte Fläche
+    /// </summary>
+    /// <param name="solarIrradiance"></param>
+    /// <param name="solarAltitude"></param>
+    /// <param name="solarAzimuth"></param>
+    /// <param name="roofTilt"></param>
+    /// <param name="roofAzimuth"></param>
+    /// <returns></returns>
+    private double RadiationOnTiltedSurface(double solarIrradiance, double solarAltitude, double solarAzimuth, double roofTilt, double roofAzimuth)
+    {
+        solarIrradiance *= SolarConstant;
+
+        if (solarAltitude <= 0) return 0; // Keine Einstrahlung bei negativer Sonnenhöhe
+
+        double incidenceAngle = Math.Acos(
+            Math.Sin(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(roofTilt)) +
+            Math.Cos(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(roofTilt)) * Math.Cos(DegreeToRadian(solarAzimuth - roofAzimuth)));
+
+        solarIrradiance = solarIrradiance * Math.Cos(incidenceAngle);
+
+        return solarIrradiance <= 0 ? 0 : solarIrradiance;
+    }
+
+    // Hilfsfunktionen für Grad- und Bogenmaß-Umrechnung
+    private static double DegreeToRadian(double angle) => angle * Math.PI / 180;
+    private static double RadianToDegree(double angle) => angle * 180 / Math.PI;
 }
