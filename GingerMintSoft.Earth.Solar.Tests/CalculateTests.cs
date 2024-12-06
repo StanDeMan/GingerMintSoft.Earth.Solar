@@ -75,7 +75,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
             var dateTime = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
 
             // Act
-            var result = _calculate!.CalculateRadiation(latitude, longitude, altitude, dateTime);
+            var result = _calculate!.Irradiation(latitude, longitude, altitude, dateTime);
 
             // Assert
             Assert.IsTrue(result >= 0);
