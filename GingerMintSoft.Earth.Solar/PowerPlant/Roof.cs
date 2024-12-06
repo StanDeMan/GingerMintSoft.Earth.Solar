@@ -20,6 +20,11 @@
         /// </summary>
         public double Azimuth { get; init; }
 
+        /// <summary>
+        /// Dachfirst Richtung zur Sonne
+        /// </summary>
+        /// <param name="azimuth"></param>
+        /// <returns></returns>
         public static double CardinalDirection(EnmAzimuth azimuth)
         {
             return azimuth switch
