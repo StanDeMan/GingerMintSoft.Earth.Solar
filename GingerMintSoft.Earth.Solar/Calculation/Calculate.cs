@@ -1,4 +1,6 @@
-﻿namespace GingerMintSoft.Earth.Solar.Calculation;
+﻿using GingerMintSoft.Earth.Solar.PowerPlant;
+
+namespace GingerMintSoft.Earth.Solar.Calculation;
 
 public class Calculate
 {
@@ -11,7 +13,7 @@ public class Calculate
     }
 
     private const double SolarConstant = 1361; // Solarkonstante in W/m²
-    private const double OpticalDepth = 0.2; // Typischer Wert für saubere Luft
+    private const double OpticalDepth = 0.2;    // Typischer Wert für saubere Luft
 
     /// <summary>
     /// Init Location on Greenwich Meridian
@@ -19,11 +21,12 @@ public class Calculate
     /// </summary>
     public Location? Location { get; set; }
 
-    // Dachparameter -> TODO: Auslagern in Roof.cs
-    private readonly double _roofTilt = 45; // Neigungswinkel des Dachs in Grad
-    private readonly double _roofAzimuthEast = 90; // Ausrichtung des Dachs in Grad (90° = Ost)
-    //private readonly double _roofAzimuthWest = 270; // Ausrichtung des Dachs in Grad (270° = West)
-
+    /// <summary>
+    /// Berechnung der Solarstrahlung auf geneigte Flächen
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date)
     {
         if (Location == null) throw new ArgumentNullException(nameof(Location));
@@ -41,8 +44,11 @@ public class Calculate
             double airMass = AirMass(solarAltitude);
             double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
 
+            // TODO: Mehrere Dächer berücksichtigen
+            var roof = Location.Roofs.First();
+
             // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
-            double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, _roofTilt, _roofAzimuthEast);
+            double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, roof.Tilt, roof.Azimuth);
             //double radiationWest = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, _roofTilt, _roofAzimuthWest);
 
             //Console.WriteLine($"{currentDateTime:HH:mm}\t{radiationEast:F2}\t{radiationWest:F2}");

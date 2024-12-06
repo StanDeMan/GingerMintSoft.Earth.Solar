@@ -1,6 +1,6 @@
 ﻿using GingerMintSoft.Earth.Solar.Calculation;
 
-namespace GingerMintSoft.Earth.Solar;
+namespace GingerMintSoft.Earth.Solar.PowerPlant;
 
 public class Location()
 {
@@ -10,6 +10,7 @@ public class Location()
     public TimeSpan TimeZoneOffset { get; set; }
 
     public Calculate Calculate { get; set; } = new Calculate();
+    public List<Roof> Roofs { get; set; } = [];
 
     public Location(int altitude, double latitude, double longitude) : this()
     {
