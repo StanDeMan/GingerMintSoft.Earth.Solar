@@ -20,7 +20,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestRadiation_ReturnsCorrectDictionary()
         {
             // Arrange
-            DateTime date = new DateTime(2023, 10, 1);
+            var date = new DateTime(2023, 10, 1);
 
             // Act
             var result = _calculate!.Radiation(date);
@@ -69,13 +69,13 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestCalculateRadiation_ReturnsCorrectValue()
         {
             // Arrange
-            double latitude = 45.0;
-            double longitude = 90.0;
-            double altitude = 100;
-            DateTime dateTime = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
+            const double latitude = 45.0;
+            const double longitude = 90.0;
+            const double altitude = 100;
+            var dateTime = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
 
             // Act
-            double result = _calculate!.CalculateRadiation(latitude, longitude, altitude, dateTime);
+            var result = _calculate!.CalculateRadiation(latitude, longitude, altitude, dateTime);
 
             // Assert
             Assert.IsTrue(result >= 0);
@@ -85,12 +85,12 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestElevation_ReturnsCorrectValue()
         {
             // Arrange
-            double latitude = 48.093;
-            double longitude = 7.896;
-            DateTime dateTime = new DateTime(2024, 6, 22, 12, 0, 0); // 12 PM
+            const double latitude = 48.093;
+            const double longitude = 7.896;
+            var dateTime = new DateTime(2024, 6, 22, 12, 0, 0); // 12 PM
 
             // Act
-            double result = InvokeElevation(latitude, longitude, dateTime);
+            var result = InvokeElevation(latitude, longitude, dateTime);
 
             // Assert
             Assert.IsTrue(result >= 64);
@@ -109,7 +109,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
             return (double)methodInfo.Invoke(_calculate, [latitude, longitude, dateTime])!;
         }
 
-        private bool InvokeIsBetween(DateTime actual, TimeSpan start, TimeSpan end)
+        private static bool InvokeIsBetween(DateTime actual, TimeSpan start, TimeSpan end)
         {
             var methodInfo = typeof(Calculate).GetMethod("IsBetween", BindingFlags.NonPublic | BindingFlags.Static);
 
