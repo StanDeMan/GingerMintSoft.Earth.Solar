@@ -10,6 +10,9 @@ public class Calculate
         FromSunRiseTillSunSet = 0b0010
     }
 
+    private const double SolarConstant = 1361; // Solarkonstante in W/m²
+    private const double OpticalDepth = 0.2; // Typischer Wert für saubere Luft
+
     /// <summary>
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
@@ -106,9 +109,6 @@ public class Calculate
         double altitude,
         DateTime dateTime)
     {
-        double solarConstant = 1361;    // Solarkonstante in W/m²
-        double opticalDepth = 0.2;      // Typischer Wert für saubere Luft
-
         // Sonnenhöhe berechnen
         double solarElevation = Elevation(latitude, longitude, dateTime);
 
@@ -120,7 +120,7 @@ public class Calculate
         airMass *= Math.Exp(-altitude / 8500); // Höhenkorrektur
 
         // Solarstrahlung unter Berücksichtigung der Atmosphäre
-        return solarConstant * Math.Exp(-opticalDepth * airMass);
+        return SolarConstant * Math.Exp(-OpticalDepth * airMass);
     }
 
     /// <summary>
