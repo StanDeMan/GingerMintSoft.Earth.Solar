@@ -22,7 +22,8 @@ public class Calculate
     /// <exception cref="ArgumentNullException"></exception>
     public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date, int roofIndex = 0)
     {
-        if (Location == null) throw new ArgumentNullException(nameof(Location));
+        if (Location == null) throw new ArgumentOutOfRangeException (nameof(Location));
+        if(!Location.Roofs.Any()) throw new ArgumentOutOfRangeException (nameof(Roof));
 
         var solarRadiationDailyTilted = new Dictionary<DateTime, double>();
 
@@ -37,7 +38,8 @@ public class Calculate
             double airMass = AirMass(solarAltitude);
             double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
 
-            if(!Location.Roofs.Any()) throw new ArgumentNullException(nameof(Roof));
+            // Entsprechndes Dach auswählen, falls vorhanden
+            if (Location.Roofs.ElementAtOrDefault(roofIndex) == null) throw new ArgumentOutOfRangeException(nameof(Roof));
             var roof = Location.Roofs[roofIndex];
 
             // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
@@ -62,7 +64,7 @@ public class Calculate
     /// <returns>Strahlung für einen Tag von Sonnenauf bis Untergang</returns>
     public Dictionary<DateTime, double> Radiation(DateTime date)
     {
-        if (Location == null) throw new ArgumentNullException(nameof(Location));
+        if (Location == null) throw new ArgumentOutOfRangeException (nameof(Location));
 
         var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
@@ -80,7 +82,7 @@ public class Calculate
     /// <returns>Strahlung für einen Tag</returns>
     private Dictionary<DateTime, double> DailyRadiation(DateTime date)
     {
-        if (Location == null) throw new ArgumentNullException(nameof(Location));
+        if (Location == null) throw new ArgumentOutOfRangeException (nameof(Location));
 
         var solarRadiationDaily = new Dictionary<DateTime, double>();
 
