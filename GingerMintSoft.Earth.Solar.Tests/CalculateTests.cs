@@ -26,7 +26,7 @@ namespace GingerMintSoft.Earth.Solar.Tests
             var result = _calculate!.Radiation(date);
 
             // Assert
-            Assert.AreEqual(1440, result.Count); // 1440 minutes in a day
+            Assert.AreEqual(705, result.Count); // 705 solar minutes for this specific date
             foreach (var kvp in result)
             {
                 Assert.IsTrue(kvp.Value >= 0);
@@ -37,13 +37,14 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestRadiationSunriseToSunset_ReturnsCorrectDictionary()
         {
             // Arrange
-            DateTime date = new DateTime(2023, 10, 1);
+            var date = new DateTime(2023, 10, 1);
             var solarRadiationDaily = _calculate!.Radiation(date);
-            DateTime sunRise = date.AddHours(6); // Assuming sunrise at 6 AM
-            DateTime sunSet = date.AddHours(18); // Assuming sunset at 6 PM
 
-            // Act
-            var result = _calculate.RadiationSunriseToSunset(solarRadiationDaily, sunRise, sunSet);
+            var sunRise = date.AddHours(6); // Assuming sunrise at 6 AM
+            var sunSet = date.AddHours(18); // Assuming sunset at 6 PM
+
+            // Radiation for this specific date
+            var result = InvokeRadiationSunriseToSunset(solarRadiationDaily, sunRise, sunSet);
 
             // Assert
             Assert.IsTrue(result.All(kvp => kvp.Key.TimeOfDay >= sunRise.TimeOfDay && kvp.Key.TimeOfDay <= sunSet.TimeOfDay));
@@ -53,12 +54,12 @@ namespace GingerMintSoft.Earth.Solar.Tests
         public void TestIsBetween_ReturnsCorrectBoolean()
         {
             // Arrange
-            DateTime actual = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
-            TimeSpan start = new TimeSpan(6, 0, 0); // 6 AM
-            TimeSpan end = new TimeSpan(18, 0, 0); // 6 PM
+            var actual = new DateTime(2023, 10, 1, 12, 0, 0); // 12 PM
+            var start = new TimeSpan(6, 0, 0); // 6 AM
+            var end = new TimeSpan(18, 0, 0); // 6 PM
 
             // Act
-            bool result = InvokeIsBetween(actual, start, end);
+            var result = InvokeIsBetween(actual, start, end);
 
             // Assert
             Assert.IsTrue(result);
@@ -95,16 +96,47 @@ namespace GingerMintSoft.Earth.Solar.Tests
             Assert.IsTrue(result >= 64);
         }
 
+        // Invoke private methods for testing
         private double InvokeElevation(double latitude, double longitude, DateTime dateTime)
         {
             var methodInfo = typeof(Calculate).GetMethod("Elevation", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (double)methodInfo!.Invoke(_calculate, new object[] { latitude, longitude, dateTime })!;
+            
+            if (methodInfo == null)
+            {
+                throw new InvalidOperationException("Method 'Elevation' not found.");
+            }
+
+            return (double)methodInfo.Invoke(_calculate, [latitude, longitude, dateTime])!;
         }
 
         private bool InvokeIsBetween(DateTime actual, TimeSpan start, TimeSpan end)
         {
             var methodInfo = typeof(Calculate).GetMethod("IsBetween", BindingFlags.NonPublic | BindingFlags.Static);
-            return (bool)methodInfo!.Invoke(null, new object[] { actual, start, end })!;
+
+            if (methodInfo == null)
+            {
+                throw new InvalidOperationException("Method 'IsBetween' not found.");
+            }
+
+            return (bool)methodInfo.Invoke(null, [actual, start, end])!;
+        }
+
+        private Dictionary<DateTime, double> InvokeRadiationSunriseToSunset(Dictionary<DateTime, double> dailyData, DateTime sunRise, DateTime sunSet)
+        {
+            var methodInfo = typeof(Calculate).GetMethod("RadiationSunriseToSunset", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (methodInfo == null)
+            {
+                throw new InvalidOperationException("Method 'RadiationSunriseToSunset' not found.");
+            }
+
+            // Ensure _calculate is not null
+            if (_calculate == null)
+            {
+                throw new InvalidOperationException("Calculate instance is not initialized.");
+            }
+
+            return (Dictionary<DateTime, double>)methodInfo.Invoke(_calculate, [dailyData, sunRise, sunSet])!;
         }
     }
 }
