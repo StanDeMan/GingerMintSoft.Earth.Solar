@@ -31,19 +31,12 @@ public class Calculate
         {
             var currentDateTime = date.AddMinutes(minute);
 
-            // Schritt 1: Sonnenstand berechnen
-            (double solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
-
-            // Schritt 2: Atmosphärische Dämpfung berechnen
-            double airMass = AirMass(solarAltitude);
-            double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
-
             // Entsprechndes Dach auswählen, falls vorhanden
             if (Location.Roofs.ElementAtOrDefault(roofIndex) == null) throw new ArgumentOutOfRangeException(nameof(Roof));
             var roof = Location.Roofs[roofIndex];
 
-            // Schritt 3: Einstrahlung auf geneigte Fläche berechnen
-            double radiation = RadiationOnTiltedSurface(atmosphericTransmission, solarAltitude, solarAzimuth, roof.Tilt, roof.Azimuth);
+            // Einstrahlung auf geneigte Fläche berechnen
+            double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth);
 
             solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
         }
@@ -252,15 +245,22 @@ public class Calculate
     /// <summary>
     /// Berechnet die solare Einstrahlung auf eine geneigte Fläche
     /// </summary>
-    /// <param name="solarIrradiance"></param>
-    /// <param name="solarAltitude"></param>
-    /// <param name="solarAzimuth"></param>
+    /// <param name="currentDateTime"></param>
     /// <param name="roofTilt"></param>
     /// <param name="roofAzimuth"></param>
     /// <returns></returns>
-    private double RadiationOnTiltedSurface(double solarIrradiance, double solarAltitude, double solarAzimuth, double roofTilt, double roofAzimuth)
+    private double RadiationOnTiltedSurface(DateTime currentDateTime, double roofTilt, double roofAzimuth)
     {
-        solarIrradiance *= SolarConstant;
+        if (Location == null) throw new ArgumentNullException(nameof(Location));
+
+        // Schritt 1: Sonnenstand berechnen
+        (double solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
+
+        // Schritt 2: Atmosphärische Dämpfung berechnen
+        double airMass = AirMass(solarAltitude);
+        double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
+
+        atmosphericTransmission *= SolarConstant;
 
         if (solarAltitude <= 0) return 0; // Keine Einstrahlung bei negativer Sonnenhöhe
 
@@ -268,9 +268,9 @@ public class Calculate
             Math.Sin(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(roofTilt)) +
             Math.Cos(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(roofTilt)) * Math.Cos(DegreeToRadian(solarAzimuth - roofAzimuth)));
 
-        solarIrradiance = solarIrradiance * Math.Cos(incidenceAngle);
+        atmosphericTransmission = atmosphericTransmission * Math.Cos(incidenceAngle);
 
-        return solarIrradiance <= 0 ? 0 : solarIrradiance;
+        return atmosphericTransmission <= 0 ? 0 : atmosphericTransmission;
     }
 
     // Hilfsfunktionen für Grad- und Bogenmaß-Umrechnung
