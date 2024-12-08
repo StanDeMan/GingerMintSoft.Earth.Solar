@@ -47,9 +47,18 @@ namespace GingerMintSoft.Earth.Location.Cmd
 
             var roofs = powerPlant.Calculate.RadiationOnTiltedPanel(date);
 
-            foreach (var earning in roofs.SelectMany(roof => roof.Earning!))
+            foreach (var roof in roofs)
             {
-                Console.WriteLine($"{earning.Key:HH:mm}\t{earning.Value:F2}");
+                Console.WriteLine($"Plant name: {roof.Name}");
+                Console.WriteLine($"Roof tilt: {roof.Tilt}");
+                Console.WriteLine($"Alignment of the system's roof generator: {roof.Azimuth + roof.AzimuthDeviation}");
+
+                foreach (var data in roof.Earning!)
+                {
+                    Console.WriteLine($"{data.Key:HH:mm}\t{data.Value:F2}");
+                }
+
+                Console.WriteLine("---------------");
             }
 
             Console.ReadKey();
