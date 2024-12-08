@@ -36,7 +36,7 @@ public class Calculate
             var roof = Location.Roofs[roofIndex];
 
             // Einstrahlung auf geneigte Fläche berechnen
-            double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth);
+            double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth + roof.AzimuthDeviation);
 
             solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
         }

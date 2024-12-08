@@ -15,13 +15,15 @@ namespace GingerMintSoft.Earth.Solar.Cmd
 
             location.Roofs.Add(new Roof()
             {
-                Azimuth = Roof.CardinalDirection(Roof.EnmAzimuth.East),
+                Azimuth = Roof.CompassPoint.East,
+                AzimuthDeviation = 10.0,
                 Tilt = 45.0
             });
 
             location.Roofs.Add(new Roof()
             {
-                Azimuth = Roof.CardinalDirection(Roof.EnmAzimuth.West),
+                Azimuth = Roof.CompassPoint.West,
+                AzimuthDeviation = 10.0,
                 Tilt = 45.0
             });
 
