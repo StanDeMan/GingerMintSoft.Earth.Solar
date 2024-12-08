@@ -42,11 +42,11 @@ namespace GingerMintSoft.Earth.Solar.Cmd
 
             Console.WriteLine("---------------");
 
-            var solarDailyRadiationFromSunRiseTillSunSetTilted = location.Calculate.RadiationOnTiltedPanel(date);
+            var roofs = location.Calculate.RadiationOnTiltedPanel(date);
 
-            foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSetTilted)
+            foreach (var earning in roofs.SelectMany(roof => roof.Earning!))
             {
-                Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
+                Console.WriteLine($"{earning.Key:HH:mm}\t{earning.Value:F2}");
             }
 
             Console.ReadKey();
