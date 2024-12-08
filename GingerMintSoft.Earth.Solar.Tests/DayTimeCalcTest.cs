@@ -1,6 +1,6 @@
-using GingerMintSoft.Earth.Solar.Calculation;
+using GingerMintSoft.Earth.Location.Calculation;
 
-namespace GingerMintSoft.Earth.Solar.Tests
+namespace GingerMintSoft.Earth.Location.Tests
 {
     [TestClass]
     public class DayTimeCalcYearTest

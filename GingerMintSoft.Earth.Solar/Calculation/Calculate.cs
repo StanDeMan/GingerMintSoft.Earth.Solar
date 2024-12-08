@@ -1,6 +1,6 @@
-﻿using GingerMintSoft.Earth.Solar.Location;
+﻿using GingerMintSoft.Earth.Location.Solar;
 
-namespace GingerMintSoft.Earth.Solar.Calculation;
+namespace GingerMintSoft.Earth.Location.Calculation;
 
 public class Calculate
 {

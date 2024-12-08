@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GingerMintSoft.Earth.Solar\GingerMintSoft.Earth.Solar.csproj" />
+    <ProjectReference Include="..\GingerMintSoft.Earth.Solar\GingerMintSoft.Earth.Location.csproj" />
   </ItemGroup>
 
   <ItemGroup>

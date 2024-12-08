@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Solar", "GingerMintSoft.Earth.Solar\GingerMintSoft.Earth.Solar.csproj", "{71C0F1B7-A6C5-4447-9B62-2655061D6EA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Location", "GingerMintSoft.Earth.Solar\GingerMintSoft.Earth.Location.csproj", "{71C0F1B7-A6C5-4447-9B62-2655061D6EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Solar.Cmd", "GingerMintSoft.Earth.Solar.Cmd\GingerMintSoft.Earth.Solar.Cmd.csproj", "{457CB4EA-2A64-4EDF-8851-9D20B526CA53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Location.Cmd", "GingerMintSoft.Earth.Solar.Cmd\GingerMintSoft.Earth.Location.Cmd.csproj", "{457CB4EA-2A64-4EDF-8851-9D20B526CA53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Solar.Tests", "GingerMintSoft.Earth.Solar.Tests\GingerMintSoft.Earth.Solar.Tests.csproj", "{2F947514-DB08-4E2B-814F-F995D4E7CD4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Location.Tests", "GingerMintSoft.Earth.Solar.Tests\GingerMintSoft.Earth.Location.Tests.csproj", "{2F947514-DB08-4E2B-814F-F995D4E7CD4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

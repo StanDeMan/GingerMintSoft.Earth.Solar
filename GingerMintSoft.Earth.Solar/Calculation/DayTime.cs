@@ -1,4 +1,4 @@
-﻿namespace GingerMintSoft.Earth.Solar.Calculation
+﻿namespace GingerMintSoft.Earth.Location.Calculation
 {
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     public sealed class CalcDayTime

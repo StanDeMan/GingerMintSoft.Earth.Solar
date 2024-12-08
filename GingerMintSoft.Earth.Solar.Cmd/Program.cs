@@ -1,6 +1,6 @@
-﻿using GingerMintSoft.Earth.Solar.Location;
+﻿using GingerMintSoft.Earth.Location.Solar;
 
-namespace GingerMintSoft.Earth.Solar.Cmd
+namespace GingerMintSoft.Earth.Location.Cmd
 {
     public static class Program
     {

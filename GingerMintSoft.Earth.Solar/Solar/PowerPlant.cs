@@ -1,6 +1,6 @@
-﻿using GingerMintSoft.Earth.Solar.Calculation;
+﻿using GingerMintSoft.Earth.Location.Calculation;
 
-namespace GingerMintSoft.Earth.Solar.Location;
+namespace GingerMintSoft.Earth.Location.Solar;
 
 public class PowerPlant()
 {

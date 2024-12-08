@@ -1,4 +1,4 @@
-﻿namespace GingerMintSoft.Earth.Solar.Location
+﻿namespace GingerMintSoft.Earth.Location.Solar
 {
     public class Roof
     {
