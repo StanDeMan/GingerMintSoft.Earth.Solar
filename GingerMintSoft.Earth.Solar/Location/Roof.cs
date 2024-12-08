@@ -23,6 +23,11 @@
         }
 
         /// <summary>
+        /// Name des Dachs
+        /// </summary>
+        public string? Name { get; init; }
+
+        /// <summary>
         /// Neigungswinkel des Dachs in Grad
         /// </summary>
         public double Tilt { get; init; }
