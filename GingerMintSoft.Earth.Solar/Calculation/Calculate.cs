@@ -11,7 +11,7 @@ public class Calculate
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
     /// </summary>
-    public Location.PowerPlant? Location { get; set; }
+    public PowerPlant? Location { get; set; }
 
     /// <summary>
     /// Berechnung der Solarstrahlung auf geneigte Flächen
