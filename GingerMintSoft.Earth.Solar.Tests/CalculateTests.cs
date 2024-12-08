@@ -1,6 +1,6 @@
 using System.Reflection;
-using GingerMintSoft.Earth.Location.Calculation;
 using GingerMintSoft.Earth.Location.Solar;
+using GingerMintSoft.Earth.Location.Solar.Calculation;
 
 namespace GingerMintSoft.Earth.Location.Tests
 {
@@ -13,7 +13,7 @@ namespace GingerMintSoft.Earth.Location.Tests
         [TestInitialize]
         public void Setup()
         {
-            _location = new PowerPlant(100, 45.0, 90.0);
+            _location = new PowerPlant("PV Plant", 100, 45.0, 90.0);
             _calculate = new Calculate { Location = _location };
         }
 

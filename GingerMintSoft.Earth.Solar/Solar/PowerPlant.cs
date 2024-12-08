@@ -1,4 +1,4 @@
-﻿using GingerMintSoft.Earth.Location.Calculation;
+﻿using GingerMintSoft.Earth.Location.Solar.Calculation;
 
 namespace GingerMintSoft.Earth.Location.Solar;
 

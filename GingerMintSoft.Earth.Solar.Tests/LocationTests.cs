@@ -5,6 +5,8 @@ namespace GingerMintSoft.Earth.Location.Tests
     [TestClass]
     public sealed class LocationTests
     {
+        private const string PvTestPlantName = "TestPlant";
+
         [TestMethod]
         public void TestLocation_Constructor_InitializesProperties()
         {
@@ -14,7 +16,7 @@ namespace GingerMintSoft.Earth.Location.Tests
             double longitude = 90.0;
 
             // Act
-            var location = new PowerPlant(altitude, latitude, longitude);
+            var location = new PowerPlant(PvTestPlantName, altitude, latitude, longitude);
 
             // Assert
             Assert.AreEqual(altitude, location.Altitude);
@@ -28,7 +30,7 @@ namespace GingerMintSoft.Earth.Location.Tests
         public void TestLocation_SetAltitude_UpdatesProperty()
         {
             // Arrange
-            var location = new PowerPlant(100, 45.0, 90.0);
+            var location = new PowerPlant(PvTestPlantName, 100, 45.0, 90.0);
             int newAltitude = 200;
 
             // Act
@@ -42,7 +44,7 @@ namespace GingerMintSoft.Earth.Location.Tests
         public void TestLocation_SetLatitude_UpdatesProperty()
         {
             // Arrange
-            var location = new PowerPlant(100, 45.0, 90.0);
+            var location = new PowerPlant(PvTestPlantName, 100, 45.0, 90.0);
             double newLatitude = 50.0;
 
             // Act
@@ -56,7 +58,7 @@ namespace GingerMintSoft.Earth.Location.Tests
         public void TestLocation_SetLongitude_UpdatesProperty()
         {
             // Arrange
-            var location = new PowerPlant(100, 45.0, 90.0);
+            var location = new PowerPlant(PvTestPlantName, 100, 45.0, 90.0);
             double newLongitude = 95.0;
 
             // Act
