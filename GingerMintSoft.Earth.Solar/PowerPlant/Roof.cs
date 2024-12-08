@@ -2,12 +2,24 @@
 {
     public class Roof
     {
-        public enum EnmAzimuth
+        public struct CompassPoint
         {
-            North,
-            East,
-            South,
-            West
+            public const double North = 0.0;
+            public const double NorthNorthEast = 22.5;
+            public const double NorthEast = 45.0;
+            public const double EastNorthEast= 67.5;
+            public const double East = 90.0;
+            public const double EastSouthEast = 112.5;
+            public const double SouthEast = 135.0;
+            public const double SouthSouthEast = 157.5;
+            public const double South = 180.0;
+            public const double SouthSouthWest = 202.5;
+            public const double SouthWest = 225.0;
+            public const double WestSouthWest = 247.5;
+            public const double West = 270.0;
+            public const double WestNorthWest = 292.5;
+            public const double NorthWest = 315.0;
+            public const double NorthNorthWest = 337.5;
         }
 
         /// <summary>
@@ -16,25 +28,15 @@
         public double Tilt { get; init; }
 
         /// <summary>
-        /// Dachausrichtung in Grad (0° = Nord, 90° = Ost, 180° = Süd, 270° = West)
+        /// PV Generator Ausrichtung in Grad (0° = Nord, 90° = Ost, 180° = Süd, 270° = West)
         /// </summary>
-        public double Azimuth { get; init; }
+        public double Azimuth { get; set; } = CompassPoint.South;
 
         /// <summary>
-        /// Dachfirst Richtung zur Sonne
+        /// Abweichung zum Azimuth in Grad
         /// </summary>
-        /// <param name="azimuth"></param>
-        /// <returns></returns>
-        public static double CardinalDirection(EnmAzimuth azimuth)
-        {
-            return azimuth switch
-            {
-                EnmAzimuth.North => 0.0,
-                EnmAzimuth.East => 90.0,
-                EnmAzimuth.South => 180.0,
-                EnmAzimuth.West => 270.0,
-                _ => 180.0
-            };
-        }
+        public double AzimuthDeviation { get; init; }
+
+        public Dictionary<DateTime, double>? Earning { get; set; }
     }
 }
