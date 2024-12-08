@@ -1,4 +1,4 @@
-﻿using GingerMintSoft.Earth.Solar.PowerPlant;
+﻿using GingerMintSoft.Earth.Solar.Location;
 
 namespace GingerMintSoft.Earth.Solar.Cmd
 {
@@ -7,7 +7,7 @@ namespace GingerMintSoft.Earth.Solar.Cmd
         private static void Main()
         {
             // Solar power plant location
-            var location = new Location(
+            var location = new PowerPlant(
                 232,                    // Höhe über NN in Metern
                 48.1051268096319,       // Breitengrad in Dezimalgrad
                 7.9085366169705145      // Längengrad in Dezimalgrad

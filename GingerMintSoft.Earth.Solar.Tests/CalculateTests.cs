@@ -1,5 +1,4 @@
 using GingerMintSoft.Earth.Solar.Calculation;
-using GingerMintSoft.Earth.Solar.PowerPlant;
 using System.Reflection;
 
 namespace GingerMintSoft.Earth.Solar.Tests
@@ -8,12 +7,12 @@ namespace GingerMintSoft.Earth.Solar.Tests
     public sealed class CalculateTests
     {
         private Calculate? _calculate;
-        private Location? _location;
+        private Location.PowerPlant? _location;
 
         [TestInitialize]
         public void Setup()
         {
-            _location = new Location(100, 45.0, 90.0);
+            _location = new Location.PowerPlant(100, 45.0, 90.0);
             _calculate = new Calculate { Location = _location };
         }
 

@@ -1,8 +1,8 @@
 ﻿using GingerMintSoft.Earth.Solar.Calculation;
 
-namespace GingerMintSoft.Earth.Solar.PowerPlant;
+namespace GingerMintSoft.Earth.Solar.Location;
 
-public class Location()
+public class PowerPlant()
 {
     public int Altitude { get; set; }
     public double Latitude { get; set; }
@@ -12,7 +12,7 @@ public class Location()
     public Calculate Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
-    public Location(int altitude, double latitude, double longitude) : this()
+    public PowerPlant(int altitude, double latitude, double longitude) : this()
     {
         Altitude = altitude;
         Latitude = latitude;

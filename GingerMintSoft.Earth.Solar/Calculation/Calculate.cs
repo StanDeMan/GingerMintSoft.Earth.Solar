@@ -1,4 +1,4 @@
-﻿using GingerMintSoft.Earth.Solar.PowerPlant;
+﻿using GingerMintSoft.Earth.Solar.Location;
 
 namespace GingerMintSoft.Earth.Solar.Calculation;
 
@@ -11,7 +11,7 @@ public class Calculate
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
     /// </summary>
-    public Location? Location { get; set; }
+    public Location.PowerPlant? Location { get; set; }
 
     /// <summary>
     /// Berechnung der Solarstrahlung auf geneigte Flächen
