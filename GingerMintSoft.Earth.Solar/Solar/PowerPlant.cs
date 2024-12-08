@@ -4,6 +4,7 @@ namespace GingerMintSoft.Earth.Location.Solar;
 
 public class PowerPlant()
 {
+    public string Name { get; set; } = string.Empty;
     public int Altitude { get; set; }
     public double Latitude { get; set; }
     public double Longitude { get; set; }
@@ -12,8 +13,9 @@ public class PowerPlant()
     public Calculate Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
-    public PowerPlant(int altitude, double latitude, double longitude) : this()
+    public PowerPlant(string name, int altitude, double latitude, double longitude) : this()
     {
+        Name = name;
         Altitude = altitude;
         Latitude = latitude;
         Longitude = longitude;

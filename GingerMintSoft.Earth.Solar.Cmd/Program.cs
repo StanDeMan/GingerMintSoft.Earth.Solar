@@ -7,21 +7,24 @@ namespace GingerMintSoft.Earth.Location.Cmd
         private static void Main()
         {
             // Solar power plant location
-            var location = new PowerPlant(
+            var powerPlant = new PowerPlant(
+                "Eichstädt PV Anlage",
                 232,                    // Höhe über NN in Metern
                 48.1051268096319,       // Breitengrad in Dezimalgrad
                 7.9085366169705145      // Längengrad in Dezimalgrad
             );
 
-            location.Roofs.Add(new Roof()
+            powerPlant.Roofs.Add(new Roof()
             {
+                Name = "Ostdach",
                 Azimuth = Roof.CompassPoint.East,
                 AzimuthDeviation = 10.0,
                 Tilt = 45.0
             });
 
-            location.Roofs.Add(new Roof()
+            powerPlant.Roofs.Add(new Roof()
             {
+                Name = "Westdach",
                 Azimuth = Roof.CompassPoint.West,
                 AzimuthDeviation = 10.0,
                 Tilt = 45.0
@@ -33,7 +36,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");
             Console.WriteLine("Stunde:Minute\tStrahlung [W/m²]");
 
-            var solarDailyRadiationFromSunRiseTillSunSet = location.Calculate.Radiation(date);
+            var solarDailyRadiationFromSunRiseTillSunSet = powerPlant.Calculate.Radiation(date);
 
             foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSet)
             {
@@ -42,7 +45,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
 
             Console.WriteLine("---------------");
 
-            var roofs = location.Calculate.RadiationOnTiltedPanel(date);
+            var roofs = powerPlant.Calculate.RadiationOnTiltedPanel(date);
 
             foreach (var earning in roofs.SelectMany(roof => roof.Earning!))
             {
