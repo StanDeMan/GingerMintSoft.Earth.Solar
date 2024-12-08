@@ -17,36 +17,38 @@ public class Calculate
     /// Berechnung der Solarstrahlung auf geneigte Flächen
     /// </summary>
     /// <param name="date"></param>
-    /// <param name="roofIndex"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public Dictionary<DateTime, double> RadiationOnTiltedPanel(DateTime date, int roofIndex = 0)
+    public List<Roof> RadiationOnTiltedPanel(DateTime date)
     {
         if (Location == null) throw new ArgumentOutOfRangeException (nameof(Location));
         if(!Location.Roofs.Any()) throw new ArgumentOutOfRangeException (nameof(Roof));
 
-        var solarRadiationDailyTilted = new Dictionary<DateTime, double>();
-
-        for (var minute = 0; minute < TimeSpan.FromDays(1).TotalMinutes; minute++)
+        foreach (var roof in Location.Roofs)
         {
-            var currentDateTime = date.AddMinutes(minute);
+            var solarRadiationDailyTilted = new Dictionary<DateTime, double>();
 
-            // Entsprechndes Dach auswählen, falls vorhanden
-            if (Location.Roofs.ElementAtOrDefault(roofIndex) == null) throw new ArgumentOutOfRangeException(nameof(Roof));
-            var roof = Location.Roofs[roofIndex];
+            for (var minute = 0; minute < TimeSpan.FromDays(1).TotalMinutes; minute++)
+            {
+                var currentDateTime = date.AddMinutes(minute);
 
-            // Einstrahlung auf geneigte Fläche berechnen
-            double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth + roof.AzimuthDeviation);
+                // Einstrahlung auf geneigte Fläche berechnen
+                double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth + roof.AzimuthDeviation);
 
-            solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
+                solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
+            }
+
+            var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
+
+            var roofEarning = Location.Calculate.RadiationSunriseToSunset(
+                solarRadiationDailyTilted, 
+                actDay.SunRise, 
+                actDay.SunSet);
+
+            roof.Earning = roofEarning;
         }
 
-        var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
-
-        return Location.Calculate.RadiationSunriseToSunset(
-            solarRadiationDailyTilted, 
-            actDay.SunRise, 
-            actDay.SunSet);
+        return Location.Roofs;
     }
 
     /// <summary>
