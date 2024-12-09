@@ -52,7 +52,7 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <summary>
         /// Ertrag in Watt pro m² abhängig vom Wirkungsgrad und der Fläche des Solarmoduls
         /// </summary>
-        public Dictionary<DateTime, double>? Earning { get; set; }
+        public Dictionary<DateTime, double>? Radiation { get; set; }
 
         /// <summary>
         /// Fläche der Solarmodule multipliziert mit dem Wirkungsgrad
@@ -63,6 +63,15 @@ namespace GingerMintSoft.Earth.Location.Solar
             if(!Panels.Panel.Any()) throw new ArgumentOutOfRangeException (nameof(Panels));
 
             return Panels.Panel.Sum(panel => panel.Area * panel.Efficiency);
+        }
+
+        /// <summary>
+        /// Errechnete Energiedaten für einen Solar-Generator
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<DateTime, double> Earning()
+        {
+            return Radiation!.ToDictionary(dataPoint => dataPoint.Key, dataPoint => dataPoint.Value * GeneratorData());
         }
     }
 }
