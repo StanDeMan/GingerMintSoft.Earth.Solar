@@ -13,7 +13,7 @@ public class RoofsTest
     {
         _roofs = new Roofs();
         Assert.IsNotNull(_roofs);
-        Assert.IsNotNull(_roofs.Read);
+        Assert.IsNotNull(_roofs.Roof);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class RoofsTest
             Azimuth = Roof.CompassPoint.South
         });
 
-        Assert.AreEqual(3, _roofs.Read!.Count);
+        Assert.AreEqual(3, _roofs.Roof!.Count);
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class RoofsTest
             AzimuthDeviation = 10.0,
             Panels = new Panels()
             {
-                Read =
+                Panel =
                 [
                     new Panel()
                     {
@@ -71,7 +71,7 @@ public class RoofsTest
             AzimuthDeviation = 5.0,
             Panels = new Panels()
             {
-                Read =
+                Panel =
                 [
                     new Panel()
                     {
@@ -94,7 +94,7 @@ public class RoofsTest
             Azimuth = Roof.CompassPoint.South,
             Panels = new Panels()
             {
-                Read =
+                Panel =
                 [
                     new Panel()
                     {
@@ -118,16 +118,16 @@ public class RoofsTest
             }
         });
 
-        Assert.AreEqual(3, _roofs.Read!.Count);
+        Assert.AreEqual(3, _roofs.Roof!.Count);
 
-        foreach (var roof in _roofs.Read!)
+        foreach (var roof in _roofs.Roof!)
         {
             Assert.IsNotNull(roof);
-            if(roof.Name != "Test Roof 3") continue;
+            if (roof.Name != "Test Roof 3") continue;
 
             var generatorData = 0.0;
 
-            foreach (var panel in roof.Panels.Read)
+            foreach (var panel in roof.Panels.Panel)
             {
                 Assert.IsNotNull(panel);
                 generatorData += panel.Area * panel.Efficiency;
@@ -135,5 +135,20 @@ public class RoofsTest
 
             Assert.AreEqual(3.25, generatorData);
         }
+
+        var testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 3");
+        var testData = testRoof!.GeneratorData();
+
+        Assert.AreEqual(3.25, testData);
+
+        testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 2");
+        testData = testRoof!.GeneratorData();
+
+        Assert.AreEqual(1.26, testData);
+
+        testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 1");
+        testData = testRoof!.GeneratorData();
+
+        Assert.AreEqual(0.42, testData);
     }
 }
