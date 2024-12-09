@@ -38,12 +38,12 @@ public class Calculate
 
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
-            var roofEarning = Location.Calculate.RadiationSunriseToSunset(
+            var roofRadiation = Location.Calculate.RadiationSunriseToSunset(
                 solarRadiationDailyTilted, 
                 actDay.SunRise, 
                 actDay.SunSet);
 
-            roof.Earning = roofEarning;
+            roof.Radiation = roofRadiation;
         }
 
         return Location.Roofs;
