@@ -60,6 +60,8 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <returns></returns>
         public double GeneratorData()
         {
+            if(!Panels.Panel.Any()) throw new ArgumentOutOfRangeException (nameof(Panels));
+
             return Panels.Panel.Sum(panel => panel.Area * panel.Efficiency);
         }
     }
