@@ -7,23 +7,23 @@ namespace GingerMintSoft.Earth.Location.Solar.Generator
         /// <summary>
         /// Anzahl der Solarmodule
         /// </summary>
-        public int Count => Read.Count;
+        public int Count => Panel.Count;
 
-        public List<Panel> Read { get; set; } = [];
+        public List<Panel> Panel { get; set; } = [];
 
         public void Add(Panel panel)
         {
-            Read.Add(panel);
+            Panel.Add(panel);
         }
 
         public void Remove(Panel panel)
         {
-            Read.Remove(panel);
+            Panel.Remove(panel);
         }
 
         public void Clear()
         {
-            Read.Clear();
+            Panel.Clear();
         }
     }
 }

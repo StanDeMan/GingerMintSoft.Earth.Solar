@@ -53,5 +53,14 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// Ertrag in Watt pro m² abhängig vom Wirkungsgrad und der Fläche des Solarmoduls
         /// </summary>
         public Dictionary<DateTime, double>? Earning { get; set; }
+
+        /// <summary>
+        /// Fläche der Solarmodule multipliziert mit dem Wirkungsgrad
+        /// </summary>
+        /// <returns></returns>
+        public double GeneratorData()
+        {
+            return Panels.Panel.Sum(panel => panel.Area * panel.Efficiency);
+        }
     }
 }

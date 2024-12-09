@@ -4,21 +4,21 @@ namespace GingerMintSoft.Earth.Location.Solar
 {
     public class Roofs
     {
-        public List<Roof>? Read { get; set; } = [];
+        public List<Roof>? Roof { get; set; } = [];
 
         public void Add(Roof roof)
         {
-            Read!.Add(roof);
+            Roof!.Add(roof);
         }
 
         public void Clear()
         {
-            Read!.Clear();
+            Roof!.Clear();
         }
 
         public void Remove(Roof roof)
         {
-            Read!.Remove(roof);
+            Roof!.Remove(roof);
         }
     }
 }
