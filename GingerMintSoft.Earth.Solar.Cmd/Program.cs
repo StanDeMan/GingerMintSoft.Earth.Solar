@@ -1,4 +1,5 @@
 ﻿using GingerMintSoft.Earth.Location.Solar;
+using GingerMintSoft.Earth.Location.Solar.Generator;
 
 namespace GingerMintSoft.Earth.Location.Cmd
 {
@@ -19,7 +20,37 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 Name = "Ostdach",
                 Azimuth = Roof.CompassPoint.East,
                 AzimuthDeviation = 10.0,
-                Tilt = 45.0
+                Tilt = 45.0,
+                Panels = new Panels()
+                {
+                    Panel =
+                    [
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        },
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        },
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        },
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        }
+                    ],
+                }
             });
 
             powerPlant.Roofs.Add(new Roof()
@@ -27,7 +58,25 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 Name = "Westdach",
                 Azimuth = Roof.CompassPoint.West,
                 AzimuthDeviation = 10.0,
-                Tilt = 45.0
+                Tilt = 45.0,
+                Panels = new Panels()
+                {
+                    Panel =
+                    [
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        },
+                        new Panel()
+                        {
+                            Name = "Ying Ping 420Wp",
+                            Area = 1.78,
+                            Efficiency = 0.21
+                        }
+                    ],
+                }
             });
 
             var date = new DateTime(2024, 6, 21, 0, 0, 0, DateTimeKind.Utc);
