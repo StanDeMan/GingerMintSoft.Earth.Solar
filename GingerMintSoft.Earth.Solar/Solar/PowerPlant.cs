@@ -1,5 +1,5 @@
 ﻿using GingerMintSoft.Earth.Location.Solar.Calculation;
-using GingerMintSoft.Earth.Location.Solar.Generator;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace GingerMintSoft.Earth.Location.Solar;
 
@@ -24,5 +24,47 @@ public class PowerPlant()
         TimeZoneOffset = TimeSpan.Zero;
 
         Calculate.Location = this;
+    }
+
+    /// <summary>
+    /// Berechnet den maximalen Gesamtertrag in Watt
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<DateTime, double> MaximumTotalPower()
+    {
+        Dictionary<DateTime, double> maxTotalPower = [];
+
+        foreach (var power in Roofs.Select(roof => roof.Earning()).SelectMany(earning => earning))
+        {
+            if (maxTotalPower.ContainsKey(power.Key))
+            {
+                maxTotalPower[power.Key] += power.Value;
+            }
+            else
+            {
+                maxTotalPower.Add(power.Key, power.Value);
+            }
+        }
+
+        return maxTotalPower;
+    }
+
+    /// <summary>
+    /// Berechnet den maximale Energy in kWh
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<DateTime, double> MaximumTotalEnergy()
+    {
+        var totalEnergy = 0.0;
+        var maxPower = MaximumTotalPower();
+        var maxTotalEnergy = new Dictionary<DateTime, double>();
+
+        foreach (var power in maxPower)
+        {
+            totalEnergy += power.Value * 0.06 / 1000;
+            maxTotalEnergy.Add(power.Key, totalEnergy);
+        }
+
+        return maxTotalEnergy;
     }
 }

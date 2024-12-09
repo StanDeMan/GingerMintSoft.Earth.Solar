@@ -25,5 +25,10 @@ namespace GingerMintSoft.Earth.Location.Solar.Generator
         {
             Panel.Clear();
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Panel.GetEnumerator();
+        }
     }
 }

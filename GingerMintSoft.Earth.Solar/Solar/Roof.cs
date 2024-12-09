@@ -71,7 +71,12 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <returns></returns>
         public Dictionary<DateTime, double> Earning()
         {
-            return Radiation!.ToDictionary(dataPoint => dataPoint.Key, dataPoint => dataPoint.Value * GeneratorData());
+            var generatorData = GeneratorData();
+
+            return Radiation!.ToDictionary(
+                dataPoint => dataPoint.Key,
+                dataPoint => dataPoint.Value * generatorData);
+
         }
     }
 }

@@ -20,5 +20,10 @@ namespace GingerMintSoft.Earth.Location.Solar
         {
             Roof!.Remove(roof);
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Roof!.GetEnumerator();
+        }
     }
 }
