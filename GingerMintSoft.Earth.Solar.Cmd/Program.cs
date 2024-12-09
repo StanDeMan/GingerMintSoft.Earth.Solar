@@ -85,9 +85,9 @@ namespace GingerMintSoft.Earth.Location.Cmd
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");
             Console.WriteLine("Stunde:Minute\tStrahlung [W/m²]");
 
-            var solarDailyRadiationFromSunRiseTillSunSet = powerPlant.Calculate.Radiation(date);
+            var solarRadiationFromSunRiseTillSunSet = powerPlant.Calculate.Radiation(date);
 
-            foreach (var solarMinutelyRadiation in solarDailyRadiationFromSunRiseTillSunSet)
+            foreach (var solarMinutelyRadiation in solarRadiationFromSunRiseTillSunSet)
             {
                 Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
             }
@@ -102,7 +102,14 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 Console.WriteLine($"Roof tilt: {roof.Tilt}");
                 Console.WriteLine($"Alignment of the system's roof generator: {roof.Azimuth + roof.AzimuthDeviation}");
 
-                foreach (var data in roof.Earning!)
+                foreach (var data in roof.Radiation!)
+                {
+                    Console.WriteLine($"{data.Key:HH:mm}\t{data.Value:F2}");
+                }
+
+                Console.WriteLine("---------------Roof Generator Data");
+
+                foreach (var data in roof.Earning())
                 {
                     Console.WriteLine($"{data.Key:HH:mm}\t{data.Value:F2}");
                 }
