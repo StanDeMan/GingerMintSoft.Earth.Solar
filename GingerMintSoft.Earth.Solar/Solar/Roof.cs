@@ -1,4 +1,6 @@
-﻿namespace GingerMintSoft.Earth.Location.Solar
+﻿using GingerMintSoft.Earth.Location.Solar.Generator;
+
+namespace GingerMintSoft.Earth.Location.Solar
 {
     public class Roof
     {
@@ -42,6 +44,14 @@
         /// </summary>
         public double AzimuthDeviation { get; init; }
 
+        /// <summary>
+        /// Solarmodule
+        /// </summary>
+        public Panels Panels { get; set; } = new Panels();
+
+        /// <summary>
+        /// Ertrag in Watt pro m² abhängig vom Wirkungsgrad und der Fläche des Solarmoduls
+        /// </summary>
         public Dictionary<DateTime, double>? Earning { get; set; }
     }
 }
