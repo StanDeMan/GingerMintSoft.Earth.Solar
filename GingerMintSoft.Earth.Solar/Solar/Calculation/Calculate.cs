@@ -212,7 +212,7 @@ public class Calculate
             (Math.Cos(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(latitude)))
         );
 
-        if (hourAngle > 0) solarAzimuth = 360 - RadianToDegree(solarAzimuth);
+        if (hourAngle > 0) solarAzimuth = 2 * Math.PI - solarAzimuth;
 
         return (RadianToDegree(solarAltitude), RadianToDegree(solarAzimuth));
     }
@@ -271,9 +271,7 @@ public class Calculate
             Math.Sin(DegreeToRadian(roofTilt)) * 
             Math.Cos(DegreeToRadian((solarAzimuth - roofAzimuth + 360) % 360)));
 
-        double cosIncidenceAngle = Math.Cos(incidenceAngle);
-        cosIncidenceAngle = Math.Max(0, cosIncidenceAngle); // Negative Werte ignorieren
-        atmosphericTransmission *= cosIncidenceAngle;
+        atmosphericTransmission *= Math.Cos(incidenceAngle);
 
         return atmosphericTransmission <= 0 ? 0 : atmosphericTransmission;
     }
