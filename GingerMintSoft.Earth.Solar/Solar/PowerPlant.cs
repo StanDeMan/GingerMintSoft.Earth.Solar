@@ -34,18 +34,21 @@ public class PowerPlant()
     {
         Dictionary<DateTime, double> maxTotalPower = [];
 
-        foreach (var power in Roofs.Select(roof => roof.Earning()).SelectMany(earning => earning))
+        foreach (var roof in Roofs)
         {
-            if (maxTotalPower.ContainsKey(power.Key))
+            foreach (var power in roof.EarningData!)
             {
-                maxTotalPower[power.Key] += power.Value;
-            }
-            else
-            {
-                maxTotalPower.Add(power.Key, power.Value);
+                if (maxTotalPower.ContainsKey(power.Key))
+                {
+                    maxTotalPower[power.Key] += power.Value;
+                }
+                else
+                {
+                    maxTotalPower.Add(power.Key, power.Value);
+                }
             }
         }
-
+        
         return maxTotalPower;
     }
 
