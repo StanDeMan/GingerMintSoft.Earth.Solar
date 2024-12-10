@@ -1,4 +1,5 @@
 ﻿using GingerMintSoft.Earth.Location.Solar.Generator;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace GingerMintSoft.Earth.Location.Solar
 {
@@ -63,7 +64,7 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// Fläche der Solarmodule multipliziert mit dem Wirkungsgrad
         /// </summary>
         /// <returns></returns>
-        public double GeneratorData()
+        public double GeneratorParam()
         {
             if(!Panels.Panel.Any()) throw new ArgumentOutOfRangeException (nameof(Panels));
 
@@ -76,11 +77,11 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <returns></returns>
         public Dictionary<DateTime, double> Earning()
         {
-            var generatorData = GeneratorData();
+            var generatorFeature = GeneratorParam();
 
             return EarningData = Radiation!.ToDictionary(
                 dataPoint => dataPoint.Key,
-                dataPoint => dataPoint.Value * generatorData);
+                dataPoint => dataPoint.Value * generatorFeature);
         }
     }
 }
