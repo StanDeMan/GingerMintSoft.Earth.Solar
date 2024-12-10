@@ -137,17 +137,17 @@ public class RoofsTest
         }
 
         var testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 3");
-        var testData = testRoof!.GeneratorData();
+        var testData = testRoof!.GeneratorParam();
 
         Assert.AreEqual(3.25, testData);
 
         testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 2");
-        testData = testRoof!.GeneratorData();
+        testData = testRoof!.GeneratorParam();
 
         Assert.AreEqual(1.26, testData);
 
         testRoof = _roofs.Roof!.Find(roof => roof.Name == "Test Roof 1");
-        testData = testRoof!.GeneratorData();
+        testData = testRoof!.GeneratorParam();
 
         Assert.AreEqual(0.42, testData);
     }
