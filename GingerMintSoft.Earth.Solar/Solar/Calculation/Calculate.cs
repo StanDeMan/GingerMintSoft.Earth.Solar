@@ -265,10 +265,15 @@ public class Calculate
         if (solarAltitude <= 0) return 0; // Keine Einstrahlung bei negativer Sonnenhöhe
 
         double incidenceAngle = Math.Acos(
-            Math.Sin(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(roofTilt)) +
-            Math.Cos(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(roofTilt)) * Math.Cos(DegreeToRadian(solarAzimuth - roofAzimuth)));
+            Math.Sin(DegreeToRadian(solarAltitude)) * 
+            Math.Cos(DegreeToRadian(roofTilt)) +
+            Math.Cos(DegreeToRadian(solarAltitude)) * 
+            Math.Sin(DegreeToRadian(roofTilt)) * 
+            Math.Cos(DegreeToRadian((solarAzimuth - roofAzimuth + 360) % 360)));
 
-        atmosphericTransmission = atmosphericTransmission * Math.Cos(incidenceAngle);
+        double cosIncidenceAngle = Math.Cos(incidenceAngle);
+        cosIncidenceAngle = Math.Max(0, cosIncidenceAngle); // Negative Werte ignorieren
+        atmosphericTransmission *= cosIncidenceAngle;
 
         return atmosphericTransmission <= 0 ? 0 : atmosphericTransmission;
     }
