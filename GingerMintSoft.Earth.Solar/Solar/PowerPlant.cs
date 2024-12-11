@@ -1,10 +1,30 @@
-﻿using GingerMintSoft.Earth.Location.Solar.Calculation;
+﻿using System.Diagnostics.CodeAnalysis;
+using GingerMintSoft.Earth.Location.Solar.Calculation;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace GingerMintSoft.Earth.Location.Solar;
 
 public class PowerPlant()
 {
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public struct Power
+    {
+        public const double W = 1.0;
+        public const double kW = W / 1000;
+        public const double MW = kW / 1000;
+    }
+
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    public struct Energy
+    {
+        public const double Wh = 60.0 / 1000;
+        // ReSharper disable once InconsistentNaming
+        public const double kWh = Wh / 1000;
+        public const double MWh = kWh / 1000;
+    }
+
     public string Name { get; set; } = string.Empty;
     public int Altitude { get; set; }
     public double Latitude { get; set; }
@@ -31,7 +51,7 @@ public class PowerPlant()
     /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumPower()
+    public Dictionary<DateTime, double> MaximumPower(double factor = Power.W)
     {
         Dictionary<DateTime, double> maxTotalPower = [];
 
@@ -39,11 +59,11 @@ public class PowerPlant()
         {
             if (maxTotalPower.ContainsKey(power.Key))
             {
-                maxTotalPower[power.Key] += power.Value;
+                maxTotalPower[power.Key] += power.Value * factor;
             }
             else
             {
-                maxTotalPower.Add(power.Key, power.Value);
+                maxTotalPower.Add(power.Key, power.Value * factor);
             }
         }
         
@@ -55,7 +75,7 @@ public class PowerPlant()
     /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumEnergy()
+    public Dictionary<DateTime, double> MaximumEnergy(double factor = Energy.kWh)
     {
         var totalEnergy = 0.0;
         var maxPower = MaximumPower();
@@ -63,7 +83,7 @@ public class PowerPlant()
 
         foreach (var power in maxPower)
         {
-            totalEnergy += power.Value * 0.06 / 1000;
+            totalEnergy += power.Value * factor;
             maxTotalEnergy.Add(power.Key, totalEnergy);
         }
 
