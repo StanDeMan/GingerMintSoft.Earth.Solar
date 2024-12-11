@@ -2,9 +2,12 @@
 
 public class Calculate
 {
-    private const double SolarConstant = 1361; // Solarkonstante in W/m²
-    private const double OpticalDepth = 0.2;    // Typischer Wert für saubere Luft
-
+    private const double DaysPerYear = 365.0;                   // Tage pro Jahr als Näherung
+    private const double EarthAxisTilt = 23.44;                 // Neigung der Erdachse in Grad
+    private const double SolarConstant = 1361;                  // Solarkonstante in W/m²
+    private const double OpticalDepth = 0.2;                    // Typischer Wert für saubere Luft
+    private const double AirScaleHight = 8500.0;                // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
+    private const double AirAltAdjustmentFactor = -0.0001184;    // Luftdichte nimmt mit zunehmender Höhe ab
     /// <summary>
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
@@ -132,6 +135,7 @@ public class Calculate
     /// <param name="altitude">Höhe des Messpunktes</param>
     /// <param name="dateTime">Zu dieser Zeit</param>
     /// <returns>Solarstrahlung in W/m²</returns>
+    /// see cref="https://de.wikipedia.org/wiki/Sonnenstrahlung"
     public double Irradiation(
         double latitude,
         double longitude,
@@ -146,7 +150,7 @@ public class Calculate
 
         // Luftmassenindex basierend auf der Höhe und Sonnenstand
         double airMass = 1 / Math.Sin(solarElevation * Math.PI / 180); // Näherung für flache Winkel
-        airMass *= Math.Exp(-altitude / 8500); // Höhenkorrektur
+        airMass *= Math.Exp(-altitude / AirScaleHight); // Höhenkorrektur
 
         // Solarstrahlung unter Berücksichtigung der Atmosphäre
         return SolarConstant * Math.Exp(-OpticalDepth * airMass);
@@ -159,6 +163,7 @@ public class Calculate
     /// <param name="longitude">Breitengrad</param>
     /// <param name="dateTime">Zu dieser Zeit</param>
     /// <returns>Sonnenhöhe in Grad</returns>
+    /// see cref="https://solarsena.com/solar-elevation-angle-altitude/"
     private double Elevation(
         double latitude,
         double longitude,
@@ -166,7 +171,7 @@ public class Calculate
     {
         // Berechnung der Sonnenhöhe (Elevation) basierend auf astronomischen Gleichungen
         double dayOfYear = dateTime.DayOfYear;
-        double declination = 23.45 * Math.Sin(360 / 365.0 * (dayOfYear - 81) * Math.PI / 180);
+        double declination = EarthAxisTilt * Math.Sin(360 / DaysPerYear * (dayOfYear - 81) * Math.PI / 180);
 
         double timeInHours = dateTime.Hour + dateTime.Minute / 60.0;
         double solarTime = timeInHours + 4 * longitude / 60.0;  // Solarzeit-Korrektur
@@ -198,7 +203,7 @@ public class Calculate
         double dayOfYear = time.DayOfYear;
         double hourOfDay = time.Hour + time.Minute / 60.0 - timezoneOffset;
 
-        double declination = 23.45 * Math.Sin(2 * Math.PI / 365 * (dayOfYear - 81));
+        double declination = EarthAxisTilt * Math.Sin(2 * Math.PI / DaysPerYear * (dayOfYear - 81));
         double solarTime = hourOfDay + (4 * (longitude - 15 * timezoneOffset)) / 60.0;
         double hourAngle = 15 * (solarTime - 12);
 
@@ -235,9 +240,10 @@ public class Calculate
     /// <param name="airMass"></param>
     /// <param name="altitude"></param>
     /// <returns></returns>
+    /// see cref="https://www.pveducation.org/pvcdrom/properties-of-sunlight/air-mass"
     private double AtmosphericTransmission(double airMass, double altitude)
     {
-        double altitudeFactor = Math.Exp(-0.0001184 * altitude); // Höhenanpassung
+        double altitudeFactor = Math.Exp(AirAltAdjustmentFactor * altitude); // Höhenanpassung
         
         return Math.Pow(0.7, airMass * altitudeFactor); // Abschwächung durch die Atmosphäre
     }
@@ -249,6 +255,7 @@ public class Calculate
     /// <param name="roofTilt"></param>
     /// <param name="roofAzimuth"></param>
     /// <returns></returns>
+    /// see cref="https://de.mathworks.com/matlabcentral/fileexchange/19791-solar-radiation"
     private double RadiationOnTiltedSurface(DateTime currentDateTime, double roofTilt, double roofAzimuth)
     {
         if (Location == null) throw new ArgumentNullException(nameof(Location));
