@@ -91,7 +91,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 }
             });
 
-            var date = new DateTime(2024, 6, 21, 0, 0, 0, DateTimeKind.Utc);
+            var date = new DateTime(2024, 12, 21, 0, 0, 0, DateTimeKind.Utc);
 
             // Calculate solar radiation from sunrise to sunset
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");

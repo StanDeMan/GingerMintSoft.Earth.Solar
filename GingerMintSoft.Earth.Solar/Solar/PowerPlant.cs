@@ -28,9 +28,10 @@ public class PowerPlant()
 
     /// <summary>
     /// Berechnet den maximalen Gesamtertrag in Watt
+    /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumTotalPower()
+    public Dictionary<DateTime, double> MaximumPower()
     {
         Dictionary<DateTime, double> maxTotalPower = [];
 
@@ -51,12 +52,13 @@ public class PowerPlant()
 
     /// <summary>
     /// Berechnet den maximale Energy in kWh
+    /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumTotalEnergy()
+    public Dictionary<DateTime, double> MaximumEnergy()
     {
         var totalEnergy = 0.0;
-        var maxPower = MaximumTotalPower();
+        var maxPower = MaximumPower();
         var maxTotalEnergy = new Dictionary<DateTime, double>();
 
         foreach (var power in maxPower)
