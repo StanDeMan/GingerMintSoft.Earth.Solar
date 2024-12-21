@@ -1,28 +1,29 @@
-Um die Erträge einer PV-Anlage (Photovoltaik z.B. mit Ost-West-Ausrichtung) minutengenau zu berechnen, benötigen wir folgende Informationen:
+In order to calculate the yields of a PV system (photovoltaic e.g. with east-west orientation) to the minute, we need the following information:
 
-1. Eingangsdaten:
+1. Input data:
 
-    Geokoordinaten (Breite und Länge): Für die Sonnenstandsberechnung.
-    Installierte Leistung (kWp): Die Nennleistung der PV-Anlage.
-    Neigungswinkel der Module: Zum Beispiel 30° (häufig verwendeter Winkel).
-    Ausrichtung (Ost-West): Module zeigen in beide Richtungen.
-    Wetter- und Atmosphärendaten:
-        Direkte und diffuse Strahlung (W/m²).
-        Temperatur (°C), da der Wirkungsgrad temperaturabhängig ist.
-    Systemverluste: Ein pauschaler Wert von etwa 10-15 % (z. B. durch Wechselrichter, Verkabelung).
+   Geocoordinates (latitude and longitude): For calculating the position of the sun.
+    Installed power (kWp): The nominal power of the PV system.
+    Inclination angle of the modules: For example, 30° (commonly used angle).
+    Orientation (east-west): Modules point in both directions.
+    Weather and atmospheric data:
+        Direct and diffuse radiation (W/m²).
+        Temperature (°C), as the efficiency is temperature-dependent.
+    System losses: A general value of around 10-15 % (e.g. due to inverters, cabling).
 
-2. Schritte für die Berechnung:
 
-    Sonnenstand berechnen: Basierend auf Geokoordinaten, Datum und Uhrzeit (Sonnenhöhe und Azimut).
-    Einstrahlung auf Module bestimmen:
-        Globalstrahlung (direkt + diffus) je Minute auf die Modulflächen umrechnen.
-        Winkelabhängigkeit der Einstrahlung berücksichtigen (Cosinusregel).
-    Temperaturabhängiger Wirkungsgrad: Berechnung der Leistungsminderung durch hohe Temperaturen.
-    Ertragsberechnung:
-        Ertrag=Einstrahlung auf Module×Wirkungsgrad×Installierte LeistungErtrag=Einstrahlung auf Module×Wirkungsgrad×Installierte Leistung.
-    Aggregation: Minütliche Werte auf den Tagesertrag summieren.
+2.  Steps for the calculation:
 
-Berechneter Ertrag eines Ost- Westdaches am 21.06.2024
+    Calculate the position of the sun: Based on geocoordinates, date and time (solar altitude and azimuth).
+    Determine irradiation on modules:
+        Convert global radiation (direct + diffuse) per minute to the module surfaces.
+        Take into account the angle dependence of the irradiation (cosine rule).
+    Temperature-dependent efficiency: Calculate the reduction in output due to high temperatures.
+    Yield calculation:
+        Yield=irradiation on modules×efficiency×installed powerYield=irradiation on modules×efficiency×installed power.
+    Aggregation: Add up minute-by-minute values to the daily yield.
+
+Calculated yield of an east-west roof on 21.06.
 
    ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
 
