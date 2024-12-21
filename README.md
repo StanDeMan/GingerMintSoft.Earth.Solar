@@ -23,7 +23,9 @@ In order to calculate the yields of a PV system (photovoltaic e.g. with east-wes
         Yield=irradiation on modules×efficiency×installed powerYield=irradiation on modules×efficiency×installed power.
     Aggregation: Add up minute-by-minute values to the daily yield.
 
+
 Calculated yield of an east-west roof on 21.06.
+
 
    ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
 
