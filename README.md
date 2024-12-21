@@ -21,3 +21,6 @@ Um die Erträge einer PV-Anlage (Photovoltaik z.B. mit Ost-West-Ausrichtung) min
     Ertragsberechnung:
         Ertrag=Einstrahlung auf Module×Wirkungsgrad×Installierte LeistungErtrag=Einstrahlung auf Module×Wirkungsgrad×Installierte Leistung.
     Aggregation: Minütliche Werte auf den Tagesertrag summieren.
+
+   ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
+
