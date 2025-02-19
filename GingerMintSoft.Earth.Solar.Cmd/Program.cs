@@ -15,6 +15,8 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 7.9085366169705145      // Längengrad in Dezimalgrad
             );
 
+            // multiple roof locations with different modules possible
+            // east orientation roof generator configuration
             powerPlant.Roofs.Add(new Roof()
             {
                 Name = "Ostdach",
@@ -53,6 +55,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 }
             });
 
+            // west orientation roof generator configuration
             powerPlant.Roofs.Add(new Roof()
             {
                 Name = "Westdach",
@@ -91,7 +94,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 }
             });
 
-            var date = new DateTime(2024, 12, 21, 0, 0, 0, DateTimeKind.Utc);
+            var date = new DateTime(2025, 02, 19, 0, 0, 0, DateTimeKind.Utc);
 
             // Calculate solar radiation from sunrise to sunset
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");
