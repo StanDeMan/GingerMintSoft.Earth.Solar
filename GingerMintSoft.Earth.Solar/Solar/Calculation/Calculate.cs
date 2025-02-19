@@ -2,12 +2,12 @@
 
 public class Calculate
 {
-    private const double DaysPerYear = 365.0;                   // Tage pro Jahr als Näherung
-    private const double EarthAxisTilt = 23.44;                 // Neigung der Erdachse in Grad
-    private const double SolarConstant = 1361;                  // Solarkonstante in W/m²
-    private const double OpticalDepth = 0.2;                    // Typischer Wert für saubere Luft
-    private const double AirScaleHight = 8500.0;                // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
-    private const double AirAltAdjustmentFactor = -0.0001184;    // Luftdichte nimmt mit zunehmender Höhe ab
+    private const double DaysPerYear = 365.0;                       // Tage pro Jahr als Näherung
+    private const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
+    private const double SolarConstant = 1361;                      // Solarkonstante in W/m²
+    private const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
+    private const double AirScaleHight = 8500.0;                    // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
+    private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
     /// <summary>
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
