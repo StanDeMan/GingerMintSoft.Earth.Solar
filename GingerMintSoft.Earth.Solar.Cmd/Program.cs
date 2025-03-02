@@ -22,7 +22,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 Name = "Ostdach",
                 Azimuth = Roof.CompassPoint.East,
                 AzimuthDeviation = 15.0,
-                Tilt = 45.0,
+                Tilt = 43.0,
                 Panels = new Panels()
                 {
                     Panel =
@@ -61,7 +61,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 Name = "Westdach",
                 Azimuth = Roof.CompassPoint.West,
                 AzimuthDeviation = 15.0,
-                Tilt = 45.0,
+                Tilt = 43.0,
                 Panels = new Panels()
                 {
                     Panel =
@@ -94,7 +94,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
                 }
             });
 
-            var date = new DateTime(2025, 02, 19, 0, 0, 0, DateTimeKind.Utc);
+            var date = new DateTime(2025, 03, 02, 0, 0, 0, DateTimeKind.Utc);
 
             // Calculate solar radiation from sunrise to sunset
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");
