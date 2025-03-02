@@ -1,0 +1,6 @@
+@GingerMintSoft.Earth.Location.Service_HostAddress = http://localhost:5083
+
+GET {{GingerMintSoft.Earth.Location.Service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
