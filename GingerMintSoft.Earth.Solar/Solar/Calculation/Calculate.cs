@@ -47,6 +47,7 @@ public class Calculate
                 actDay.SunSet);
 
             roof.Radiation = roofRadiation;
+            roof.EarningData = roof.Earning();
         }
 
         return Location.Roofs;

@@ -58,7 +58,7 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <summary>
         /// Ertrag in Watt pro Generator abhängig vom Wirkungsgrad und der Fläche des Solarmoduls
         /// </summary>
-        public Dictionary<DateTime, double>? EarningData { get; private set; }
+        public Dictionary<DateTime, double>? EarningData { get; internal set; }
 
         /// <summary>
         /// Fläche der Solarmodule multipliziert mit dem Wirkungsgrad

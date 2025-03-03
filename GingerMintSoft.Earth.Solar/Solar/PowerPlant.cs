@@ -34,6 +34,10 @@ public class PowerPlant()
     public Calculate Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
+    
+    public Dictionary<DateTime,double>? PowerEarning { get; set; }
+    public Dictionary<DateTime, double>? EnergyEarning { get; set; }
+
     public PowerPlant(string name, int altitude, double latitude, double longitude) : this()
     {
         Name = name;

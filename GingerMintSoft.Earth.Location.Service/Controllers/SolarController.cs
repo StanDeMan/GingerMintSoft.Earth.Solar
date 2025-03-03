@@ -1,7 +1,8 @@
 ﻿using GingerMintSoft.Earth.Location.Service.Data;
-using GingerMintSoft.Earth.Location.Solar.Generator;
 using GingerMintSoft.Earth.Location.Solar;
+using GingerMintSoft.Earth.Location.Solar.Generator;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GingerMintSoft.Earth.Location.Service.Controllers
 {
@@ -11,8 +12,8 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
         private readonly ILogger<SolarController> _logger = logger;
 
         [HttpPost]
-        [Route("Powerplant/Data")]
-        public async Task<ActionResult> Post([FromBody] PowerplantData powerPlantData)
+        [Route("Powerplant/Data/ForDate/{date}")]
+        public async Task<ActionResult> Post([FromQuery] DateOnly? date, [FromBody] PowerplantData powerPlantData)
         {
             try
             {
@@ -103,17 +104,20 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                     }
                 });
 
-                var date = new DateTime(2025, 03, 02, 0, 0, 0, DateTimeKind.Utc);
+                var utcNow = DateTime.UtcNow;
 
-                var task = Task.Run(() => powerPlant.Calculate.Radiation(date));
-                var solarRadiationFromSunRiseTillSunSet = await task;
+                // Converting DateOnly to DateTime by providing Time Info
+                var dateTime = date?.ToDateTime(TimeOnly.Parse("00:00 AM")) 
+                               ?? new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                
+                await Task.Run(() => powerPlant.Calculate.RadiationOnTiltedPanel(dateTime.ToUniversalTime()));
+                
+                //var plantData = await task;
 
-                foreach (var solarMinutelyRadiation in solarRadiationFromSunRiseTillSunSet)
-                {
-                    Console.WriteLine($"{solarMinutelyRadiation.Key:HH:mm}\t{solarMinutelyRadiation.Value:F2}");
-                }
+                //powerPlant.EnergyEarning = powerPlant.MaximumEnergy();
+                powerPlant.PowerEarning = powerPlant.MaximumPower();
 
-                return new CreatedResult($"/Powerplant/Data", powerPlantData);
+                return new CreatedResult($"/Powerplant/Data", JsonConvert.SerializeObject(powerPlant.PowerEarning));
             }
             catch (Exception e)
             {
