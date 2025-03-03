@@ -34,7 +34,6 @@ public class PowerPlant()
     public Calculate Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
-    
     public Dictionary<DateTime,double>? PowerEarning { get; set; }
     public Dictionary<DateTime, double>? EnergyEarning { get; set; }
 
