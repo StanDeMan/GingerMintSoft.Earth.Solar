@@ -12,8 +12,8 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
         private readonly ILogger<SolarController> _logger = logger;
 
         [HttpPost]
-        [Route("Powerplant/Data/ForDate/{date}")]
-        public async Task<ActionResult> Post([FromQuery] DateOnly? date, [FromBody] PowerplantData powerPlantData)
+        [Route("Powerplant/Data/ForDate")]
+        public async Task<ActionResult> Post([FromBody] PowerplantData powerPlantData, [FromQuery] DateTime? day)
         {
             try
             {
@@ -104,13 +104,13 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                     }
                 });
 
-                var utcNow = DateTime.UtcNow;
-
-                // Converting DateOnly to DateTime by providing Time Info
-                var dateTime = date?.ToDateTime(TimeOnly.Parse("00:00 AM")) 
-                               ?? new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                var utcNow = DateTime.Now.ToUniversalTime();
                 
-                await Task.Run(() => powerPlant.Calculate.RadiationOnTiltedPanel(dateTime.ToUniversalTime()));
+                var dateTime = day.HasValue ? 
+                    new DateTime(day.Value.Year, day.Value.Month, day.Value.Day, 0, 0, 0, DateTimeKind.Utc) : 
+                    new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                
+                await Task.Run(() => powerPlant.Calculate.RadiationOnTiltedPanel(dateTime));
                 
                 //var plantData = await task;
 
