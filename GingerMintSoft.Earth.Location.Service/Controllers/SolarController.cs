@@ -1,5 +1,4 @@
-﻿using GingerMintSoft.Earth.Location.Service.Data;
-using GingerMintSoft.Earth.Location.Solar;
+﻿using GingerMintSoft.Earth.Location.Solar;
 using GingerMintSoft.Earth.Location.Solar.Generator;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,9 +10,15 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
     {
         private readonly ILogger<SolarController> _logger = logger;
 
-        [HttpPost]
-        [Route("Powerplant/Data/ForDate")]
-        public async Task<ActionResult> Post([FromBody] PowerplantData powerPlantData, [FromQuery] DateTime? day)
+        //[HttpPost]
+        //[Route("Powerplant/Data/ForDay/{day}")]
+        //public async Task<ActionResult> Post([FromBody] PowerplantData powerPlantData)
+        //{
+        //}
+
+        [HttpGet]
+        [Route("Powerplant/Yield/ForDay")]
+        public async Task<ActionResult> GetPowerplantData([FromQuery] DateTime? day)
         {
             try
             {
@@ -24,6 +29,8 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                     48.1051268096319,       // Breitengrad in Dezimalgrad
                     7.9085366169705145      // Längengrad in Dezimalgrad
                 );
+
+                //var json = JsonConvert.SerializeObject(powerPlant, Formatting.Indented, new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
 
                 // multiple roof locations with different modules possible
                 // east orientation roof generator configuration
