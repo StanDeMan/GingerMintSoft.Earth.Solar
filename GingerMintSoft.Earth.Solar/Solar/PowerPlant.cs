@@ -37,6 +37,11 @@ public class PowerPlant()
     public Dictionary<DateTime,double>? PowerEarning { get; set; }
     public Dictionary<DateTime, double>? EnergyEarning { get; set; }
 
+    public void ExecCalculation()
+    {
+        Calculate.Location = this;
+    }
+
     public PowerPlant(string? name, int altitude, double latitude, double longitude) : this()
     {
         Name = name;
@@ -49,11 +54,11 @@ public class PowerPlant()
     }
 
     /// <summary>
-    /// Berechnet den maximalen Gesamtertrag in Watt
+    /// Berechnet den Gesamtertrag in Watt über einen Tag
     /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumPower(double factor = Power.W)
+    public Dictionary<DateTime, double> PowerOverDay(double factor = Power.W)
     {
         Dictionary<DateTime, double> maxTotalPower = [];
 
@@ -73,14 +78,14 @@ public class PowerPlant()
     }
 
     /// <summary>
-    /// Berechnet den maximale Energy in kWh
+    /// Berechnet die Energy in kWh über einen Tag
     /// der gesamten Analage (alle Generatoren)
     /// </summary>
     /// <returns></returns>
-    public Dictionary<DateTime, double> MaximumEnergy(double factor = Energy.kWh)
+    public Dictionary<DateTime, double> EnergyOverDay(double factor = Energy.kWh)
     {
         var totalEnergy = 0.0;
-        var maxPower = MaximumPower();
+        var maxPower = PowerOverDay();
         var maxTotalEnergy = new Dictionary<DateTime, double>();
 
         foreach (var power in maxPower)

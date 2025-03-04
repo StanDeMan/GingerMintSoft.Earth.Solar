@@ -133,7 +133,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
             }
 
             Console.WriteLine("---------------Total Roof Generator power");
-            var totalPower = powerPlant.MaximumPower();
+            var totalPower = powerPlant.PowerOverDay();
 
             foreach(var power in totalPower)
             {
@@ -141,7 +141,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
             }
 
             Console.WriteLine("---------------Total Roof Generator energy");
-            var totalEnergy = powerPlant.MaximumEnergy();
+            var totalEnergy = powerPlant.EnergyOverDay();
             
             foreach (var energy in totalEnergy)
             {
