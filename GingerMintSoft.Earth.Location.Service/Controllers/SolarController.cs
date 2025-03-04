@@ -1,7 +1,10 @@
-﻿using GingerMintSoft.Earth.Location.Solar;
-using GingerMintSoft.Earth.Location.Solar.Generator;
+﻿using GingerMintSoft.Earth.Location.Service.Data;
+using GingerMintSoft.Earth.Location.Solar;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Panel = GingerMintSoft.Earth.Location.Solar.Generator.Panel;
+using Panels = GingerMintSoft.Earth.Location.Solar.Generator.Panels;
+using Roof = GingerMintSoft.Earth.Location.Solar.Roof;
 
 namespace GingerMintSoft.Earth.Location.Service.Controllers
 {
@@ -10,11 +13,77 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
     {
         private readonly ILogger<SolarController> _logger = logger;
 
-        //[HttpPost]
-        //[Route("Powerplant/Data/ForDay/{day}")]
-        //public async Task<ActionResult> Post([FromBody] PowerplantData powerPlantData)
-        //{
-        //}
+        [HttpPost]
+        [Route("Powerplant/")]
+        public async Task<ActionResult> PostPowerplant([FromBody] Installations? installations)
+        {
+            try
+            {
+                if (installations == null) return BadRequest("No data provided");
+                if (installations.Powerplants == null) return BadRequest("No power plants provided");
+
+                var plants = installations.Powerplants;
+
+                foreach (var plant in plants)
+                {
+                    var powerPlant = new PowerPlant(
+                        plant.Name,
+                        plant.Altitude,             // Höhe über NN in Metern
+                        plant.Latitude,             // Breitengrad in Dezimalgrad
+                        plant.Longitude             // Längengrad in Dezimalgrad
+                    );
+                }
+
+                return new CreatedResult($"/Powerplant", installations);
+            }
+            catch (Exception e)
+            {
+                var error = $"Cannot create power plant: {e}";
+                _logger.LogError(error);
+
+                return Conflict(error);
+            }
+        }
+
+        [HttpPost]
+        [Route("Powerplant/Roofs")]
+        public async Task<ActionResult> PostRoofs([FromBody] Service.Data.Roofs? roofs)
+        {
+            try
+            {
+                if (roofs == null) return BadRequest("No data provided");
+
+                //var powerPlant!.Roofs = roofs.Roof!.Select(roof => new Roof()
+                //{
+                //    Name = roof.Name,
+                //    Azimuth = roof.Azimuth,
+                //    AzimuthDeviation = roof.AzimuthDeviation,
+                //    Tilt = roof.Tilt,
+                //    Panels = new Panels()
+                //    {
+                //        Panel =
+                //        [
+                //            ..from panel in roof.Panels!.Panel
+                //            select new Panel()
+                //            {
+                //                Name = panel.Name,
+                //                Area = panel.Area,
+                //                Efficiency = panel.Efficiency
+                //            }
+                //        ]
+                //    }
+                //}).ToList();
+
+                return new CreatedResult($"/Powerplant/Roofs", roofs);
+            }
+            catch (Exception e)
+            {
+                var error = $"Cannot create power plant roof(s): {e}";
+                _logger.LogError(error);
+
+                return Conflict(error);
+            }
+        }
 
         [HttpGet]
         [Route("Powerplant/Yield/ForDay")]
@@ -29,8 +98,6 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                     48.1051268096319,       // Breitengrad in Dezimalgrad
                     7.9085366169705145      // Längengrad in Dezimalgrad
                 );
-
-                //var json = JsonConvert.SerializeObject(powerPlant, Formatting.Indented, new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
 
                 // multiple roof locations with different modules possible
                 // east orientation roof generator configuration

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Locati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Location.Service", "GingerMintSoft.Earth.Location.Service\GingerMintSoft.Earth.Location.Service.csproj", "{B4572CFD-1D4F-4D59-A76E-8B32332F4B5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase", "DataStore\DataBase.csproj", "{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B4572CFD-1D4F-4D59-A76E-8B32332F4B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4572CFD-1D4F-4D59-A76E-8B32332F4B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4572CFD-1D4F-4D59-A76E-8B32332F4B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

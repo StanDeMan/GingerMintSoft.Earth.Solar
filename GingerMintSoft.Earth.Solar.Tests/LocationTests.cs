@@ -5,7 +5,7 @@ namespace GingerMintSoft.Earth.Location.Tests
     [TestClass]
     public sealed class LocationTests
     {
-        private const string PvTestPlantName = "TestPlant";
+        private const string? PvTestPlantName = "TestPlant";
 
         [TestMethod]
         public void TestLocation_Constructor_InitializesProperties()

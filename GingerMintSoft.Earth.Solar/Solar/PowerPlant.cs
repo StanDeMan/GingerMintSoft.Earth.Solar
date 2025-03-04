@@ -25,7 +25,7 @@ public class PowerPlant()
         public const double MWh = kWh / 1000;
     }
 
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; } = string.Empty;
     public int Altitude { get; set; }
     public double Latitude { get; set; }
     public double Longitude { get; set; }
@@ -37,7 +37,7 @@ public class PowerPlant()
     public Dictionary<DateTime,double>? PowerEarning { get; set; }
     public Dictionary<DateTime, double>? EnergyEarning { get; set; }
 
-    public PowerPlant(string name, int altitude, double latitude, double longitude) : this()
+    public PowerPlant(string? name, int altitude, double latitude, double longitude) : this()
     {
         Name = name;
         Altitude = altitude;
