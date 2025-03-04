@@ -8,7 +8,7 @@ namespace DataBase;
 public class FileStore : IDisposable, IFileStore
 {
     private const string DbName = "database";
-    private const string CollectionName = "plants";
+    private const string CollectionName = "Powerplants";
 
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")] 
     public bool IsRunning { get; set; }
