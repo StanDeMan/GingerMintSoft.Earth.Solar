@@ -71,7 +71,10 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
         {
             try
             {
-                _powerPlant = JsonConvert.DeserializeObject<PowerPlant>(JsonConvert.SerializeObject(await _plantStore.ReadByPlantIdAsync("WxHCombjzTaw")));
+                _powerPlant = JsonConvert
+                    .DeserializeObject<PowerPlant>(JsonConvert
+                        .SerializeObject(await _plantStore.ReadByPlantIdAsync("WxHCombjzTaw")));
+
                 _powerPlant.ExecCalculation();
 
                 var utcNow = DateTime.Now.ToUniversalTime();
