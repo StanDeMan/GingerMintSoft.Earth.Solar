@@ -10,7 +10,7 @@ using Roof = GingerMintSoft.Earth.Location.Solar.Roof;
 namespace GingerMintSoft.Earth.Location.Service.Controllers
 {
     [Route("Solar")]
-    public class SolarController(ILogger<SolarController> logger, IFileStore plantStore) : Controller
+    public class SolarController(IFileStore plantStore, ILogger<SolarController> logger) : Controller
     {
         private readonly IFileStore _plantStore = plantStore;
         private readonly ILogger<SolarController> _logger = logger;
@@ -24,6 +24,7 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                 if (installations == null) return BadRequest("No data provided");
                 if (installations.Powerplants == null) return BadRequest("No power plants provided");
 
+                //var test = await _plantStore.ReadByPlantIdAsync("WxHCombjzTaw");
                 var plants = installations.Powerplants;
 
                 foreach (var plant in plants)
