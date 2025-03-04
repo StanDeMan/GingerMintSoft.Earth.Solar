@@ -1,7 +1,8 @@
 {
   "Powerplants": [
     {
-      "name": "Eichstädt PV Anlage 1",
+      "PlantId": "WxHCombjzTaw",
+      "name": "Eichstädt PV Anlage Zuhause",
       "altitude": 232,
       "latitude": 48.1051268096319,
       "longitude": 7.9085366169705145,
@@ -15,22 +16,22 @@
             "count": 4,
             "panel": [
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               }
@@ -46,22 +47,22 @@
             "count": 4,
             "panel": [
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               },
               {
-                "name": "JA Solar JAM54S31 LR 420Wp Full Black PV Modul",
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
                 "area": 1.78,
                 "efficiency": 0.21
               }
