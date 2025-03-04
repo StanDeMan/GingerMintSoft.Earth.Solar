@@ -1,4 +1,5 @@
-﻿using GingerMintSoft.Earth.Location.Service.Data;
+﻿using DataBase;
+using GingerMintSoft.Earth.Location.Service.Data;
 using GingerMintSoft.Earth.Location.Solar;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,8 +10,9 @@ using Roof = GingerMintSoft.Earth.Location.Solar.Roof;
 namespace GingerMintSoft.Earth.Location.Service.Controllers
 {
     [Route("Solar")]
-    public class SolarController(ILogger<SolarController> logger) : Controller
+    public class SolarController(ILogger<SolarController> logger, IFileStore plantStore) : Controller
     {
+        private readonly IFileStore _plantStore = plantStore;
         private readonly ILogger<SolarController> _logger = logger;
 
         [HttpPost]

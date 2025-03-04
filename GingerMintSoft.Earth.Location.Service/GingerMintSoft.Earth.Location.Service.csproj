@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataStore\DataBase.csproj" />
     <ProjectReference Include="..\GingerMintSoft.Earth.Solar\GingerMintSoft.Earth.Location.csproj" />
   </ItemGroup>
 

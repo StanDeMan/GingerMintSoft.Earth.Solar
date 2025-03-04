@@ -1,4 +1,6 @@
 
+using DataBase;
+
 namespace GingerMintSoft.Earth.Location.Service
 {
     public class Program
@@ -12,6 +14,7 @@ namespace GingerMintSoft.Earth.Location.Service
             
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Services.AddSingleton<IFileStore, FileStore>();
 
             var app = builder.Build();
 
