@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Diagnostics.CodeAnalysis;
+using Serilog;
 using Newtonsoft.Json.Linq;
 using JsonFlatFileDataStore;
 
@@ -9,6 +10,7 @@ namespace DataBase
         private const string DbName = "database";
         private const string CollectionName = "plants";
 
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")] 
         public bool IsRunning { get; set; }
 
         private string? DataBaseName { get; } = DbName;
