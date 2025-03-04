@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using GingerMintSoft.Earth.Location.Solar.Calculation;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace GingerMintSoft.Earth.Location.Solar;
 
 public class PowerPlant()
@@ -45,7 +45,6 @@ public class PowerPlant()
         Longitude = longitude;
 
         TimeZoneOffset = TimeSpan.Zero;
-
         Calculate.Location = this;
     }
 
