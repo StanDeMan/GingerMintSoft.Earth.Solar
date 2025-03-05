@@ -4,11 +4,6 @@ namespace GingerMintSoft.Earth.Location.Solar.Generator
 {
     public class Panels
     {
-        /// <summary>
-        /// Anzahl der Solarmodule
-        /// </summary>
-        public int Count => Panel.Count;
-
         public List<Panel> Panel { get; set; } = [];
 
         public void Add(Panel panel)

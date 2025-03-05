@@ -13,7 +13,6 @@
           "azimuth": 90.0,
           "azimuthDeviation": 15.0,
           "panels": {
-            "count": 4,
             "panel": [
               {
                 "name": "JA Solar JAM54S31 LR 420Wp Full Black",
@@ -44,7 +43,6 @@
           "azimuth": 270.0,
           "azimuthDeviation": 15.0,
           "panels": {
-            "count": 4,
             "panel": [
               {
                 "name": "JA Solar JAM54S31 LR 420Wp Full Black",
