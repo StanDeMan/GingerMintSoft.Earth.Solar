@@ -77,10 +77,7 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                 _powerPlant = await InitializePowerPlant(plantId);
                 var roofs = await Task.Run(() => _powerPlant.Calculate.RadiationOnTiltedPanel(ProcessDate(day)));
 
-                foreach (var roof in roofs.ToList())
-                {
-                    roof.Radiation!.Clear();
-                }
+                roofs.ToList().ForEach(roof => roof.Radiation!.Clear());
 
                 return new CreatedResult($"Powerplants/{plantId}/Roofs/Energy/ForDay?day={day}",
                     JsonConvert.SerializeObject(roofs));
