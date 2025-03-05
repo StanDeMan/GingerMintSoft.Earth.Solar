@@ -37,9 +37,11 @@ public class PowerPlant()
     public Dictionary<DateTime,double>? PowerEarning { get; set; }
     public Dictionary<DateTime, double>? EnergyEarning { get; set; }
 
-    public void Initialize()
+    public PowerPlant Initialize()
     {
         Calculate.Location = this;
+
+        return this;
     }
 
     public PowerPlant(string? name, int altitude, double latitude, double longitude) : this()
