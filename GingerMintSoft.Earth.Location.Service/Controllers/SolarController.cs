@@ -63,6 +63,33 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
         }
 
         /// <summary>
+        /// Request power plant power for all roofs a day
+        /// </summary>
+        /// <param name="plantId">For this plant</param>
+        /// <param name="day">For this day</param>
+        /// <returns>Energy data per minute from sun rise till sun set for all roofs</returns>
+        [HttpGet]
+        [Route("Powerplants/{plantId}/Roofs/Power/ForDay")]
+        public async Task<ActionResult> GetRoofPowerForDay(string plantId, [FromQuery] DateTime? day)
+        {
+            try
+            {
+                _powerPlant = await InitializePowerPlant(plantId);
+                var roofs = await Task.Run(() => _powerPlant.Calculate.RadiationOnTiltedPanel(ProcessDate(day)));
+
+                return new CreatedResult($"Powerplants/{plantId}/Roofs/Energy/ForDay?day={day}", 
+                    JsonConvert.SerializeObject(roofs));
+            }
+            catch (Exception e)
+            {
+                var error = $"Cannot calculate power for all roofs at one day: {e}";
+                logger.LogError(error);
+
+                return Conflict(error);
+            }
+        }
+
+        /// <summary>
         /// Request power plant power data for a day
         /// </summary>
         /// <param name="plantId">For this plant</param>
