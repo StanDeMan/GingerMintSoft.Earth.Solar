@@ -6,7 +6,7 @@ public class Calculate
     private const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
     private const double SolarConstant = 1361;                      // Solarkonstante in W/m²
     private const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
-    private const double AirScaleHight = 8500.0;                    // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
+    private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
     private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
     /// <summary>
     /// Init Location on Greenwich Meridian
@@ -151,7 +151,7 @@ public class Calculate
 
         // Luftmassenindex basierend auf der Höhe und Sonnenstand
         double airMass = 1 / Math.Sin(solarElevation * Math.PI / 180); // Näherung für flache Winkel
-        airMass *= Math.Exp(-altitude / AirScaleHight); // Höhenkorrektur
+        airMass *= Math.Exp(-altitude / AirScaleHeight); // Höhenkorrektur
 
         // Solarstrahlung unter Berücksichtigung der Atmosphäre
         return SolarConstant * Math.Exp(-OpticalDepth * airMass);
