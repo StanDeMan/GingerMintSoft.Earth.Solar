@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GingerMintSoft.Earth.Locati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase", "DataStore\DataBase.csproj", "{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Tests", "Database.Tests\Database.Tests.csproj", "{FA0B2DA8-05BA-4E03-BB91-7EDC67CA01B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B42E0583-6847-19CA-0B0F-1F42CC51E1CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0B2DA8-05BA-4E03-BB91-7EDC67CA01B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0B2DA8-05BA-4E03-BB91-7EDC67CA01B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0B2DA8-05BA-4E03-BB91-7EDC67CA01B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0B2DA8-05BA-4E03-BB91-7EDC67CA01B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
