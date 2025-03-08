@@ -8,13 +8,12 @@ namespace GingerMintSoft.Earth.Location.Tests
     public sealed class CalculateTests
     {
         private Calculate? _calculate;
-        private PowerPlant? _location;
 
         [TestInitialize]
         public void Setup()
         {
-            _location = new PowerPlant("PV Plant", 100, 45.0, 90.0);
-            _calculate = new Calculate { Location = _location };
+            _calculate = new Calculate();
+            _calculate.InitLocation(new PowerPlant("PV Plant", 100, 45.0, 90.0));
         }
 
         [TestMethod]
