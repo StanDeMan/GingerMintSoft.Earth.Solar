@@ -10,7 +10,7 @@ namespace Database.Tests
         [TestMethod]
         public async Task TestInitDatabase()
         {
-// Solar power plant location
+            // Solar power plant location
             var powerPlant = new PowerPlant(
                 "Eichstädt PV Anlage",
                 232,                    // Höhe über NN in Metern
