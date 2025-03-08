@@ -2,66 +2,65 @@
 using GingerMintSoft.Earth.Location.Solar.Generator;
 using JsonFlatFileDataStore;
 
-namespace Database.Tests
+namespace Database.Tests;
+
+[TestClass]
+public sealed class InitDatabaseTests
 {
-    [TestClass]
-    public sealed class InitDatabaseTests
+    [TestMethod]
+    public async Task TestInitDatabase()
     {
-        [TestMethod]
-        public async Task TestInitDatabase()
+        // Solar power plant location
+        var powerPlant = new PowerPlant(
+            "Eichstädt PV Anlage",
+            232,                    // Höhe über NN in Metern
+            48.1051268096319,       // Breitengrad in Dezimalgrad
+            7.9085366169705145      // Längengrad in Dezimalgrad
+        );
+
+        // multiple roof locations with different modules possible
+        // east orientation roof generator configuration
+        powerPlant.Roofs.Add(new Roof()
         {
-            // Solar power plant location
-            var powerPlant = new PowerPlant(
-                "Eichstädt PV Anlage",
-                232,                    // Höhe über NN in Metern
-                48.1051268096319,       // Breitengrad in Dezimalgrad
-                7.9085366169705145      // Längengrad in Dezimalgrad
-            );
-
-            // multiple roof locations with different modules possible
-            // east orientation roof generator configuration
-            powerPlant.Roofs.Add(new Roof()
+            Name = "Ostdach",
+            Azimuth = Roof.CompassPoint.East,
+            AzimuthDeviation = 15.0,
+            Tilt = 43.0,
+            Panels = new Panels()
             {
-                Name = "Ostdach",
-                Azimuth = Roof.CompassPoint.East,
-                AzimuthDeviation = 15.0,
-                Tilt = 43.0,
-                Panels = new Panels()
-                {
-                    Panel =
-                    [
-                        new Panel()
-                        {
-                            Name = "Ying Ping 420Wp",
-                            Area = 1.78,
-                            Efficiency = 0.21
-                        },
-                        new Panel()
-                        {
-                            Name = "Ying Ping 420Wp",
-                            Area = 1.78,
-                            Efficiency = 0.21
-                        },
-                        new Panel()
-                        {
-                            Name = "Ying Ping 420Wp",
-                            Area = 1.78,
-                            Efficiency = 0.21
-                        },
-                        new Panel()
-                        {
-                            Name = "Ying Ping 420Wp",
-                            Area = 1.78,
-                            Efficiency = 0.21
-                        }
-                    ],
-                }
-            });
+                Panel =
+                [
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    }
+                ],
+            }
+        });
 
-            var store = new DataStore("data.json");
-            var collection = store.GetCollection<PowerPlant>();
+        var store = new DataStore("data.json");
+        var collection = store.GetCollection<PowerPlant>();
 
-            await collection.InsertOneAsync(powerPlant);
-        }
+        await collection.InsertOneAsync(powerPlant);
     }
 }
