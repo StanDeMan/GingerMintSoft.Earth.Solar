@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 using GingerMintSoft.Earth.Location.Solar.Calculation;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -37,15 +37,18 @@ public class PowerPlant()
     /// Altitude above sea level in meters
     /// </summary>
     [JsonIgnore]
-    public Calculate Calculate { get; set; } = new Calculate();
+    public Calculate? Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
+    [JsonIgnore]
     public Dictionary<DateTime,double>? PowerEarning { get; set; }
+
+    [JsonIgnore]
     public Dictionary<DateTime, double>? EnergyEarning { get; set; }
 
     public PowerPlant Initialize()
     {
-        Calculate.InitLocation(this);
+        Calculate!.InitLocation(this);
 
         return this;
     }

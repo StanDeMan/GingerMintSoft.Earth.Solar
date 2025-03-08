@@ -58,9 +58,48 @@ public sealed class InitDatabaseTests
             }
         });
 
+        // east orientation roof generator configuration
+        powerPlant.Roofs.Add(new Roof()
+        {
+            Name = "Westdach",
+            Azimuth = Roof.CompassPoint.West,
+            AzimuthDeviation = 15.0,
+            Tilt = 43.0,
+            Panels = new Panels()
+            {
+                Panel =
+                [
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    },
+                    new Panel()
+                    {
+                        Name = "Ying Ping 420Wp",
+                        Area = 1.78,
+                        Efficiency = 0.21
+                    }
+                ],
+            }
+        });
         var store = new DataStore("data.json");
         var collection = store.GetCollection<PowerPlant>();
 
+        powerPlant.Calculate = null;
         await collection.InsertOneAsync(powerPlant);
     }
 }
