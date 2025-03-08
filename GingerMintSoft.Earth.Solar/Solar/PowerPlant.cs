@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using GingerMintSoft.Earth.Location.Solar.Calculation;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -31,6 +32,11 @@ public class PowerPlant()
     public double Longitude { get; set; }
     public TimeSpan TimeZoneOffset { get; set; } = TimeSpan.Zero;
 
+    /// <summary>
+    /// Init Location on Greenwich Meridian
+    /// Altitude above sea level in meters
+    /// </summary>
+    [JsonIgnore]
     public Calculate Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
@@ -39,7 +45,7 @@ public class PowerPlant()
 
     public PowerPlant Initialize()
     {
-        Calculate.Location = this;
+        Calculate.InitLocation(this);
 
         return this;
     }
@@ -52,7 +58,7 @@ public class PowerPlant()
         Longitude = longitude;
 
         TimeZoneOffset = TimeSpan.Zero;
-        Calculate.Location = this;
+        Calculate.InitLocation(this);
     }
 
     /// <summary>

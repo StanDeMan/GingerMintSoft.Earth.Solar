@@ -1,4 +1,6 @@
-﻿namespace GingerMintSoft.Earth.Location.Solar.Calculation;
+﻿using System.Text.Json.Serialization;
+
+namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
 public class Calculate
 {
@@ -8,11 +10,14 @@ public class Calculate
     private const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
     private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
     private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
-    /// <summary>
-    /// Init Location on Greenwich Meridian
-    /// Altitude above sea level in meters
-    /// </summary>
+
+    [JsonIgnore]
     public PowerPlant? Location { get; set; }
+
+    public void InitLocation(PowerPlant location)
+    {
+        Location = location;
+    }
 
     /// <summary>
     /// Berechnung der Solarstrahlung auf geneigte Flächen
