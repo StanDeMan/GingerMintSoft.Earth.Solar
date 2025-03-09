@@ -1,4 +1,5 @@
 ﻿using DataBase;
+using DataBase.Contract;
 using GingerMintSoft.Earth.Location.Solar;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -77,10 +78,14 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
                 _powerPlant = await InitializePowerPlant(plantId);
                 var roofs = await Task.Run(() => _powerPlant.Calculate!.RadiationOnTiltedPanel(ProcessDate(day)));
 
-                roofs.ToList().ForEach(roof => roof.Radiation!.Clear());
-
-                return new CreatedResult($"Powerplants/{plantId}/Roofs/Energy/ForDay?day={day}",
-                    JsonConvert.SerializeObject(roofs));
+                return new CreatedResult($"Powerplants/{plantId}/Roofs/Energy/ForDay?day={day}", 
+                    JsonConvert.SerializeObject(
+                        roofs, 
+                        Formatting.Indented, 
+                        new JsonSerializerSettings
+                        {
+                            ContractResolver = new DynamicContractResolver("Radiation")     // exclude Radiation from json
+                        }));
             }
             catch (Exception e)
             {
