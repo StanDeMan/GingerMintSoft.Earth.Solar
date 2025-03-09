@@ -103,14 +103,12 @@ public sealed class InitDatabaseTests
         var store = new DataStore("data.json");
         var collection = store.GetCollection("PowerPlants");
 
-        powerPlant.Calculate = null;
-
         var json = JsonConvert.SerializeObject(
             powerPlant, 
             Formatting.Indented, 
             new JsonSerializerSettings
             {
-                ContractResolver = new DynamicContractResolver("Radiation", "EarningData")
+                ContractResolver = new DynamicContractResolver("Radiation", "EarningData", "Calculate")
             });
 
         await collection.InsertOneAsync(JToken.Parse(json));
