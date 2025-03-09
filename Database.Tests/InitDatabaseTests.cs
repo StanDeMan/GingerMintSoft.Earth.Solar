@@ -1,6 +1,8 @@
-﻿using GingerMintSoft.Earth.Location.Solar;
+﻿using DataBase.Contract;
+using GingerMintSoft.Earth.Location.Solar;
 using GingerMintSoft.Earth.Location.Solar.Generator;
 using JsonFlatFileDataStore;
+using Newtonsoft.Json;
 
 namespace Database.Tests;
 
@@ -100,6 +102,15 @@ public sealed class InitDatabaseTests
         var collection = store.GetCollection<PowerPlant>();
 
         powerPlant.Calculate = null;
-        await collection.InsertOneAsync(powerPlant);
+
+        var json = JsonConvert.SerializeObject(
+            powerPlant, 
+            Formatting.Indented, 
+            new JsonSerializerSettings
+            {
+                ContractResolver = new DynamicContractResolver("Radiation", "EarningData")
+            });
+        
+        await collection.InsertOneAsync(powerPlant!);
     }
 }
