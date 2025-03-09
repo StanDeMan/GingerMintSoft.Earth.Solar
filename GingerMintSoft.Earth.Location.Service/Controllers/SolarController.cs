@@ -48,7 +48,7 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
             try
             {
                 _powerPlant = await InitializePowerPlant(plantId);
-                await Task.Run(() => _powerPlant.Calculate.RadiationOnTiltedPanel(ProcessDate(day)));
+                await Task.Run(() => _powerPlant.Calculate!.RadiationOnTiltedPanel(ProcessDate(day)));
 
                 return new CreatedResult($"Powerplants/{plantId}/Energy/ForDay?day={day}", 
                     JsonConvert.SerializeObject(_powerPlant.EnergyOverDay()));
@@ -75,7 +75,7 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
             try
             {
                 _powerPlant = await InitializePowerPlant(plantId);
-                var roofs = await Task.Run(() => _powerPlant.Calculate.RadiationOnTiltedPanel(ProcessDate(day)));
+                var roofs = await Task.Run(() => _powerPlant.Calculate!.RadiationOnTiltedPanel(ProcessDate(day)));
 
                 roofs.ToList().ForEach(roof => roof.Radiation!.Clear());
 
@@ -104,7 +104,7 @@ namespace GingerMintSoft.Earth.Location.Service.Controllers
             try
             {
                 _powerPlant = await InitializePowerPlant(plantId);
-                await Task.Run(() => _powerPlant.Calculate.RadiationOnTiltedPanel(ProcessDate(day)));
+                await Task.Run(() => _powerPlant.Calculate!.RadiationOnTiltedPanel(ProcessDate(day)));
 
                 return new CreatedResult($"/Powerplants/{plantId}/Power/ForDay?day={day}", 
                     JsonConvert.SerializeObject(_powerPlant.PowerOverDay()));
