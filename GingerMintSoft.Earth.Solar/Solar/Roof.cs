@@ -54,13 +54,11 @@ namespace GingerMintSoft.Earth.Location.Solar
         /// <summary>
         /// Ertrag in Watt pro m² 
         /// </summary>
-        //[JsonIgnore]
         public Dictionary<DateTime, double>? Radiation { get; set; }
 
         /// <summary>
         /// Ertrag in Watt pro Generator abhängig vom Wirkungsgrad und der Fläche des Solarmoduls
         /// </summary>
-        //[JsonIgnore]
         public Dictionary<DateTime, double>? EarningData { get; internal set; }
 
         /// <summary>

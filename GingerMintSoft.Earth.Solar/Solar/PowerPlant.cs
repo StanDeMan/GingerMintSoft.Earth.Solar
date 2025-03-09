@@ -36,7 +36,6 @@ public class PowerPlant()
     /// Init Location on Greenwich Meridian
     /// Altitude above sea level in meters
     /// </summary>
-    [JsonIgnore]
     public Calculate? Calculate { get; set; } = new Calculate();
     public List<Roof> Roofs { get; set; } = [];
 
