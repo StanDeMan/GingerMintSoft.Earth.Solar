@@ -3,6 +3,7 @@ using GingerMintSoft.Earth.Location.Solar;
 using GingerMintSoft.Earth.Location.Solar.Generator;
 using JsonFlatFileDataStore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Database.Tests;
 
@@ -98,8 +99,9 @@ public sealed class InitDatabaseTests
                 ],
             }
         });
+
         var store = new DataStore("data.json");
-        var collection = store.GetCollection<PowerPlant>();
+        var collection = store.GetCollection("PowerPlants");
 
         powerPlant.Calculate = null;
 
@@ -110,7 +112,7 @@ public sealed class InitDatabaseTests
             {
                 ContractResolver = new DynamicContractResolver("Radiation", "EarningData")
             });
-        
-        await collection.InsertOneAsync(powerPlant!);
+
+        await collection.InsertOneAsync(JToken.Parse(json));
     }
 }
