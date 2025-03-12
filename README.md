@@ -29,3 +29,79 @@ Calculated yield of an east-west roof on 21.06.
 
    ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
 
+Configure plant:
+```json
+{
+  "Powerplants": [
+    {
+      "PlantId": "WxHCombjzTaw",
+      "name": "PV Anlage Zuhause",
+      "altitude": 232,
+      "latitude": 48.1051268096319,
+      "longitude": 7.9085366169705145,
+      "Roofs": [
+        {
+          "name": "Ostdach",
+          "tilt": 43.0,
+          "azimuth": 90.0,
+          "azimuthDeviation": 15.0,
+          "panels": {
+            "panel": [
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              }
+            ]
+          }
+        },
+        {
+          "name": "Westdach",
+          "tilt": 43.0,
+          "azimuth": 270.0,
+          "azimuthDeviation": 15.0,
+          "panels": {
+            "panel": [
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              },
+              {
+                "name": "JA Solar JAM54S31 LR 420Wp Full Black",
+                "area": 1.78,
+                "efficiency": 0.21
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
