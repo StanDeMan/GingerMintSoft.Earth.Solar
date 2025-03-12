@@ -15,7 +15,7 @@ public sealed class InitDatabaseTests
     {
         // Solar power plant location
         var powerPlant = new PowerPlant(
-            "Eichstädt PV Anlage",
+            "",
             232,                    // Höhe über NN in Metern
             48.1051268096319,       // Breitengrad in Dezimalgrad
             7.9085366169705145      // Längengrad in Dezimalgrad
@@ -103,6 +103,8 @@ public sealed class InitDatabaseTests
         var store = new DataStore("data.json");
         var collection = store.GetCollection("PowerPlants");
 
+        powerPlant.Name = "Test Power Plant 0";
+
         var json = JsonConvert.SerializeObject(
             powerPlant, 
             Formatting.Indented, 
@@ -112,5 +114,42 @@ public sealed class InitDatabaseTests
             });
 
         await collection.InsertOneAsync(JToken.Parse(json));
+
+        powerPlant.Name = "Test Power Plant 1";
+
+        json = JsonConvert.SerializeObject(
+            powerPlant, 
+            Formatting.Indented, 
+            new JsonSerializerSettings
+            {
+                ContractResolver = new DynamicContractResolver("Radiation", "EarningData", "Calculate")
+            });
+
+        await collection.InsertOneAsync(JToken.Parse(json));
+
+        Assert.AreEqual(collection.Count, 2);
     }
+
+    [TestMethod]
+    public void TestReadDatabase()
+    {
+        var store = new DataStore("data.json");
+        var collection = store.GetCollection("PowerPlants");
+
+        Assert.AreEqual(collection.Count, 2);
+    }
+
+    //[TestMethod]
+    //public async Task TestDeleteDatabase()
+    //{
+    //    var store = new DataStore("data.json");
+    //    var collection = store.GetCollection("PowerPlants");
+    //    await collection.DeleteOneAsync(p => p.Id == 1);
+       
+    //    Assert.AreEqual(collection.Count, 1);
+
+    //    await collection.DeleteOneAsync(p => p.Id == 0);
+
+    //    Assert.AreEqual(collection.Count, 0);
+    //}
 }
