@@ -156,6 +156,7 @@ public sealed class InitDatabaseTests
     [TestMethod]
     public async Task TestDeleteDatabase()
     {
+        // Solar power plant - typed collection
         var collection = _store!.GetCollection<PowerPlant>("PowerPlants");
         Thread.Sleep(200);
 
