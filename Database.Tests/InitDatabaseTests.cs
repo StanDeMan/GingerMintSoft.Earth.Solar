@@ -10,8 +10,34 @@ namespace Database.Tests;
 [TestClass]
 public sealed class InitDatabaseTests
 {
+    private static IDocumentCollection<dynamic>? _collection;
+    private static DataStore? _store;
+    private const string DataBaseFile = "data.json";
+
+    private static void CleanUpDataBaseFile(string fileName = DataBaseFile)
+    {
+        var file = @$"{Environment.CurrentDirectory}\{fileName}";
+
+        if (File.Exists(file)) File.Delete(file);
+    }
+
+    [ClassInitialize]
+    public static void ClassInitialize(TestContext testContext)
+    {
+        CleanUpDataBaseFile();                      // remove old database file
+        _store = new DataStore(DataBaseFile);       // create new database file
+        _collection = _store.GetCollection("PowerPlants");
+    }
+
+    [ClassCleanup]
+    public static void ClassCleanup()
+    {
+        _store!.Dispose();                          // dispose database file
+        CleanUpDataBaseFile();                      // remove database file
+    }
+
     [TestMethod]
-    public async Task TestInitDatabase()
+    public void TestInitDatabase()
     {
         // Solar power plant location
         var powerPlant = new PowerPlant(
@@ -100,56 +126,45 @@ public sealed class InitDatabaseTests
             }
         });
 
-        var store = new DataStore("data.json");
-        var collection = store.GetCollection("PowerPlants");
-
         powerPlant.Name = "Test Power Plant 0";
 
         var json = JsonConvert.SerializeObject(
-            powerPlant, 
-            Formatting.Indented, 
+            powerPlant,
+            Formatting.Indented,
             new JsonSerializerSettings
             {
                 ContractResolver = new DynamicContractResolver("Radiation", "EarningData", "Calculate")
             });
 
-        await collection.InsertOneAsync(JToken.Parse(json));
+        _collection!.InsertOne(JToken.Parse(json));
 
         powerPlant.Name = "Test Power Plant 1";
 
         json = JsonConvert.SerializeObject(
-            powerPlant, 
-            Formatting.Indented, 
+            powerPlant,
+            Formatting.Indented,
             new JsonSerializerSettings
             {
                 ContractResolver = new DynamicContractResolver("Radiation", "EarningData", "Calculate")
             });
 
-        await collection.InsertOneAsync(JToken.Parse(json));
+        _collection.InsertOne(JToken.Parse(json));
 
-        Assert.AreEqual(collection.Count, 2);
+        Assert.AreEqual(2, _collection.Count);
     }
 
     [TestMethod]
-    public void TestReadDatabase()
+    public async Task TestDeleteDatabase()
     {
-        var store = new DataStore("data.json");
-        var collection = store.GetCollection("PowerPlants");
+        var collection = _store!.GetCollection<PowerPlant>("PowerPlants");
+        Thread.Sleep(200);
 
-        Assert.AreEqual(collection.Count, 2);
+        await collection!.DeleteOneAsync(p => p.Name == "Test Power Plant 1");
+
+        Assert.AreEqual(1, collection.Count);
+
+        await collection.DeleteOneAsync(p => p.Name == "Test Power Plant 0");
+
+        Assert.AreEqual(0, collection.Count);
     }
-
-    //[TestMethod]
-    //public async Task TestDeleteDatabase()
-    //{
-    //    var store = new DataStore("data.json");
-    //    var collection = store.GetCollection("PowerPlants");
-    //    await collection.DeleteOneAsync(p => p.Id == 1);
-       
-    //    Assert.AreEqual(collection.Count, 1);
-
-    //    await collection.DeleteOneAsync(p => p.Id == 0);
-
-    //    Assert.AreEqual(collection.Count, 0);
-    //}
 }
