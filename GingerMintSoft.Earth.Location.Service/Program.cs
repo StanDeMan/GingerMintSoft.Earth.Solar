@@ -21,11 +21,10 @@ namespace GingerMintSoft.Earth.Location.Service
                 options.AddPolicy(name: solarCorsPolicy,
                     policy =>
                     {
-                        policy.WithOrigins("https://localhost:7131", "http://localhost:5083")
-                            .AllowAnyHeader()
+                        policy.AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                        .WithMethods("OPTIONS", "GET");
+                            .SetIsOriginAllowed(_ => true); // allow any origin
                     });
             });
 
