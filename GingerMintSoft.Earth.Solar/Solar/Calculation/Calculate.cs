@@ -46,7 +46,7 @@ public class Calculate
 
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
-            var roofRadiation = Location.Calculate.RadiationSunriseToSunset(
+            var roofRadiation = Location.Calculate!.RadiationSunriseToSunset(
                 solarRadiationDailyTilted, 
                 actDay.SunRise, 
                 actDay.SunSet);
@@ -70,7 +70,7 @@ public class Calculate
 
         var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
-        var solarDailyRadiation = Location.Calculate.DailyRadiation(date);
+        var solarDailyRadiation = Location.Calculate!.DailyRadiation(date);
 
         return Location.Calculate.RadiationSunriseToSunset(
             solarDailyRadiation, 
