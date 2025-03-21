@@ -24,8 +24,8 @@ namespace GingerMintSoft.Earth.Location.Service
                         policy.WithOrigins("https://localhost:7131", "http://localhost:5083")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials();
-                        //.WithMethods("OPTIONS", "GET");
+                            .AllowCredentials()
+                        .WithMethods("OPTIONS", "GET");
                     });
             });
 
