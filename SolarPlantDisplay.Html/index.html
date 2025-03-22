@@ -19,11 +19,11 @@
     var values = [];
 
     for (const [key, value] of Object.entries(plantData)) {
-        labels.push(key);
+        labels.push(new Date(key).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}));
         values.push(value);
     }
 
-    mavVal = Math.max.apply(Math, labels);
+    maxVal = roundUpToNearestHundred(Math.max(...values));
 
     new Chart("powerPlantChart", {
         type: "line",
@@ -46,6 +46,10 @@
     }
   });  
 });
+
+function roundUpToNearestHundred(num) {
+    return Math.ceil(num / 100) * 100;
+}
 
 function fetchPlantData() {
   const url = 'https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=2025-03-24';
