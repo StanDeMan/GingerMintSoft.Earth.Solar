@@ -158,7 +158,7 @@ public sealed class InitDatabaseTests
     {
         // Solar power plant - typed collection
         var collection = _store!.GetCollection<PowerPlant>("PowerPlants");
-        Thread.Sleep(200);
+        Thread.Sleep(100);
 
         await collection!.DeleteOneAsync(p => p.Name == "Test Power Plant 1");
 
