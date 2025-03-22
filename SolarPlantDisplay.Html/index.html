@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous">
+</script>
+<body>
+<canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
+
+<script> 
+  $(document).ready(function(){
+    var plantData = fetchPlantData();
+    //console.log(plantData);
+
+    var maxVal;
+    var labels = [];
+    var values = [];
+
+    for (const [key, value] of Object.entries(plantData)) {
+        labels.push(key);
+        values.push(value);
+    }
+
+    mavVal = Math.max.apply(Math, labels);
+
+    new Chart("powerPlantChart", {
+        type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+        fill: true,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,0.25)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: values
+        }]
+    },
+    options: {
+        legend: {display: false},
+        scales: {
+            xAxes: [{ticks: {maxTicksLimit: 25}}],
+            yAxes: [{ticks: {min: 0, max: maxVal}}],
+        }
+    }
+  });  
+});
+
+function fetchPlantData() {
+  const url = 'https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=2025-03-23';
+  //const url = 'https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Energy/ForDay?day=2025-03-21';
+
+  var result = '{}';
+
+  $.ajax({
+      url: url,
+      type: 'get',
+      async: false,
+      success: function(data) {
+          result = data;
+      },
+      error: function() {
+          result;
+      }
+  });
+
+  return JSON.parse(result); 
+} 
+</script>
+
+</body>
+</html>
