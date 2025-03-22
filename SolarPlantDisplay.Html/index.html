@@ -10,11 +10,10 @@
 <canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
 
 <script> 
-  $(document).ready(function(){
+    $(document).ready(function(){
     var plantData = fetchPlantData();
     //console.log(plantData);
 
-    var maxVal;
     var labels = [];
     var values = [];
 
@@ -23,33 +22,32 @@
         values.push(value);
     }
 
-    maxVal = roundUpToNearestHundred(Math.max(...values));
-
     new Chart("powerPlantChart", {
         type: "line",
-    data: {
-        labels: labels,
-        datasets: [{
-        fill: true,
-        lineTension: 0,
-        backgroundColor: "rgba(0,0,255,0.25)",
-        borderColor: "rgba(0,0,255,0.1)",
-        data: values
-        }]
+        data: {
+            labels: labels,
+            datasets: [{
+                fill: true,
+                label: 'Solar Powerplant Power (W)',
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,0.25)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: values
+            }]
     },
     options: {
-        legend: {display: false},
-        scales: {
-            xAxes: [{ticks: {maxTicksLimit: 30}}],
-            yAxes: [{ticks: {min: 0, max: maxVal}}],
+        layout: {
+            padding: 25,
+            legend: { display: true },
+            layout: { autoPadding: true },
+            scales: {
+                xAxes: [{ ticks: { maxTicksLimit: 30 } }],
+                yAxes: [{ ticks: { min: 0 } }]
+            }
         }
     }
-  });  
+    });  
 });
-
-function roundUpToNearestHundred(num) {
-    return Math.ceil(num / 100) * 100;
-}
 
 function fetchPlantData() {
   const url = 'https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=2025-03-24';
