@@ -67,12 +67,18 @@
         },
         options: {
             layout: {
-                padding: 25,
+                padding: 60,
                 legend: { display: true },
                 layout: { autoPadding: true },
                 scales: {
                     xAxes: [{ ticks: { maxTicksLimit: 30 } }],
                     yAxes: [{ ticks: { min: 0 } }]
+                }
+            },
+            plugins: {              
+                title: {
+                    display: true,
+                    text: 'Allover earnings for all roofs'
                 }
             }
         }
