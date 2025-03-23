@@ -11,7 +11,7 @@
           "name": "Ostdach",
           "tilt": 43.0,
           "azimuth": 90.0,
-          "azimuthDeviation": 15.0,
+          "azimuthDeviation": 12.0,
           "panels": {
             "panel": [
               {
@@ -41,7 +41,7 @@
           "name": "Westdach",
           "tilt": 43.0,
           "azimuth": 270.0,
-          "azimuthDeviation": 15.0,
+          "azimuthDeviation": 12.0,
           "panels": {
             "panel": [
               {
