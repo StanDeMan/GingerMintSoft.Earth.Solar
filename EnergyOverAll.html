@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
 </script>
 <body>
 <canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
 
-<script> 
+<script>
+
     $(document).ready(function(){
-        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=2025-03-24');
+        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Energy/ForDay?day=2025-03-24');
         //console.log(plantData);
 
         var labels = [];
@@ -46,7 +46,7 @@
                 }
             }
         }
-    });  
+    });
 });
 
 function fetchPlantData(url) {
@@ -64,9 +64,9 @@ function fetchPlantData(url) {
       }
   });
 
-  return JSON.parse(result); 
-} 
-</script>
+  return JSON.parse(result);
+}
+    </script>
 
 </body>
 </html>
