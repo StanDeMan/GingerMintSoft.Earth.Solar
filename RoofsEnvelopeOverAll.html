@@ -10,12 +10,14 @@
     <script>
 
     $(document).ready(function(){
+        const forDay = '2025-04-21';
+
         var labels = [];
         var values = [];
         var valuesEast = [];
         var valuesWest = [];
 
-        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=2025-04-21');
+        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=' + forDay);
         //console.log(plantData);
 
         for (const [key, value] of Object.entries(plantData[0]['EarningData'])) {
@@ -26,7 +28,7 @@
             valuesWest.push(value);
         }
 
-        var plantDataOverAll = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=2025-04-21');
+        var plantDataOverAll = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=' + forDay);
         //console.log(plantData);
 
         for (const [key, value] of Object.entries(plantDataOverAll)) {

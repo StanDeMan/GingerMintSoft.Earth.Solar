@@ -11,12 +11,14 @@
 
 <script> 
     $(document).ready(function(){
-        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=2025-03-24');
-        //console.log(plantData);
+        const forDay = '2025-03-24';
 
         var labels = [];
         var valuesEast = [];
         var valuesWest = [];
+
+        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=' + forDay);
+        //console.log(plantData);
 
         for (const [key, value] of Object.entries(plantData[0]['EarningData'])) {
             labels.push(new Date(key).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}));
