@@ -10,7 +10,7 @@
     <script>
 
     $(document).ready(function(){
-        const forDay = '2025-03-25';
+        const forDay = actualDate();
 
         var labels = [];
         var values = [];
@@ -102,7 +102,16 @@ function fetchPlantData(url) {
 
     return JSON.parse(result);
 }
-    
+ 
+function actualDate() {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    return '${year}-${month}-${day}';
+}
 </script>
 </body>
 </html>

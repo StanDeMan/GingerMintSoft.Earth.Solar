@@ -9,9 +9,8 @@
 <canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
 
 <script>
-
     $(document).ready(function(){
-        const forDay = '2025-03-25';
+        const forDay = actualDate();
 
         var labels = [];
         var values = [];
@@ -52,23 +51,33 @@
 });
 
 function fetchPlantData(url) {
-  var result = '{}';
+    var result = '{}';
 
-  $.ajax({
-      url: url,
-      type: 'get',
-      async: false,
-      success: function(data) {
-          result = data;
-      },
-      error: function() {
-          result;
-      }
-  });
+    $.ajax({
+        url: url,
+        type: 'get',
+        async: false,
+        success: function(data) {
+            result = data;
+        },
+        error: function() {
+            result;
+        }
+    });
 
-  return JSON.parse(result);
+    return JSON.parse(result);
 }
-    </script>
 
+function actualDate() {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    // This arrangement can be altered based on how we want the date's format to appear.
+    return '${year}-${month}-${day}';
+}
+</script>
 </body>
 </html>
