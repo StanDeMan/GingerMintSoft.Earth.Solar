@@ -29,7 +29,7 @@ Calculated yield of an east-west roof on 21.06.
 
    ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
 
-Configure plant:
+Configuration of the pv plant:
 ```json
 {
   "Powerplants": [
