@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Tests", "Database.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolarPlantDisplay.Html", "SolarPlantDisplay.Html", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		EnergyOverAll.html = EnergyOverAll.html
+		SolarPlantDisplay.Html\EnergyOverAll.html = SolarPlantDisplay.Html\EnergyOverAll.html
 		SolarPlantDisplay.Html\Envelope.html = SolarPlantDisplay.Html\Envelope.html
-		RoofsEnvelopeOverAll.html = RoofsEnvelopeOverAll.html
+		SolarPlantDisplay.Html\RoofsEnvelopeOverAll.html = SolarPlantDisplay.Html\RoofsEnvelopeOverAll.html
 		SolarPlantDisplay.Html\RoofsPower.html = SolarPlantDisplay.Html\RoofsPower.html
 	EndProjectSection
 EndProject
