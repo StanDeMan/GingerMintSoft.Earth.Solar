@@ -114,10 +114,12 @@ Calculated yield of an east roof on 6th of April 2025 - data shown in Chart.js.
 Calculated yield of an west roof on 6th of April 2025 - data shown in Chart.js.
 ![Screenshot 2025-04-06 122203](https://github.com/user-attachments/assets/f9edf6ee-8118-450f-bb81-ace19cc0a528)
 
-Calculated yield of an east-west roof on 6th of April 2025 - data shown in Chart.js.
+Calculated yield of an east-west roof on 6th of April 2025 as envelope - data shown in Chart.js.
 ![Screenshot 2025-04-06 122432](https://github.com/user-attachments/assets/2a13ef53-d251-49fe-90a4-9c1f6d4011eb)
 
 Calculated yield of an east-west roof on 6th of April 2025 from both roofs that get added to get the graph from above - data shown in Chart.js.
 ![Screenshot 2025-04-06 122323](https://github.com/user-attachments/assets/13273f2f-460d-4e25-8ba0-5a94930e3891)
 
+Calculated earnings (kWh) of an east-west roof on 6th of April 2025
+![Screenshot 2025-04-06 124206](https://github.com/user-attachments/assets/699364b7-d74c-4dad-b6ff-da8180f7ceb0)
 
