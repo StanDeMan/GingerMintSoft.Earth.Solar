@@ -1,70 +1,91 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
 </script>
 <body>
-<canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
+    <canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
+    <script>
 
-<script> 
     $(document).ready(function(){
-    var plantData = fetchPlantData();
-    console.log(plantData);
+        const forDay = actualDate();
 
-    var labels = [];
-    var valuesEast = [];
-    var valuesWest = [];
+        var labels = [];
+        var values = [];
+        var valuesEast = [];
+        var valuesWest = [];
 
-    for (const [key, value] of Object.entries(plantData[0]['EarningData'])) {
-        labels.push(new Date(key).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}));
-        valuesEast.push(value);
-    }
+        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=' + forDay);
+        //console.log(plantData);
 
-    for (const [key, value] of Object.entries(plantData[1]['EarningData'])) {
-        valuesWest.push(value);
-    }
+        for (const [key, value] of Object.entries(plantData[0]['EarningData'])) {
+            valuesEast.push(value);
+        }
 
-    new Chart("powerPlantChart", {
-        type: "line",
-        data: {
-            labels: labels,
-            datasets: [{
-                fill: true,
-                label: plantData[0]['Name'] + ' / Leistung (W)',
-                lineTension: 0,
-                backgroundColor: "rgba(255,0,0,0.25)",
-                borderColor: "rgba(255,0,0,0.1)",
-                data: valuesEast
+        for (const [key, value] of Object.entries(plantData[1]['EarningData'])) {
+            valuesWest.push(value);
+        }
+
+        var plantDataOverAll = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Power/ForDay?day=' + forDay);
+        //console.log(plantData);
+
+        for (const [key, value] of Object.entries(plantDataOverAll)) {
+            labels.push(new Date(key).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }));
+            values.push(value);
+        }
+
+        new Chart("powerPlantChart", {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    fill: true,
+                    label: plantData[0]['Name'] + ' / Leistung (W)',
+                    lineTension: 0,
+                    backgroundColor: "rgba(255,0,0,0.25)",
+                    borderColor: "rgba(255,0,0,0.1)",
+                    data: valuesEast
+                },
+                {
+                    fill: true,
+                    label: plantData[1]['Name'] + ' / Leistung (W)',
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,255,0,0.25)",
+                    borderColor: "rgba(0,255,0,0.1)",
+                    data: valuesWest
+                },
+                {
+                    fill: true,
+                    label: 'Solar Powerplant Leistung (W)',
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,0.25)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: values
+                }]
+        },
+        options: {
+            layout: {
+                padding: 60,
+                legend: { display: true },
+                layout: { autoPadding: true },
+                scales: {
+                    xAxes: [{ ticks: { maxTicksLimit: 30 } }],
+                    yAxes: [{ ticks: { min: 0 } }]
+                }
             },
-            {
-                fill: true,
-                label: plantData[1]['Name'] + ' / Leistung (W)',
-                lineTension: 0,
-                backgroundColor: "rgba(0,255,0,0.25)",
-                borderColor: "rgba(0,255,0,0.1)",
-                data: valuesWest
-            }]
-    },
-    options: {
-        layout: {
-            padding: 25,
-            legend: { display: true },
-            layout: { autoPadding: true },
-            scales: {
-                xAxes: [{ ticks: { maxTicksLimit: 30 } }],
-                yAxes: [{ ticks: { min: 0 } }]
+            plugins: {              
+                title: {
+                    display: true,
+                    text: 'Allover earnings for all roofs'
+                }
             }
         }
-    }
-    });  
+    });
 });
 
-function fetchPlantData() {
-    const url = 'https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Roofs/Power/ForDay?day=2025-06-21';
-
+function fetchPlantData(url) {
     var result = '{}';
 
     $.ajax({
@@ -79,9 +100,18 @@ function fetchPlantData() {
         }
     });
 
-    return JSON.parse(result); 
-} 
-</script>
+    return JSON.parse(result);
+}
+ 
+function actualDate() {
+    const date = new Date();
 
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    return '${year}-${month}-${day}';
+}
+</script>
 </body>
 </html>
