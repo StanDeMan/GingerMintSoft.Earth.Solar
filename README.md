@@ -1,3 +1,5 @@
+# Calculation of solar energy system earnings
+
 In order to calculate the yields of a PV system (photovoltaic e.g. with east-west orientation) to the minute, we need the following information:
 
 1. Input data:
