@@ -105,3 +105,19 @@ Configuration of the pv plant:
   ]
 }
 ```
+Calculated yield of an east-west roof on 6th of April 2025 - data shown in Chart.js.
+![Screenshot 2025-04-06 122528](https://github.com/user-attachments/assets/d0b341f6-ec03-4732-b3f3-e98e363b47e2)
+
+Calculated yield of an east roof on 6th of April 2025 - data shown in Chart.js.
+![Screenshot 2025-04-06 121959](https://github.com/user-attachments/assets/09d3a1c2-a20a-428b-9dce-c070cdc0a267)
+
+Calculated yield of an west roof on 6th of April 2025 - data shown in Chart.js.
+![Screenshot 2025-04-06 122203](https://github.com/user-attachments/assets/f9edf6ee-8118-450f-bb81-ace19cc0a528)
+
+Calculated yield of an east-west roof on 6th of April 2025 - data shown in Chart.js.
+![Screenshot 2025-04-06 122432](https://github.com/user-attachments/assets/2a13ef53-d251-49fe-90a4-9c1f6d4011eb)
+
+Calculated yield of an east-west roof on 6th of April 2025 from both roofs that get added to get the graph from above - data shown in Chart.js.
+![Screenshot 2025-04-06 122323](https://github.com/user-attachments/assets/13273f2f-460d-4e25-8ba0-5a94930e3891)
+
+
