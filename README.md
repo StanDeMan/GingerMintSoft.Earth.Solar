@@ -39,8 +39,8 @@ Configuration of the pv plant:
       "PlantId": "WxHCombjzTaw",
       "name": "PV Anlage Zuhause",
       "altitude": 232,
-      "latitude": 48.1051268096319,
-      "longitude": 7.9085366169705145,
+      "latitude": 48.0,
+      "longitude": 7.91,
       "Roofs": [
         {
           "name": "Ostdach",
