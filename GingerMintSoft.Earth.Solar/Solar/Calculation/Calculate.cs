@@ -39,19 +39,18 @@ public class Calculate
                 var currentDateTime = date.AddMinutes(minute);
 
                 // Einstrahlung auf geneigte Fläche berechnen
-                double radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth + roof.AzimuthDeviation);
+                var radiation = RadiationOnTiltedSurface(currentDateTime, roof.Tilt, roof.Azimuth + roof.AzimuthDeviation);
 
                 solarRadiationDailyTilted.Add(currentDateTime.ToLocalTime(), radiation);
             }
 
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Location.Latitude, Location.Longitude));
 
-            var roofRadiation = Location.Calculate!.RadiationSunriseToSunset(
+            roof.Radiation = Location.Calculate!.RadiationSunriseToSunset(
                 solarRadiationDailyTilted, 
                 actDay.SunRise, 
                 actDay.SunSet);
 
-            roof.Radiation = roofRadiation;
             roof.EarningData = roof.Earning();
         }
 
