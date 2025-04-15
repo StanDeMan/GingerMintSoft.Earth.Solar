@@ -95,10 +95,10 @@ public class PowerPlant()
     public Dictionary<DateTime, double> EnergyOverDay(double factor = Energy.kWh)
     {
         var totalEnergy = 0.0;
-        var maxPower = PowerOverDay();
+        var dayPower = PowerOverDay();
         var maxTotalEnergy = new Dictionary<DateTime, double>();
 
-        foreach (var power in maxPower)
+        foreach (var power in dayPower)
         {
             totalEnergy += power.Value * factor;
             maxTotalEnergy.Add(power.Key, totalEnergy);
