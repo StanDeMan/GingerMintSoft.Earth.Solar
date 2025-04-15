@@ -20,7 +20,7 @@ public class PowerPlant()
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public struct Energy
     {
-        public const double Wh = 60.0 / 1000;
+        public const double Wh = 1/60.0;
         // ReSharper disable once InconsistentNaming
         public const double kWh = Wh / 1000;
         public const double MWh = kWh / 1000;
