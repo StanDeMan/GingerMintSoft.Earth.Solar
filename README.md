@@ -22,7 +22,7 @@ In order to calculate the yields of a PV system (photovoltaic e.g. with east-wes
         Take into account the angle dependence of the irradiation (cosine rule).
     Temperature-dependent efficiency: Calculate the reduction in output due to high temperatures.
     Yield calculation:
-        Yield=irradiation on modules×efficiency×installed powerYield=irradiation on modules×efficiency×installed power.
+        Yield=irradiation on modules×efficiency×installed powerYield.
     Aggregation: Add up minute-by-minute values to the daily yield.
 
 
