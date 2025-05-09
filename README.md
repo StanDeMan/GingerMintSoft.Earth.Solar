@@ -107,7 +107,7 @@ Configuration of the pv plant:
   ]
 }
 ```
-Calculated yield of an east-west roof on 6th of April 2025 - data shown in Chart.js.
+Calculated yield of an east-west roof on 6th of April 2025 in Warrs - data shown in Chart.js.
 ![Screenshot 2025-04-06 122528](https://github.com/user-attachments/assets/d0b341f6-ec03-4732-b3f3-e98e363b47e2)
 
 Calculated yield of an east roof on 6th of April 2025 - data shown in Chart.js.
