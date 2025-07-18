@@ -11,14 +11,11 @@ public class Calculate
     private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
     private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
 
-    private PowerPlant? _location;
-
     [JsonIgnore]
     public PowerPlant? Location { get; set; }
 
     public void InitLocation(PowerPlant location)
     {
-        _location = location;
         Location = location;
     }
 
