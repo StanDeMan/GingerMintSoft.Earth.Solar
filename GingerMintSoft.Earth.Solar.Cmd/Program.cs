@@ -100,7 +100,7 @@ namespace GingerMintSoft.Earth.Location.Cmd
             Console.WriteLine($"Minütliche Solarstrahlung für {date.ToShortDateString()}");
             Console.WriteLine("Stunde:Minute\tStrahlung [W/m²]");
 
-            var solarRadiationFromSunRiseTillSunSet = powerPlant.Calculate.Radiation(date);
+            var solarRadiationFromSunRiseTillSunSet = powerPlant.Calculate!.Radiation(date);
 
             foreach (var solarMinutelyRadiation in solarRadiationFromSunRiseTillSunSet)
             {
