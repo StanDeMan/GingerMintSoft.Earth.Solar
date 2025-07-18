@@ -22,11 +22,11 @@ In order to calculate the yields of a PV system (photovoltaic e.g. with east-wes
         Take into account the angle dependence of the irradiation (cosine rule).
     Temperature-dependent efficiency: Calculate the reduction in output due to high temperatures.
     Yield calculation:
-        Yield=irradiation on modules×efficiency×installed powerYield=irradiation on modules×efficiency×installed power.
+        Yield=irradiation on modules×efficiency×installed powerYield.
     Aggregation: Add up minute-by-minute values to the daily yield.
 
 
-Calculated yield of an east-west roof on 21.06. (yearly maximun) - data processed in Excel.
+Calculated yield of an east-west roof on 21.06. (yearly maximun) in Watts over a day - data processed in Excel.
 
 
    ![image](https://github.com/user-attachments/assets/6b5fbc66-15e9-4159-ab83-48aa20c79371)
@@ -107,7 +107,7 @@ Configuration of the pv plant:
   ]
 }
 ```
-Calculated yield of an east-west roof on 6th of April 2025 - data shown in Chart.js.
+Calculated yield of an east-west roof on 6th of April 2025 in Watts - data shown in Chart.js.
 ![Screenshot 2025-04-06 122528](https://github.com/user-attachments/assets/d0b341f6-ec03-4732-b3f3-e98e363b47e2)
 
 Calculated yield of an east roof on 6th of April 2025 - data shown in Chart.js.
@@ -122,6 +122,7 @@ Calculated yield of an east-west roof on 6th of April 2025 as envelope - data sh
 Calculated yield of an east-west roof on 6th of April 2025 from both roofs that get added to get the graph from above - data shown in Chart.js.
 ![Screenshot 2025-04-06 122323](https://github.com/user-attachments/assets/13273f2f-460d-4e25-8ba0-5a94930e3891)
 
-Calculated earnings (kWh) of an east-west roof at my location on 6th of April 2025
-![Screenshot 2025-04-06 124206](https://github.com/user-attachments/assets/699364b7-d74c-4dad-b6ff-da8180f7ceb0)
+Calculated earnings (kWh) of an east-west roof at my location on 18th of April 2025
+![2025 04 18 EastAndWest-Roof-EnergyDay](https://github.com/user-attachments/assets/385b8ca7-4a74-4670-87b0-e7240dafee03)
+
 
