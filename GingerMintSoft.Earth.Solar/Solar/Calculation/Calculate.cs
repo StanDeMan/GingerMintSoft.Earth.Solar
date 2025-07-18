@@ -281,7 +281,7 @@ public class Calculate
             Math.Cos(DegreeToRadian(roofTilt)) +
             Math.Cos(DegreeToRadian(solarAltitude)) * 
             Math.Sin(DegreeToRadian(roofTilt)) * 
-            Math.Cos(DegreeToRadian((solarAzimuth - roofAzimuth + 360) % 360)));
+            Math.Cos(DegreeToRadian((solarAzimuth + roofAzimuth + 360) % 360)));
 
         atmosphericTransmission *= Math.Cos(incidenceAngle);
 
