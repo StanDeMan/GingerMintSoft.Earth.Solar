@@ -278,7 +278,7 @@ public class Calculate
 
         double incidenceAngle = Math.Acos(
             Math.Sin(DegreeToRadian(solarAltitude)) * 
-            Math.Cos(DegreeToRadian(roofTilt)) +
+            Math.Cos(DegreeToRadian(roofTilt)) -
             Math.Cos(DegreeToRadian(solarAltitude)) * 
             Math.Sin(DegreeToRadian(roofTilt)) * 
             Math.Cos(DegreeToRadian((solarAzimuth + roofAzimuth + 360) % 360)));
