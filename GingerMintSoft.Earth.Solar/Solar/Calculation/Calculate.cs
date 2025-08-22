@@ -8,7 +8,7 @@ public class Calculate
     private const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
     private const double SolarConstant = 1361;                      // Solarkonstante in W/m²
     private const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
-    private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärische Dichte mit zunehmender Höhe
+    private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärischen Dichte mit zunehmender Höhe
     private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
 
     [JsonIgnore]
