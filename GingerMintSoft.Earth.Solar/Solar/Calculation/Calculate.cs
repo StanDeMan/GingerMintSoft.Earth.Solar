@@ -98,7 +98,7 @@ public class Calculate
     }
 
     /// <summary>
-    /// Berechnung der Solarstrahlung in W/m² für einen Tag von Sonnenaufgang bis Sonnenuntergang per Minute
+    /// Berechnung der Solarstrahlung in W/m² für einen Tag von Sonnenaufgang bis Sonnenuntergang pro Minute
     /// </summary>
     /// <param name="solarRadiationDaily"></param>
     /// <param name="sunRise"></param>
