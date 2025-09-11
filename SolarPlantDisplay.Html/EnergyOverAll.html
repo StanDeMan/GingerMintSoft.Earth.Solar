@@ -5,78 +5,79 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous">
 </script>
-<body>
-<canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
+<head>
+    <script>
+        $(document).ready(function () {
+            const forDay = actualDate();
 
-<script>
-    $(document).ready(function(){
-        const forDay = actualDate();
+            var labels = [];
+            var values = [];
 
-        var labels = [];
-        var values = [];
+            var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Energy/ForDay?day=' + forDay);
+            //console.log(plantData);
 
-        var plantData = fetchPlantData('https://localhost:7131/Solar/Powerplants/WxHCombjzTaw/Energy/ForDay?day=' + forDay);
-        //console.log(plantData);
-
-        for (const [key, value] of Object.entries(plantData)) {
-            labels.push(new Date(key).toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'}));
-            values.push(value);
-        }
-
-        new Chart("powerPlantChart", {
-            type: "line",
-            data: {
-                labels: labels,
-                datasets: [{
-                    fill: true,
-                    label: 'Solar Powerplant Energy (kWh)',
-                    lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,0.25)",
-                    borderColor: "rgba(0,0,255,0.1)",
-                    data: values
-                }]
-        },
-        options: {
-            layout: {
-                padding: 25,
-                legend: { display: true },
-                layout: { autoPadding: true },
-                scales: {
-                    xAxes: [{ ticks: { maxTicksLimit: 30 } }],
-                    yAxes: [{ ticks: { min: 0 } }]
-                }
+            for (const [key, value] of Object.entries(plantData)) {
+                labels.push(new Date(key).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }));
+                values.push(value);
             }
+
+            new Chart("powerPlantChart", {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        fill: true,
+                        label: 'Solar Powerplant Energy (kWh)',
+                        lineTension: 0,
+                        backgroundColor: "rgba(0,0,255,0.25)",
+                        borderColor: "rgba(0,0,255,0.1)",
+                        data: values
+                    }]
+                },
+                options: {
+                    layout: {
+                        padding: 25,
+                        legend: { display: true },
+                        layout: { autoPadding: true },
+                        scales: {
+                            xAxes: [{ ticks: { maxTicksLimit: 30 } }],
+                            yAxes: [{ ticks: { min: 0 } }]
+                        }
+                    }
+                }
+            });
+        });
+
+        function fetchPlantData(url) {
+            var result = '{}';
+
+            $.ajax({
+                url: url,
+                type: 'get',
+                async: false,
+                success: function (data) {
+                    result = data;
+                },
+                error: function () {
+                    result;
+                }
+            });
+
+            return JSON.parse(result);
         }
-    });
-});
 
-function fetchPlantData(url) {
-    var result = '{}';
+        function actualDate() {
+            const date = new Date();
 
-    $.ajax({
-        url: url,
-        type: 'get',
-        async: false,
-        success: function(data) {
-            result = data;
-        },
-        error: function() {
-            result;
+            let day = date.getDate();
+            let month = date.getMonth();
+            let year = date.getFullYear();
+
+            return '${year}-${month}-${day}';
         }
-    });
-
-    return JSON.parse(result);
-}
-
-function actualDate() {
-    const date = new Date();
-
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
-
-    return '${year}-${month}-${day}';
-}
-</script>
+    </script>
+</head>
+<body>
+    S<canvas id="powerPlantChart" style="width:100%;max-width:100%"></canvas>
 </body>
 </html>
