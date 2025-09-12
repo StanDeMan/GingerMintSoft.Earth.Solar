@@ -234,7 +234,7 @@ public class Calculate
     /// <returns></returns>
     private double AirMass(double solarAltitude)
     {
-        if (solarAltitude <= 0) return double.MaxValue; // Keine Einstrahlung bei negativer Sonnenhöhe
+        if (solarAltitude <= 0) return double.NegativeZero; // Keine Einstrahlung bei negativer Sonnenhöhe
         
         return 1 / Math.Sin(DegreeToRadian(solarAltitude));
     }
