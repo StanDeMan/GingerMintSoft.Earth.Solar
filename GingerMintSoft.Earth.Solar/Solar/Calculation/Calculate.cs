@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using GingerMintSoft.Earth.Location.Solar.Calculation.Astro;
 
 namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
@@ -288,7 +289,153 @@ public class Calculate
         return atmosphericTransmission <= 0 ? 0 : atmosphericTransmission;
     }
 
-    // Hilfsfunktionen für Grad- und Bogenmaß-Umrechnung
-    private static double DegreeToRadian(double angle) => angle * Math.PI / 180;
-    private static double RadianToDegree(double angle) => angle * 180 / Math.PI;
+    static double DegreeToRadian(double angle) => angle * Constants.RadPerDeg;
+    static double RadianToDegree(double angle) => angle * Constants.DegPerRad;
+
+    /// <summary>
+    /// sun related calculations
+    /// </summary>
+    public class Sun
+    {
+        public int Altitude { get; init; }
+        public double Longitude { get; init; }
+        public double Latitude { get; init; }
+
+        /// <summary>
+        /// Berechnet Sonnen-Azimut und scheinbare Höhe (inkl. Refraktion)
+        /// </summary>
+        /// <param name="dateTime">For this date and time</param>
+        /// <param name="temperature"></param>
+        /// <returns></returns>
+        public (double solarAltitude, double solarAzimuth) Position(DateTime dateTime, double temperature = 15.0)
+        {
+            var calculate = new Calculate();
+            calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
+
+            DateTime utc = dateTime.ToUniversalTime();
+            double jd = JulianDay(utc);
+            double t  = (jd - Constants.J2000) / Constants.DaysPerCentury;
+
+            // astronomische Berechnungen
+            double m = Constants.MeanAnomaly +
+                       t * (Constants.MeanAnomalyRate - Constants.MeanAnomalyRateCorr * t);
+
+            double l = Normalize(Constants.MeanLongSun +
+                                  t * (Constants.MeanLongSunRate + Constants.MeanLongSunRateCorr * t));
+
+            double c = (Constants.C1 - t * (Constants.C1Rate1 + Constants.C1Rate2 * t)) * Math.Sin(DegreeToRadian(m))
+                     + (Constants.C2 - Constants.C2Rate * t) * Math.Sin(DegreeToRadian(2 * m))
+                     + Constants.C3 * Math.Sin(DegreeToRadian(3 * m));
+
+            double trueLong = l + c;
+
+            double omega  = Constants.Omega - Constants.OmegaRate * t;
+            double lambda = trueLong - Constants.ApparentLongCorr1
+                            - Constants.ApparentLongCorr2 * Math.Sin(DegreeToRadian(omega));
+
+            double eps0 = 23 + (26 + ((21.448 - t * (Constants.ObliquityRate1 +
+                          t * (Constants.ObliquityRate2 - Constants.ObliquityRate3 * t))) / 60)) / 60;
+            double eps  = eps0 + Constants.ObliquityCorr * Math.Cos(DegreeToRadian(omega));
+
+            double alpha = RadianToDegree(Math.Atan2(Math.Cos(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda)),
+                                              Math.Cos(DegreeToRadian(lambda))));
+            double delta = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda))));
+            alpha = Normalize(alpha);
+
+            double gmst = Constants.Gmst + Constants.GmstRate * (jd - Constants.J2000)
+                          + t * t * (Constants.GmstCoeff1 - t / Constants.GmstCoeff2);
+            gmst = Normalize(gmst);
+
+            double lst = Normalize(gmst + Longitude);
+            double h   = Normalize(lst - alpha);
+
+            // Geometrische Höhe
+            double altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta))
+                                 + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(h))));
+
+            // Azimut (0° = Nord, 90° = Ost)
+            double sunAzimuth = RadianToDegree(Math.Atan2(-Math.Sin(DegreeToRadian(h)),
+                                    Math.Tan(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(Latitude))
+                                  - Math.Sin(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(h))));
+            sunAzimuth = Normalize(sunAzimuth);
+
+            // ---- Refraktionskorrektur ----
+            double pressure = PressureFromElevation(Altitude); // Luftdruck in hPa   
+            double sunAltitude = altitude + RefractionCorrection(altitude, temperature, pressure);
+
+            return (TruncateToDecimalPlace(sunAzimuth), TruncateToDecimalPlace(sunAltitude));
+        }
+
+        /// <summary>
+        /// Luftdruck nach barometrischer Höhenformel (vereinfachte ISA-Standardatmosphäre)
+        /// </summary>
+        /// <param name="altitude"></param>
+        /// <returns></returns>
+        private static double PressureFromElevation(double altitude)
+        {
+            // Druck in hPa
+            return Constants.SeaLevelPressure *
+                   Math.Pow(1.0 - (Constants.LapseRate * altitude) /
+                       Constants.SeaLevelTempK,
+                       Constants.GravityTimesMolar / (Constants.GasConstant * Constants.LapseRate));
+        }
+
+        /// <summary>
+        ///  Näherungsformel für atmosphärische Refraktion (Grad)
+        /// </summary>
+        /// <param name="altitudeDeg"></param>
+        /// <param name="tempC"></param>
+        /// <param name="pressureHPa"></param>
+        /// <returns></returns>
+        private static double RefractionCorrection(double altitudeDeg, double tempC, double pressureHPa)
+        {
+            if (altitudeDeg < -1) return 0.0; // unterhalb des Horizonts keine Korrektur
+            double kelvin = tempC + 273.15;
+            // Standard-Formel (Bennett 1982)
+            double refraction = (pressureHPa / 1010.0) 
+                * (283.0 / kelvin) 
+                * 1.02 / (60.0 * Math.Tan(DegreeToRadian(altitudeDeg + 10.3 / (altitudeDeg + 5.11))));
+            
+            return refraction; // in Grad
+        }
+
+        /// <summary>
+        /// Julianisches Datum aus Datum/Zeit (UTC)
+        /// </summary>
+        /// <param name="utc"></param>
+        /// <returns></returns>
+        private static double JulianDay(DateTime utc)
+        {
+            int year = utc.Year;
+            int month = utc.Month;
+            double d = utc.Day + (utc.Hour + (utc.Minute + utc.Second / 60.0) / 60.0) / 24.0;
+
+            if (month <= 2) { year -= 1; month += 12; }
+
+            int a = year / 100;
+            int b = 2 - a + a / 4;
+
+            return Math.Floor(Constants.JulianYearFactor * (year + 4716))
+                 + Math.Floor(Constants.JulianMonthFactor * (month + 1))
+                 + d + b - Constants.JulianOffset;
+        }
+
+        /// <summary>
+        /// Truncates a decimal number to the specified number of decimal places without rounding.
+        /// </summary>
+        /// <remarks>This method does not perform rounding; it simply removes any digits beyond the
+        /// specified decimal places.</remarks>
+        /// <param name="numberToTruncate">The decimal number to truncate.</param>
+        /// <param name="decimalPlaces">The number of decimal places to retain. Must be a non-negative integer.</param>
+        /// <returns>A decimal number truncated to the specified number of decimal places. If <paramref name="decimalPlaces"/> is
+        /// 0,  the method returns the integer part of <paramref name="numberToTruncate"/>.</returns>
+        private static double TruncateToDecimalPlace(double numberToTruncate, int decimalPlaces = 2)
+        {
+            var power = (decimal)(Math.Pow(10.0, decimalPlaces));
+
+            return (double)(Math.Truncate((power * (decimal)numberToTruncate)) / power);
+        }
+
+        static double Normalize(double deg) => (deg % 360.0 + 360.0) % 360.0;
+    }
 }

@@ -96,6 +96,50 @@ namespace GingerMintSoft.Earth.Location.Tests
             Assert.IsTrue(result >= 64);
         }
 
+        /// <summary>
+        /// calculation can be checked here: https://www.sunearthtools.com/dp/tools/pos_sun.php?lang=de
+        /// There are small differences due to different calculation methods for elevation and temperature correction
+        /// There error should be expected to be less than 0.1 degrees
+        /// Default value for temperature is 15°C and pressure 1013.25 hPa
+        /// </summary>
+        [TestMethod]
+        public void TestCalculateSunPosition()
+        {
+            // Arrange to my home position
+            const int altitude = 200;
+            const double latitude = 48.105;
+            const double longitude = 7.909;
+            var dateTime = new DateTime(2025, 12, 21, 15, 0, 0); // 15 PM
+
+            var sun = new Calculate.Sun
+            {
+                Altitude = altitude,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
+            var position = sun.Position(dateTime);
+            
+            // Assert
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 10.7) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 215.39) < 0.1);
+
+            dateTime = new DateTime(2025, 12, 21, 10, 0, 0); // 10 AM
+
+            sun = new Calculate.Sun
+            {
+                Altitude = altitude,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
+            position = sun.Position(dateTime);
+            
+            // Assert
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 11.36) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 146.07) < 0.1);
+        }
+
         // Invoke private methods for testing
         private double InvokeElevation(double latitude, double longitude, DateTime dateTime)
         {
