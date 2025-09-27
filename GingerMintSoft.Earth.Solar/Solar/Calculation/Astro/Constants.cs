@@ -58,5 +58,12 @@
         public const double LapseRate         = 0.0065;  // K/m
         public const double GravityTimesMolar = 0.034163; // g*M/R (dimensionless)
         public const double GasConstant       = 8.3144598; // J/(mol*K) (nur für Exponent)
+
+        public const double DaysPerYear = 365.0;                       // Tage pro Jahr als Näherung
+        public const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
+        public const double SolarIrradiation = 1361;                   // Solarkonstante in W/m²
+        public const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
+        public const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärischen Dichte mit zunehmender Höhe
+        public const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
     }
 }

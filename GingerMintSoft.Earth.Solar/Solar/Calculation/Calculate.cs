@@ -5,13 +5,6 @@ namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
 public class Calculate
 {
-    private const double DaysPerYear = 365.0;                       // Tage pro Jahr als Näherung
-    private const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
-    private const double SolarConstant = 1361;                      // Solarkonstante in W/m²
-    private const double OpticalDepth = 0.2;                        // Typischer Wert für saubere Luft
-    private const double AirScaleHeight = 8500.0;                   // Für Berechnung der atmosphärischen Dichte mit zunehmender Höhe
-    private const double AirAltAdjustmentFactor = -0.0001184;       // Luftdichte nimmt mit zunehmender Höhe ab
-
     [JsonIgnore]
     public PowerPlant? Location { get; set; }
 
@@ -149,17 +142,17 @@ public class Calculate
         DateTime dateTime)
     {
         // Sonnenhöhe berechnen
-        double solarElevation = Elevation(latitude, longitude, dateTime);
+        var solarElevation = Elevation(latitude, longitude, dateTime);
 
         // Keine direkte Solarstrahlung bei negativer Sonnenhöhe
         if (solarElevation <= 0) return 0;
 
         // Luftmassenindex basierend auf der Höhe und Sonnenstand
-        double airMass = 1 / Math.Sin(solarElevation * Math.PI / 180); // Näherung für flache Winkel
-        airMass *= Math.Exp(-altitude / AirScaleHeight); // Höhenkorrektur
+        var airMass = 1 / Math.Sin(solarElevation * Math.PI / 180); // Näherung für flache Winkel
+        airMass *= Math.Exp(-altitude / Constants.AirScaleHeight); // Höhenkorrektur
 
         // Solarstrahlung unter Berücksichtigung der Atmosphäre
-        return SolarConstant * Math.Exp(-OpticalDepth * airMass);
+        return Constants.SolarIrradiation * Math.Exp(-Constants.OpticalDepth * airMass);
     }
 
     /// <summary>
@@ -177,16 +170,16 @@ public class Calculate
     {
         // Berechnung der Sonnenhöhe (Elevation) basierend auf astronomischen Gleichungen
         double dayOfYear = dateTime.DayOfYear;
-        double declination = EarthAxisTilt * Math.Sin(360 / DaysPerYear * (dayOfYear - 81) * Math.PI / 180);
+        var declination = Constants.EarthAxisTilt * Math.Sin(360 / Constants.DaysPerYear * (dayOfYear - 81) * Math.PI / 180);
 
-        double timeInHours = dateTime.Hour + dateTime.Minute / 60.0;
-        double solarTime = timeInHours + 4 * longitude / 60.0;  // Solarzeit-Korrektur
-        double hourAngle = (solarTime - 12) * 15;               // Stundengrad (positiv am Nachmittag)
+        var timeInHours = dateTime.Hour + dateTime.Minute / 60.0;
+        var solarTime = timeInHours + 4 * longitude / 60.0;  // Solarzeit-Korrektur
+        var hourAngle = (solarTime - 12) * 15;               // Stundengrad (positiv am Nachmittag)
 
-        double latitudeRad = latitude * Math.PI / 180;
-        double declinationRad = declination * Math.PI / 180;
+        var latitudeRad = latitude * Math.PI / 180;
+        var declinationRad = declination * Math.PI / 180;
 
-        double elevationRad = Math.Asin(
+        var elevationRad = Math.Asin(
             Math.Sin(latitudeRad) * Math.Sin(declinationRad) +
             Math.Cos(latitudeRad) * Math.Cos(declinationRad) * Math.Cos(hourAngle * Math.PI / 180)
         );
@@ -207,18 +200,18 @@ public class Calculate
 
         double timezoneOffset = Location.TimeZoneOffset.Hours;
         double dayOfYear = time.DayOfYear;
-        double hourOfDay = time.Hour + time.Minute / 60.0 - timezoneOffset;
+        var hourOfDay = time.Hour + time.Minute / 60.0 - timezoneOffset;
 
-        double declination = EarthAxisTilt * Math.Sin(2 * Math.PI / DaysPerYear * (dayOfYear - 81));
-        double solarTime = hourOfDay + (4 * (longitude - 15 * timezoneOffset)) / 60.0;
-        double hourAngle = 15 * (solarTime - 12);
+        var declination = Constants.EarthAxisTilt * Math.Sin(2 * Math.PI / Constants.DaysPerYear * (dayOfYear - 81));
+        var solarTime = hourOfDay + (4 * (longitude - 15 * timezoneOffset)) / 60.0;
+        var hourAngle = 15 * (solarTime - 12);
 
-        double solarAltitude = Math.Asin(
+        var solarAltitude = Math.Asin(
             Math.Sin(DegreeToRadian(latitude)) * Math.Sin(DegreeToRadian(declination)) +
             Math.Cos(DegreeToRadian(latitude)) * Math.Cos(DegreeToRadian(declination)) * Math.Cos(DegreeToRadian(hourAngle))
         );
 
-        double solarAzimuth = Math.Acos(
+        var solarAzimuth = Math.Acos(
             (Math.Sin(DegreeToRadian(declination)) - Math.Sin(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(latitude))) /
             (Math.Cos(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(latitude)))
         );
@@ -249,7 +242,7 @@ public class Calculate
     /// see cref="https://www.pveducation.org/pvcdrom/properties-of-sunlight/air-mass"
     private double AtmosphericTransmission(double airMass, double altitude)
     {
-        double altitudeFactor = Math.Exp(AirAltAdjustmentFactor * altitude); // Höhenanpassung
+        var altitudeFactor = Math.Exp(Constants.AirAltAdjustmentFactor * altitude); // Höhenanpassung
         
         return Math.Pow(0.7, airMass * altitudeFactor); // Abschwächung durch die Atmosphäre
     }
@@ -267,17 +260,17 @@ public class Calculate
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
         // Schritt 1: Sonnenstand berechnen
-        (double solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
+        (var solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
 
         // Schritt 2: Atmosphärische Dämpfung berechnen
-        double airMass = AirMass(solarAltitude);
-        double atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
+        var airMass = AirMass(solarAltitude);
+        var atmosphericTransmission = AtmosphericTransmission(airMass, Location.Altitude);
 
-        atmosphericTransmission *= SolarConstant;
+        atmosphericTransmission *= Constants.SolarIrradiation;
 
         if (solarAltitude <= 0) return 0; // Keine Einstrahlung bei negativer Sonnenhöhe
 
-        double incidenceAngle = Math.Acos(
+        var incidenceAngle = Math.Acos(
             Math.Sin(DegreeToRadian(solarAltitude)) * 
             Math.Cos(DegreeToRadian(roofTilt)) -
             Math.Cos(DegreeToRadian(solarAltitude)) * 
@@ -289,8 +282,8 @@ public class Calculate
         return atmosphericTransmission <= 0 ? 0 : atmosphericTransmission;
     }
 
-    static double DegreeToRadian(double angle) => angle * Constants.RadPerDeg;
-    static double RadianToDegree(double angle) => angle * Constants.DegPerRad;
+    private static double DegreeToRadian(double angle) => angle * Constants.RadPerDeg;
+    private static double RadianToDegree(double angle) => angle * Constants.DegPerRad;
 
     /// <summary>
     /// sun related calculations
@@ -312,56 +305,56 @@ public class Calculate
             var calculate = new Calculate();
             calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
 
-            DateTime utc = dateTime.ToUniversalTime();
-            double jd = JulianDay(utc);
-            double t  = (jd - Constants.J2000) / Constants.DaysPerCentury;
+            var utc = dateTime.ToUniversalTime();
+            var jd = JulianDay(utc);
+            var t  = (jd - Constants.J2000) / Constants.DaysPerCentury;
 
             // astronomische Berechnungen
-            double m = Constants.MeanAnomaly +
-                       t * (Constants.MeanAnomalyRate - Constants.MeanAnomalyRateCorr * t);
+            var m = Constants.MeanAnomaly +
+                    t * (Constants.MeanAnomalyRate - Constants.MeanAnomalyRateCorr * t);
 
-            double l = Normalize(Constants.MeanLongSun +
-                                  t * (Constants.MeanLongSunRate + Constants.MeanLongSunRateCorr * t));
+            var l = Normalize(Constants.MeanLongSun +
+                              t * (Constants.MeanLongSunRate + Constants.MeanLongSunRateCorr * t));
 
-            double c = (Constants.C1 - t * (Constants.C1Rate1 + Constants.C1Rate2 * t)) * Math.Sin(DegreeToRadian(m))
-                     + (Constants.C2 - Constants.C2Rate * t) * Math.Sin(DegreeToRadian(2 * m))
-                     + Constants.C3 * Math.Sin(DegreeToRadian(3 * m));
+            var c = (Constants.C1 - t * (Constants.C1Rate1 + Constants.C1Rate2 * t)) * Math.Sin(DegreeToRadian(m))
+                    + (Constants.C2 - Constants.C2Rate * t) * Math.Sin(DegreeToRadian(2 * m))
+                    + Constants.C3 * Math.Sin(DegreeToRadian(3 * m));
 
-            double trueLong = l + c;
+            var trueLong = l + c;
 
-            double omega  = Constants.Omega - Constants.OmegaRate * t;
-            double lambda = trueLong - Constants.ApparentLongCorr1
-                            - Constants.ApparentLongCorr2 * Math.Sin(DegreeToRadian(omega));
+            var omega  = Constants.Omega - Constants.OmegaRate * t;
+            var lambda = trueLong - Constants.ApparentLongCorr1
+                                  - Constants.ApparentLongCorr2 * Math.Sin(DegreeToRadian(omega));
 
-            double eps0 = 23 + (26 + ((21.448 - t * (Constants.ObliquityRate1 +
-                          t * (Constants.ObliquityRate2 - Constants.ObliquityRate3 * t))) / 60)) / 60;
-            double eps  = eps0 + Constants.ObliquityCorr * Math.Cos(DegreeToRadian(omega));
+            var eps0 = 23 + (26 + ((21.448 - t * (Constants.ObliquityRate1 +
+                                                  t * (Constants.ObliquityRate2 - Constants.ObliquityRate3 * t))) / 60)) / 60;
+            var eps  = eps0 + Constants.ObliquityCorr * Math.Cos(DegreeToRadian(omega));
 
-            double alpha = RadianToDegree(Math.Atan2(Math.Cos(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda)),
+            var alpha = RadianToDegree(Math.Atan2(Math.Cos(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda)),
                                               Math.Cos(DegreeToRadian(lambda))));
-            double delta = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda))));
+            var delta = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda))));
             alpha = Normalize(alpha);
 
-            double gmst = Constants.Gmst + Constants.GmstRate * (jd - Constants.J2000)
-                          + t * t * (Constants.GmstCoeff1 - t / Constants.GmstCoeff2);
+            var gmst = Constants.Gmst + Constants.GmstRate * (jd - Constants.J2000)
+                                      + t * t * (Constants.GmstCoeff1 - t / Constants.GmstCoeff2);
             gmst = Normalize(gmst);
 
-            double lst = Normalize(gmst + Longitude);
-            double h   = Normalize(lst - alpha);
+            var lst = Normalize(gmst + Longitude);
+            var h   = Normalize(lst - alpha);
 
             // Geometrische Höhe
-            double altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta))
-                                 + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(h))));
+            var altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta))
+                                                    + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(h))));
 
             // Azimut (0° = Nord, 90° = Ost)
-            double sunAzimuth = RadianToDegree(Math.Atan2(-Math.Sin(DegreeToRadian(h)),
+            var sunAzimuth = RadianToDegree(Math.Atan2(-Math.Sin(DegreeToRadian(h)),
                                     Math.Tan(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(Latitude))
                                   - Math.Sin(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(h))));
             sunAzimuth = Normalize(sunAzimuth);
 
             // ---- Refraktionskorrektur ----
-            double pressure = PressureFromElevation(Altitude); // Luftdruck in hPa   
-            double sunAltitude = altitude + RefractionCorrection(altitude, temperature, pressure);
+            var pressure = PressureFromElevation(Altitude); // Luftdruck in hPa   
+            var sunAltitude = altitude + RefractionCorrection(altitude, temperature, pressure);
 
             return (TruncateToDecimalPlace(sunAzimuth), TruncateToDecimalPlace(sunAltitude));
         }
@@ -390,9 +383,10 @@ public class Calculate
         private static double RefractionCorrection(double altitudeDeg, double tempC, double pressureHPa)
         {
             if (altitudeDeg < -1) return 0.0; // unterhalb des Horizonts keine Korrektur
-            double kelvin = tempC + 273.15;
+            var kelvin = tempC + 273.15;
+
             // Standard-Formel (Bennett 1982)
-            double refraction = (pressureHPa / 1010.0) 
+            var refraction = (pressureHPa / 1010.0) 
                 * (283.0 / kelvin) 
                 * 1.02 / (60.0 * Math.Tan(DegreeToRadian(altitudeDeg + 10.3 / (altitudeDeg + 5.11))));
             
@@ -406,14 +400,14 @@ public class Calculate
         /// <returns></returns>
         private static double JulianDay(DateTime utc)
         {
-            int year = utc.Year;
-            int month = utc.Month;
-            double d = utc.Day + (utc.Hour + (utc.Minute + utc.Second / 60.0) / 60.0) / 24.0;
+            var year = utc.Year;
+            var month = utc.Month;
+            var d = utc.Day + (utc.Hour + (utc.Minute + utc.Second / 60.0) / 60.0) / 24.0;
 
             if (month <= 2) { year -= 1; month += 12; }
 
-            int a = year / 100;
-            int b = 2 - a + a / 4;
+            var a = year / 100;
+            var b = 2 - a + a / 4;
 
             return Math.Floor(Constants.JulianYearFactor * (year + 4716))
                  + Math.Floor(Constants.JulianMonthFactor * (month + 1))
@@ -436,6 +430,6 @@ public class Calculate
             return (double)(Math.Truncate((power * (decimal)numberToTruncate)) / power);
         }
 
-        static double Normalize(double deg) => (deg % 360.0 + 360.0) % 360.0;
+        private static double Normalize(double deg) => (deg % 360.0 + 360.0) % 360.0;
     }
 }
