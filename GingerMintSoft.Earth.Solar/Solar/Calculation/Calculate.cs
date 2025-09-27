@@ -326,9 +326,9 @@ public class Calculate
             var lambda = trueLong - Constants.ApparentLongCorr1
                                   - Constants.ApparentLongCorr2 * Math.Sin(DegreeToRadian(omega));
 
-            var eps0 = 23 + (26 + ((21.448 - t * (Constants.ObliquityRate1 +
-                                                  t * (Constants.ObliquityRate2 - Constants.ObliquityRate3 * t))) / 60)) / 60;
-            var eps  = eps0 + Constants.ObliquityCorr * Math.Cos(DegreeToRadian(omega));
+            var epsNonCorrected = 23 + (26 + ((21.448 - t * (Constants.ObliquityRate1 + t * (Constants.ObliquityRate2 - Constants.ObliquityRate3 * t))) / 60)) / 60;
+            
+            var eps  = epsNonCorrected + Constants.ObliquityCorr * Math.Cos(DegreeToRadian(omega));
 
             var alpha = RadianToDegree(Math.Atan2(Math.Cos(DegreeToRadian(eps)) * Math.Sin(DegreeToRadian(lambda)),
                                               Math.Cos(DegreeToRadian(lambda))));
@@ -352,7 +352,7 @@ public class Calculate
                                   - Math.Sin(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(h))));
             sunAzimuth = Normalize(sunAzimuth);
 
-            // ---- Refraktionskorrektur ----
+            // Refraktionskorrektur
             var pressure = PressureFromElevation(Altitude); // Luftdruck in hPa   
             var sunAltitude = altitude + RefractionCorrection(altitude, temperature, pressure);
 
