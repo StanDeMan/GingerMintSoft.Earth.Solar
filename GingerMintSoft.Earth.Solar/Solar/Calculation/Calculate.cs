@@ -22,7 +22,7 @@ public class Calculate
     public List<Roof> RadiationOnTiltedPanel(DateTime date)
     {
         if (Location == null) throw new ArgumentOutOfRangeException (nameof(Location));
-        if(!Location.Roofs.Any()) throw new ArgumentOutOfRangeException (nameof(Roof));
+        if(Location.Roofs.Count <= 0) throw new ArgumentOutOfRangeException (nameof(Roof));
 
         foreach (var roof in Location.Roofs)
         {
