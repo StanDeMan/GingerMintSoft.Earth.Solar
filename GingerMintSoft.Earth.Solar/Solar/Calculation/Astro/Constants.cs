@@ -47,17 +47,17 @@
         public const double ApparentLongCorr2 = 0.00478;
 
         // Sternzeit
-        public const double Gmst       = 280.46061837;
+        public const double Gmst       = 280.46061837;          //Greenwich Mean Sidereal Time
         public const double GmstRate   = 360.98564736629;
         public const double GmstCoeff1 = 0.000387933;
         public const double GmstCoeff2 = 38710000.0;
 
         // Atmosphärische Parameter
-        public const double SeaLevelPressure  = 1013.25; // hPa
-        public const double SeaLevelTempK     = 288.15;  // Kelvin (15 °C)
-        public const double LapseRate         = 0.0065;  // K/m
-        public const double GravityTimesMolar = 0.034163; // g*M/R (dimensionless)
-        public const double GasConstant       = 8.3144598; // J/(mol*K) (nur für Exponent)
+        public const double SeaLevelPressure  = 1013.25;                // hPa
+        public const double SeaLevelTempK     = 288.15;                 // Kelvin (15 °C)
+        public const double LapseRate         = 0.0065;                 // K/m
+        public const double GravityTimesMolar = 0.034163;               // g*M/R (dimensionless)
+        public const double GasConstant       = 8.3144598;              // J/(mol*K) (nur für Exponent)
 
         public const double DaysPerYear = 365.0;                       // Tage pro Jahr als Näherung
         public const double EarthAxisTilt = 23.44;                     // Neigung der Erdachse in Grad
