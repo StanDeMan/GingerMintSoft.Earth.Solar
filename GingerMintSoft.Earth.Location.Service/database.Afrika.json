@@ -1,0 +1,43 @@
+{
+  "Powerplants": [
+    {
+      "PlantId": "WxHCombjzTaw",
+      "name": "Arogbo Ondo Nigeria",
+      "altitude": 40,
+      "latitude": 6.162531,
+      "longitude": 4.880540,
+      "Roofs": [
+        {
+          "name": "Huge Generators",
+          "tilt": 0.0,
+          "azimuth": 180.0,
+          "azimuthDeviation": 0.0,
+          "panels": {
+            "panel": [
+              {
+                "name": "Solar 400kW plane",
+                "area": 1890,
+                "efficiency": 0.21
+              },
+              {
+                "name": "Solar 400kW plane",
+                "area": 1890,
+                "efficiency": 0.21
+              },
+              {
+                "name": "Solar 400kW plane",
+                "area": 1890,
+                "efficiency": 0.21
+              },
+              {
+                "name": "Solar 400kW plane",
+                "area": 1890,
+                "efficiency": 0.21
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

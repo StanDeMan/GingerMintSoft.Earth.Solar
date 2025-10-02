@@ -294,6 +294,18 @@ public class Calculate
         public double Longitude { get; init; }
         public double Latitude { get; init; }
 
+        public void PositionOverDay(DateTime dateTime, double temperature = 15.0)
+        {
+            var calculate = new Calculate();
+            calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
+
+            var actDay = new CalcDayTime().SunriseSunset(dateTime, new Coordinate(Latitude, Longitude));
+
+            //    solarDailyRadiation, 
+            //    actDay.SunRise, 
+            //    actDay.SunSet);
+        }
+
         /// <summary>
         /// Berechnet Sonnen-Azimut und scheinbare Höhe (inkl. Refraktion)
         /// </summary>
