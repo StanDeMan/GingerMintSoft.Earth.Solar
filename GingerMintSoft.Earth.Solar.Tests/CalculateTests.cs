@@ -109,6 +109,7 @@ namespace GingerMintSoft.Earth.Location.Tests
             const int altitude = 200;
             const double latitude = 48.105;
             const double longitude = 7.909;
+
             var dateTime = new DateTime(2025, 12, 21, 15, 0, 0); // 15 PM
 
             var sun = new Calculate.Sun
@@ -138,27 +139,9 @@ namespace GingerMintSoft.Earth.Location.Tests
             // Assert
             Assert.IsTrue(Math.Abs(position.solarAzimuth - 11.36) < 0.1);
             Assert.IsTrue(Math.Abs(position.solarAltitude - 146.07) < 0.1);
-        }
 
-        [TestMethod]
-        public void TestCalculateSunPositionAfrika()
-        {
-            // Arrange to my home position
-            const int altitude = 200;
-            const double latitude = 6.162531;
-            const double longitude = 4.880540;
-            var dateTime = new DateTime(2025, 12, 21, 12, 0, 0); // noon
-
-            var sun = new Calculate.Sun
-            {
-                Altitude = altitude,
-                Latitude = latitude,
-                Longitude = longitude
-            };
-
-            var position = sun.Position(dateTime);
-            
-            dateTime = new DateTime(2025, 09, 21, 12, 0, 0); // noon
+            // Arrange to my home position at summer solstice
+            dateTime = new DateTime(2025, 06, 21, 12, 0, 0); // 10 AM
 
             sun = new Calculate.Sun
             {
@@ -168,6 +151,9 @@ namespace GingerMintSoft.Earth.Location.Tests
             };
 
             position = sun.Position(dateTime);
+
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 59.53) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 136.05) < 0.1);
         }
 
         // Invoke private methods for testing
