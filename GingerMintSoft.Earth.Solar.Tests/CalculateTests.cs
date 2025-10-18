@@ -1,6 +1,6 @@
-using System.Reflection;
 using GingerMintSoft.Earth.Location.Solar;
 using GingerMintSoft.Earth.Location.Solar.Calculation;
+using System.Reflection;
 
 namespace GingerMintSoft.Earth.Location.Tests
 {
@@ -154,6 +154,31 @@ namespace GingerMintSoft.Earth.Location.Tests
 
             Assert.IsTrue(Math.Abs(position.solarAzimuth - 59.53) < 0.1);
             Assert.IsTrue(Math.Abs(position.solarAltitude - 136.05) < 0.1);
+        }
+
+        [TestMethod]
+        public void TestCompareCalculateSunPosition()
+        {
+            // Arrange to my home position
+            const int altitude = 234;
+            const double latitude = 48.105;
+            const double longitude = 7.909;
+
+            var dateTime = new DateTime(2025, 12, 21, 12, 28, 0); // maximum elevation time
+
+            var sun = new Calculate.Sun
+            {
+                Altitude = altitude,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
+            var position = sun.Position(dateTime);
+
+            var calculate = new Calculate();
+            calculate.InitLocation(new PowerPlant("Test", altitude, latitude, longitude));
+
+            var calculatePosition = calculate.SolarPosition(dateTime, latitude, longitude);
         }
 
         // Invoke private methods for testing
