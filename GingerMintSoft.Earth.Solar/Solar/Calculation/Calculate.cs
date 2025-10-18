@@ -1,6 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using GingerMintSoft.Earth.Location.Solar.Calculation.Astro;
 
+[assembly: InternalsVisibleTo("GingerMintSoft.Earth.Location.Tests")]
 namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
 public class Calculate
@@ -194,7 +196,7 @@ public class Calculate
     /// <param name="latitude"></param>
     /// <param name="longitude"></param>
     /// <returns></returns>
-    private (double solarAltitude, double solarAzimuth) SolarPosition(DateTime time, double latitude, double longitude)
+    internal (double solarAltitude, double solarAzimuth) SolarPosition(DateTime time, double latitude, double longitude)
     {
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
@@ -260,7 +262,15 @@ public class Calculate
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
         // Schritt 1: Sonnenstand berechnen
-        (var solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
+        //(var solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
+        var sun = new Sun
+        {
+            Altitude = Location.Altitude,
+            Latitude = Location.Latitude,
+            Longitude = Location.Longitude
+        };
+
+        (var solarAltitude, double solarAzimuth) = sun.Position(currentDateTime);
 
         // Schritt 2: Atmosphärische Dämpfung berechnen
         var airMass = AirMass(solarAltitude);
@@ -271,11 +281,9 @@ public class Calculate
         if (solarAltitude <= 0) return 0; // Keine Einstrahlung bei negativer Sonnenhöhe
 
         var incidenceAngle = Math.Acos(
-            Math.Sin(DegreeToRadian(solarAltitude)) * 
-            Math.Cos(DegreeToRadian(roofTilt)) -
-            Math.Cos(DegreeToRadian(solarAltitude)) * 
-            Math.Sin(DegreeToRadian(roofTilt)) * 
-            Math.Cos(DegreeToRadian((solarAzimuth + roofAzimuth + 360) % 360)));
+            Math.Sin(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(roofTilt)) +
+            Math.Cos(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(roofTilt)) * 
+            Math.Cos(DegreeToRadian(solarAzimuth - roofAzimuth)));
 
         atmosphericTransmission *= Math.Cos(incidenceAngle);
 
@@ -368,7 +376,7 @@ public class Calculate
             var pressure = PressureFromElevation(Altitude); // Luftdruck in hPa   
             var sunAltitude = altitude + RefractionCorrection(altitude, temperature, pressure);
 
-            return (TruncateToDecimalPlace(sunAzimuth), TruncateToDecimalPlace(sunAltitude));
+            return (TruncateToDecimalPlace(sunAltitude), TruncateToDecimalPlace(sunAzimuth));
         }
 
         /// <summary>
