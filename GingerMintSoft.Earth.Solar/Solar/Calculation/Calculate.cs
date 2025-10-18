@@ -1,8 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using GingerMintSoft.Earth.Location.Solar.Calculation.Astro;
 
-[assembly: InternalsVisibleTo("GingerMintSoft.Earth.Location.Tests")]
 namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
 public class Calculate
@@ -190,40 +188,6 @@ public class Calculate
     }
 
     /// <summary>
-    /// Berechnung der Solarposition
-    /// </summary>
-    /// <param name="time"></param>
-    /// <param name="latitude"></param>
-    /// <param name="longitude"></param>
-    /// <returns></returns>
-    internal (double solarAltitude, double solarAzimuth) SolarPosition(DateTime time, double latitude, double longitude)
-    {
-        if (Location == null) throw new ArgumentNullException(nameof(Location));
-
-        double timezoneOffset = Location.TimeZoneOffset.Hours;
-        double dayOfYear = time.DayOfYear;
-        var hourOfDay = time.Hour + time.Minute / 60.0 - timezoneOffset;
-
-        var declination = Constants.EarthAxisTilt * Math.Sin(2 * Math.PI / Constants.DaysPerYear * (dayOfYear - 81));
-        var solarTime = hourOfDay + (4 * (longitude - 15 * timezoneOffset)) / 60.0;
-        var hourAngle = 15 * (solarTime - 12);
-
-        var solarAltitude = Math.Asin(
-            Math.Sin(DegreeToRadian(latitude)) * Math.Sin(DegreeToRadian(declination)) +
-            Math.Cos(DegreeToRadian(latitude)) * Math.Cos(DegreeToRadian(declination)) * Math.Cos(DegreeToRadian(hourAngle))
-        );
-
-        var solarAzimuth = Math.Acos(
-            (Math.Sin(DegreeToRadian(declination)) - Math.Sin(DegreeToRadian(solarAltitude)) * Math.Sin(DegreeToRadian(latitude))) /
-            (Math.Cos(DegreeToRadian(solarAltitude)) * Math.Cos(DegreeToRadian(latitude)))
-        );
-
-        if (hourAngle > 0) solarAzimuth = 2 * Math.PI - solarAzimuth;
-
-        return (RadianToDegree(solarAltitude), RadianToDegree(solarAzimuth));
-    }
-
-    /// <summary>
     /// Berechnung der Luftmasse
     /// </summary>
     /// <param name="solarAltitude"></param>
@@ -262,15 +226,12 @@ public class Calculate
         if (Location == null) throw new ArgumentNullException(nameof(Location));
 
         // Schritt 1: Sonnenstand berechnen
-        //(var solarAltitude, double solarAzimuth) = SolarPosition(currentDateTime, Location.Latitude, Location.Longitude);
-        var sun = new Sun
+        (var solarAltitude, double solarAzimuth) = new Sun 
         {
             Altitude = Location.Altitude,
             Latitude = Location.Latitude,
             Longitude = Location.Longitude
-        };
-
-        (var solarAltitude, double solarAzimuth) = sun.Position(currentDateTime);
+        }.Position(currentDateTime);
 
         // Schritt 2: Atmosphärische Dämpfung berechnen
         var airMass = AirMass(solarAltitude);
@@ -307,11 +268,7 @@ public class Calculate
             var calculate = new Calculate();
             calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
 
-            var actDay = new CalcDayTime().SunriseSunset(dateTime, new Coordinate(Latitude, Longitude));
-
-            //    solarDailyRadiation, 
-            //    actDay.SunRise, 
-            //    actDay.SunSet);
+            //var actDay = new CalcDayTime().SunriseSunset(dateTime, new Coordinate(Latitude, Longitude));
         }
 
         /// <summary>
