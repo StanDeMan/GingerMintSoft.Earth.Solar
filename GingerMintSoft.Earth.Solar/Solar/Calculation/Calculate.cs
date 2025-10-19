@@ -181,7 +181,8 @@ public class Calculate
 
         var elevationRad = Math.Asin(
             Math.Sin(latitudeRad) * Math.Sin(declinationRad) +
-            Math.Cos(latitudeRad) * Math.Cos(declinationRad) * Math.Cos(hourAngle * Math.PI / 180)
+            Math.Cos(latitudeRad) * Math.Cos(declinationRad) * 
+            Math.Cos(hourAngle * Math.PI / 180)
         );
 
         return elevationRad * 180 / Math.PI;                    // Rückgabe der Sonnenhöhe in Grad
