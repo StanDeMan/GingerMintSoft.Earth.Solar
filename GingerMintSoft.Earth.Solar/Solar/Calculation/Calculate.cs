@@ -283,6 +283,8 @@ public class Calculate
 
             var date = dateTime.Date;
             var position = new List<ActPosition>();
+
+            // sunrise and sunset times for a given day
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Latitude, Longitude));
 
             var startTime = actDay.SunRise;
