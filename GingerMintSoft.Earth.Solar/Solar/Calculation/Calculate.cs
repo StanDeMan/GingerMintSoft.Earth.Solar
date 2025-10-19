@@ -282,7 +282,7 @@ public class Calculate
             calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
 
             var date = dateTime.Date;
-            var pos = new List<ActPosition>();
+            var position = new List<ActPosition>();
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Latitude, Longitude));
 
             var startTime = actDay.SunRise;
@@ -292,7 +292,7 @@ public class Calculate
             {
                 var (solarAltitude, solarAzimuth) = Position(startTime, temperature);
 
-                pos.Add(new ActPosition
+                position.Add(new ActPosition
                 {
                     DateTime = startTime,
                     Altitude = solarAltitude,
@@ -302,7 +302,7 @@ public class Calculate
                 startTime = startTime.AddMinutes(1);
             }
 
-            return pos;
+            return position;
         }
 
         /// <summary>
