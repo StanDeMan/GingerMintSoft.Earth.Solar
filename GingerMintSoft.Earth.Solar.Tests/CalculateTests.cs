@@ -165,7 +165,8 @@ namespace GingerMintSoft.Earth.Location.Tests
             const double latitude = 48.105;
             const double longitude = 7.909;
 
-            var dateTime = new DateTime(2025, 12, 21, 12, 28, 0); // 12:28 PM
+            // December 21, 2025 with time 12:28 PM - but only the date is relevant here
+            var dateTime = new DateTime(2025, 12, 21, 12, 28, 0); // winter solstice 
 
             var sun = new Calculate.Sun
             {
