@@ -157,6 +157,36 @@ namespace GingerMintSoft.Earth.Location.Tests
             Assert.IsTrue(Math.Abs(position.solarAltitude - 136.05) < 0.1);
         }
 
+        [TestMethod]
+        public void TestCalculateSunPositionForDay()
+        {
+            // Arrange to my home position
+            const int altitude = 230;
+            const double latitude = 48.105;
+            const double longitude = 7.909;
+
+            var dateTime = new DateTime(2025, 12, 21, 12, 28, 0); // 12:28 PM
+
+            var sun = new Calculate.Sun
+            {
+                Altitude = altitude,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
+            var position = sun.PositionForDay(dateTime);
+            
+            // check highest altitude winter solstice
+            Assert.IsTrue(Math.Abs(position[250].Altitude - 18.5) < 0.1);
+            Assert.IsTrue(Math.Abs(position[250].Azimuth - 179.91) < 0.1);
+
+            // check at sunset
+            Assert.IsTrue(Math.Abs(position[499].Azimuth - 234.13) < 0.1);
+
+            // check for same date
+            Assert.IsTrue(position[499].DateTime.Date == dateTime.Date);
+        }
+
         // Invoke private methods for testing
         private double InvokeElevation(double latitude, double longitude, DateTime dateTime)
         {
