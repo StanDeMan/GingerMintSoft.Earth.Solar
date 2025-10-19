@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using GingerMintSoft.Earth.Location.Solar.Calculation.Astro;
+﻿using GingerMintSoft.Earth.Location.Solar.Calculation.Astro;
+using System.Text.Json.Serialization;
 
 namespace GingerMintSoft.Earth.Location.Solar.Calculation;
 
@@ -263,12 +263,46 @@ public class Calculate
         public double Longitude { get; init; }
         public double Latitude { get; init; }
 
-        public void PositionOverDay(DateTime dateTime, double temperature = 15.0)
+        public class ActPosition
+        {
+            public DateTime DateTime { get; init; } = DateTime.Today;
+            public double Altitude { get; init; }
+            public double Azimuth { get; init; }
+        }
+
+        /// <summary>
+        /// Calculates solar azimuth and apparent altitude (including refraction) for each minute of the day
+        /// </summary>
+        /// <param name="dateTime">For this date</param>
+        /// <param name="temperature">For this temperature</param>
+        /// <returns>List of sun positions for a given day</returns>
+        public List<ActPosition> PositionForDay(DateTime dateTime, double temperature = 15.0)
         {
             var calculate = new Calculate();
             calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
 
-            //var actDay = new CalcDayTime().SunriseSunset(dateTime, new Coordinate(Latitude, Longitude));
+            var date = dateTime.Date;
+            var pos = new List<ActPosition>();
+            var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Latitude, Longitude));
+
+            var startTime = actDay.SunRise;
+            var endTime = actDay.SunSet;
+
+            while (startTime <= endTime)
+            {
+                var (solarAltitude, solarAzimuth) = Position(startTime, temperature);
+
+                pos.Add(new ActPosition
+                {
+                    DateTime = startTime,
+                    Altitude = solarAltitude,
+                    Azimuth = solarAzimuth
+                });
+
+                startTime = startTime.AddMinutes(1);
+            }
+
+            return pos;
         }
 
         /// <summary>
@@ -320,13 +354,15 @@ public class Calculate
             var h   = Normalize(lst - alpha);
 
             // Geometrische Höhe
-            var altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta))
-                                                    + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(h))));
+            var altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta)) 
+                                                    + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) 
+                                                    * Math.Cos(DegreeToRadian(h))));
 
             // Azimut (0° = Nord, 90° = Ost)
             var sunAzimuth = RadianToDegree(Math.Atan2(-Math.Sin(DegreeToRadian(h)),
                                     Math.Tan(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(Latitude))
                                   - Math.Sin(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(h))));
+
             sunAzimuth = Normalize(sunAzimuth);
 
             // Refraktionskorrektur
