@@ -287,21 +287,21 @@ public class Calculate
             // sunrise and sunset times for a given day
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Latitude, Longitude));
 
-            var startTime = actDay.SunRise;
-            var endTime = actDay.SunSet;
+            var fromTime = actDay.SunRise;
+            var toTime = actDay.SunSet;
 
-            while (startTime <= endTime)
+            while (fromTime <= toTime)
             {
-                var (solarAltitude, solarAzimuth) = Position(startTime, temperature);
+                var (solarAltitude, solarAzimuth) = Position(fromTime, temperature);
 
                 position.Add(new ActPosition
                 {
-                    DateTime = startTime,
+                    DateTime = fromTime,
                     Altitude = solarAltitude,
                     Azimuth = solarAzimuth
                 });
 
-                startTime = startTime.AddMinutes(1);
+                fromTime = fromTime.AddMinutes(1);
             }
 
             return position;
