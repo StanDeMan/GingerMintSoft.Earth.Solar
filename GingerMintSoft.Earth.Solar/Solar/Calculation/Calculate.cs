@@ -356,12 +356,12 @@ public class Calculate
             var lst = Normalize(gmst + Longitude);
             var h   = Normalize(lst - alpha);
 
-            // Geometrische Höhe
+            // Geometrische Höhe über dem Horizont
             var altitude = RadianToDegree(Math.Asin(Math.Sin(DegreeToRadian(Latitude)) * Math.Sin(DegreeToRadian(delta)) 
                                                     + Math.Cos(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(delta)) 
                                                     * Math.Cos(DegreeToRadian(h))));
 
-            // Azimut (0° = Nord, 90° = Ost)
+            // Azimut (0° = Nord, 90° = Ost, 120° = Süd, 180° = West)
             var sunAzimuth = RadianToDegree(Math.Atan2(-Math.Sin(DegreeToRadian(h)),
                                     Math.Tan(DegreeToRadian(delta)) * Math.Cos(DegreeToRadian(Latitude))
                                   - Math.Sin(DegreeToRadian(Latitude)) * Math.Cos(DegreeToRadian(h))));
