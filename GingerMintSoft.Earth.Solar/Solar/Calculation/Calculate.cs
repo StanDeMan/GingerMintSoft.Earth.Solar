@@ -264,7 +264,7 @@ public class Calculate
         public double Longitude { get; init; }
         public double Latitude { get; init; }
 
-        public class ActPosition
+        public class ActualPosition
         {
             public DateTime DateTime { get; init; } = DateTime.Today;
             public double Altitude { get; init; }
@@ -277,13 +277,13 @@ public class Calculate
         /// <param name="dateTime">For this date</param>
         /// <param name="temperature">For this temperature</param>
         /// <returns>List of sun positions for a given day</returns>
-        public List<ActPosition> PositionForDay(DateTime dateTime, double temperature = 15.0)
+        public List<ActualPosition> PositionForDay(DateTime dateTime, double temperature = 15.0)
         {
             var calculate = new Calculate();
             calculate.InitLocation(new PowerPlant("Location", Altitude, Latitude, Longitude));
 
             var date = dateTime.Date;
-            var position = new List<ActPosition>();
+            var position = new List<ActualPosition>();
 
             // sunrise and sunset times for a given day
             var actDay = new CalcDayTime().SunriseSunset(date, new Coordinate(Latitude, Longitude));
@@ -295,7 +295,7 @@ public class Calculate
             {
                 var (solarAltitude, solarAzimuth) = Position(fromTime, temperature);
 
-                position.Add(new ActPosition
+                position.Add(new ActualPosition
                 {
                     DateTime = fromTime,
                     Altitude = solarAltitude,
