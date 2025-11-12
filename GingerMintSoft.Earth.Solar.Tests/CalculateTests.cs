@@ -123,8 +123,8 @@ namespace GingerMintSoft.Earth.Location.Tests
             var position = sun.Position(dateTime);
             
             // Assert
-            Assert.IsTrue(Math.Abs(position.solarAzimuth - 10.7) < 0.1);
-            Assert.IsTrue(Math.Abs(position.solarAltitude - 215.39) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 10.7) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 215.39) < 0.1);
 
             dateTime = new DateTime(2025, 12, 21, 10, 0, 0); // 10 AM
 
@@ -138,8 +138,8 @@ namespace GingerMintSoft.Earth.Location.Tests
             position = sun.Position(dateTime);
             
             // Assert
-            Assert.IsTrue(Math.Abs(position.solarAzimuth - 11.36) < 0.1);
-            Assert.IsTrue(Math.Abs(position.solarAltitude - 146.07) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 11.36) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 146.07) < 0.1);
 
             // Arrange to my home position at summer solstice
             dateTime = new DateTime(2025, 06, 21, 12, 0, 0); // 10 AM
@@ -153,8 +153,8 @@ namespace GingerMintSoft.Earth.Location.Tests
 
             position = sun.Position(dateTime);
 
-            Assert.IsTrue(Math.Abs(position.solarAzimuth - 59.53) < 0.1);
-            Assert.IsTrue(Math.Abs(position.solarAltitude - 136.05) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAltitude - 59.53) < 0.1);
+            Assert.IsTrue(Math.Abs(position.solarAzimuth - 136.05) < 0.1);
         }
 
         [TestMethod]
