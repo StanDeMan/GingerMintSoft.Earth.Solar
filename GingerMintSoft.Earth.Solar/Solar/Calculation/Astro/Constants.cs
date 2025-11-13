@@ -21,11 +21,6 @@
         public const double MeanAnomalyRate     = 35999.05029;
         public const double MeanAnomalyRateCorr = 0.0001537;
 
-        // Exzentrizität
-        public const double Eccentricity      = 0.016708634;
-        public const double EccentricityRate1 = 0.000042037;
-        public const double EccentricityRate2 = 0.0000001267;
-
         // Gleichung des Zentrums
         public const double C1      = 1.914602;
         public const double C1Rate1 = 0.004817;
