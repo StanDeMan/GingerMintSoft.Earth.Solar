@@ -9,7 +9,7 @@
       "Roofs": [
         {
           "name": "East Roof",
-          "tilt": 43.0,
+          "tilt": 40.0,
           "azimuth": 90.0,
           "azimuthDeviation": 7.5,
           "panels": {
@@ -39,7 +39,7 @@
         },
         {
           "name": "West Roof",
-          "tilt": 43.0,
+          "tilt": 40.0,
           "azimuth": 270.0,
           "azimuthDeviation": 7.5,
           "panels": {
