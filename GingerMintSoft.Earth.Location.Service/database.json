@@ -11,28 +11,28 @@
           "name": "East Roof",
           "tilt": 43.0,
           "azimuth": 90.0,
-          "azimuthDeviation": 11.0,
+          "azimuthDeviation": 7.5,
           "panels": {
             "panel": [
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               }
             ]
           }
@@ -41,28 +41,28 @@
           "name": "West Roof",
           "tilt": 43.0,
           "azimuth": 270.0,
-          "azimuthDeviation": 11.0,
+          "azimuthDeviation": 7.5,
           "panels": {
             "panel": [
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265 
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265     
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288 
               },
               {
-                "name": "JA Solar JAM54S31 LR 450Wp Full Black BiFaz",
-                "area": 1.89,
-                "efficiency": 0.265
+                "name": "JA Solar JAM54S31 LR 480Wp Full Black BiFaz",
+                "area": 1.96,
+                "efficiency": 0.288
               }
             ]
           }
