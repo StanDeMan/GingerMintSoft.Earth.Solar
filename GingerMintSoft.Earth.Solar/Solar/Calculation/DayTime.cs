@@ -271,42 +271,34 @@
             out double trise, 
             out double tset)
 	    {
-		    double d;		   /* Days since 2000 Jan 0.0 (negative before) */
-		    double sr;         /* Solar distance, astronomical units */
-		    double sRa;        /* Sun's Right Ascension */
-		    double sdec;       /* Sun's declination */
-		    double sradius;    /* Sun's apparent radius */
-		    double t;          /* Diurnal arc */
-		    double tsouth;     /* Time when Sun is at south */
-		    double sidtime;    /* Local sidereal time */
+            double t;          /* Diurnal arc */
 
-		    int rc = 0; /* Return cde from function - usually 0 */
+            var rc = 0; /* Return cde from function - usually 0 */
 
-		    /* Compute d of 12h local mean solar time */
-		    d = DaysSince2000Jan0(year, month, day) + 0.5 - lon / 360.0;
+            /* Compute d of 12h local mean solar time */
+            var d /* Days since 2000 Jan 0.0 (negative before) */ = DaysSince2000Jan0(year, month, day) + 0.5 - lon / 360.0;
 
-		    /* Compute the local sidereal time of this moment */
-		    sidtime = Revolution(Gmst0(d) + 180.0 + lon);
+            /* Compute the local sidereal time of this moment */
+            var sidtime /* Local sidereal time */ = Revolution(Gmst0(d) + 180.0 + lon);
 
-		    /* Compute Sun's RA, Decl and distance at this moment */
-		    SunRaDec(d, out sRa, out sdec, out sr);
+            /* Compute Sun's RA, Decl and distance at this moment */
+            SunRaDec(d, out var sRa, out var sdec, out var sr);
 
-		    /* Compute time when Sun is at south - in hours UT */
-		    tsouth = 12.0 - Rev180(sidtime - sRa) / 15.0;
+            /* Compute time when Sun is at south - in hours UT */
+            var tsouth /* Time when Sun is at south */ = 12.0 - Rev180(sidtime - sRa) / 15.0;
 
-		    /* Compute the Sun's apparent radius in degrees */
-		    sradius = 0.2666 / sr;
+            /* Compute the Sun's apparent radius in degrees */
+            var sradius /* Sun's apparent radius */ = 0.2666 / sr;
 
-		    /* Do correction to upper limb, if necessary */
-		    if (upperLimb)
+            /* Do correction to upper limb, if necessary */
+            if (upperLimb)
 			    altit -= sradius;
 
 		    /* Compute the diurnal arc that the Sun traverses to reach */
 		    /* the specified altitude altit: */
 		    {
-			    double cost;
-			    cost = (Sind(altit) - Sind(lat) * Sind(sdec)) /
-			    (Cosd(lat) * Cosd(sdec));
+                var cost = (Sind(altit) - Sind(lat) * Sind(sdec)) /
+                           (Cosd(lat) * Cosd(sdec));
 			    switch (cost)
                 {
                     /* Sun always below altit */
@@ -365,9 +357,6 @@
 			double altit, 
             bool upperLimb)
 	    {
-            double slon;       /* True solar longitude */
-		    double sinSdecl;  /* Sine of Sun's declination */
-		    double cosSdecl;  /* Cosine of Sun's declination */
             double t;          /* Diurnal arc */
 
             /* Compute d of 12h local mean solar time */
@@ -377,11 +366,11 @@
             var oblEcl /* Obliquity (inclination) of Earth's axis */ = 23.4393 - 3.563E-7 * d;
 
             /* Compute Sun's ecliptic longitude and distance */
-            SunPos(d, out slon, out var sr);
+            SunPos(d, out var slon, out var sr);
 
-		    /* Compute sine and cosine of Sun's declination */
-		    sinSdecl = Sind(oblEcl) * Sind(slon);
-		    cosSdecl = Math.Sqrt(1.0 - sinSdecl * sinSdecl);
+            /* Compute sine and cosine of Sun's declination */
+            var sinSdecl /* Sine of Sun's declination */ = Sind(oblEcl) * Sind(slon);
+		    var cosSdecl /* Cosine of Sun's declination */ = Math.Sqrt(1.0 - sinSdecl * sinSdecl);
 
             /* Compute the Sun's apparent radius, degrees */
             var sradius /* Sun's apparent radius */ = 0.2666 / sr;
